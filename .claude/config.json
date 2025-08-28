@@ -1,0 +1,15 @@
+{
+  "slashCommands": {
+    "frontend": "检查前端 Vue 3 + TypeScript 代码，运行类型检查和构建测试",
+    "backend": "检查后端 Django REST API 代码，运行数据库迁移检查和测试",
+    "fulltest": "运行完整的前后端测试套件，包括单元测试和集成测试",
+    "deploy": "准备项目部署，检查环境配置和构建生产版本",
+    "security": "执行安全审计，检查依赖漏洞和配置安全性",
+    "docs": "生成和更新项目文档，包括 API 文档和开发指南"
+  },
+  "settings": {
+    "defaultLanguage": "zh-CN",
+    "codeStyle": "vue3-composition-api",
+    "framework": "vue3-django"
+  }
+}

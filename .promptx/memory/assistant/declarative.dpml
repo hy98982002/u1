@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<memory>
+  <item id="mem_1755684051897_hn3947tz6" time="2025/08/20 18:00">
+    <content>
+      UAI教育平台项目配置：Vue 3 + Composition API + TypeScript前端，Django 5.2 + REST Framework + JWT后端。开发环境：前端localhost:5173，后端localhost:8000，SQLite开发数据库。已配置76个Claude Code命令（24个CCPlugins + 52个Commands）和73个专业代理。项目采用前后端分离架构，Bootstrap 5.3.6 UI框架，Pinia状态管理。关键配置文件：frontend/vite.config.ts，backend/settings.py，CLAUDE.md项目规则。
+    </content>
+    <tags>#最佳实践 #工具使用</tags>
+  </item>
+  <item id="mem_1755684154767_sszjz4eel" time="2025/08/20 18:02">
+    <content>
+      今日关键配置成果：1.成功安装并整合CCPlugins(24个)和Commands(52个)到.claude/commands，总计76个命令；2.激活73个Agents代理通过Task工具调用；3.安装BMAD框架到.bmad-core目录；4.配置PromptX记忆系统到.promptx目录；5.优化CLAUDE.md避免命令冲突，采用方案A保留20个无冲突自动触发命令，3个冲突命令改为手动调用；6.制定三层上下文策略：PromptX智能记忆层(大脑)+BMAD文档结构(骨架)+Commands工具集(执行)；7.建议PromptX为主BMAD为辅的上下文管理策略。下次对话继续：制定具体三层上下文使用流程和最佳实践。
+    </content>
+    <tags>#最佳实践 #流程管理 #工具使用</tags>
+  </item>
+</memory>
