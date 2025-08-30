@@ -699,3 +699,4 @@ When multiple valid approaches exist, choose based on:
 - 命令可以组合使用以完成复杂任务
 - 所有命令都遵循项目的开发规范和哲学
 - "自动化规则：每次前端改动后，使用 Playwright 自动打开浏览器、截图、检查错误，并根据提示中的验收标准调整。"
+

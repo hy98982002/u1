@@ -1,3 +1,4 @@
+#本文档内容已经加入到prd中
 # Frontend Implementation Guide - 前端架构实现指南
 
 ## 关键缺失模块实现计划
