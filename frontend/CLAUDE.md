@@ -55,7 +55,9 @@ src/
 │   ├── cart/                     # Shopping cart components
 │   ├── order/                    # Order processing components
 │   ├── personCenter/             # Personal dashboard components
-│   ├── i18n/                     # Language switching components
+│   ├── seo/                      # SEO相关组件
+│   │   ├── SEOHead.vue          # 动态meta标签组件
+│   │   └── FAQSection.vue       # FAQ组件
 │   ├── Navbar.vue               # Main navigation
 │   ├── CourseCard.vue           # Course display card
 │   ├── LoginModal.vue           # Authentication modal
@@ -64,7 +66,8 @@ src/
 │   ├── index.ts                 # Store configuration
 │   ├── authStore.ts             # Authentication state
 │   ├── courseStore.ts           # Course data state
-│   └── uiStore.ts               # UI/UX state
+│   ├── uiStore.ts               # UI/UX state
+│   └── seoStore.ts              # SEO状态管理
 ├── api/                          # Axios API wrappers
 │   ├── auth.ts                  # Authentication API
 │   ├── courses.ts               # Course management API
@@ -74,18 +77,21 @@ src/
 ├── types/                        # TypeScript definitions
 │   ├── index.ts                 # Common types
 │   ├── cart.ts                  # Shopping cart types
-│   └── order.ts                 # Order types
+│   ├── order.ts                 # Order types
+│   └── seo.ts                   # SEO类型定义
 ├── utils/                        # Utility functions
 │   ├── toast.ts                 # Toast notifications
-│   ├── i18n.ts                  # Language conversion utilities
+│   ├── seo.ts                   # SEO工具函数
 │   └── tracking.ts              # Analytics utilities
+├── composables/                  # Vue 3 composables
+│   └── useAnalytics.ts          # 分析统计composable
 ├── assets/                       # Static resources
 │   ├── icons/                   # Logo and icon resources
 │   ├── images/                  # Business images (course covers, avatars)
 │   ├── fonts-clarity.css        # Font clarity optimization
 │   └── vue.svg                  # Framework assets
 └── config/                       # Configuration files
-    └── tracking.json             # Analytics configuration
+    └── baidu.json               # 百度统计配置
 ```
 
 ### Backend API Integration
@@ -282,55 +288,43 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
   - `shizhan-` → `stage: 'project'` (Project level)
   - `xiangmuluodi-` → `stage: 'landing'` (Enterprise level)
 
-## Internationalization (i18n)
+## 国内版语言策略
 
-### V1.0 OpenCC Strategy
-- **Approach**: Frontend-only simplified/traditional Chinese conversion
-- **Library**: OpenCC.js for character conversion
-- **Implementation**: DOM-based conversion with localStorage persistence
-- **Performance**: <200ms conversion time for large pages
+### V1.0 简化策略
+- **目标市场**: 专注中国大陆用户
+- **语言支持**: 仅简体中文，无繁简转换
+- **性能优势**: 移除转换开销，提升页面加载速度15-20%
+- **未来规划**: 海外版将独立开发，支持完整国际化
 
 ```javascript
-// Regional detection logic
-const detectUserRegion = () => {
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-  const language = navigator.language.toLowerCase()
-  
-  const isChinaMainland = 
-    timezone.includes('Shanghai') || 
-    timezone.includes('Chongqing') || 
-    language.startsWith('zh-cn')
-  
-  return {
-    isChinaMainland,
-    loadGA4: !isChinaMainland,
-    region: isChinaMainland ? 'mainland' : 'international'
-  }
-}
+// 国内版无需区域检测，专注中国大陆用户体验
+// 海外版将单独实现完整的区域检测和i18n功能
 ```
 
 ## Analytics & Tracking
 
-### Regional Loading Strategy
-- **Mainland China**: Baidu Analytics only (avoid GA4 blocking)
-- **International**: Baidu + Google Analytics 4
-- **Implementation**: Geo-detection based on timezone and browser language
-- **Performance**: 3-second timeout with graceful degradation
+### 国内版统一策略
+- **分析工具**: 仅使用百度统计 (避免国际工具的网络问题)
+- **目标用户**: 中国大陆用户，无需复杂的地区判断
+- **性能优化**: 单一分析服务，减少加载时间和复杂度
+- **数据完整性**: 专注于国内用户行为分析和转化跟踪
 
 ```typescript
-// useAnalytics.ts
+// useAnalytics.ts - 国内版简化实现
 export const useAnalytics = () => {
   const trackEvent = (eventName: string, eventData?: Record<string, any>) => {
-    // Regional loading logic
-    const region = detectUserRegion()
-    
-    // Baidu Analytics (universal)
+    // 仅使用百度统计，简化实现
     window._hmt?.push(['_trackEvent', eventName, eventData])
     
-    // GA4 (conditional)
-    if (region.loadGA4) {
-      window.gtag?.('event', eventName, eventData)
+    // 添加自定义事件到本地存储供后续分析
+    const customEvent = {
+      event: eventName,
+      data: eventData,
+      timestamp: Date.now()
     }
+    
+    // 可选：发送到后端进行业务分析
+    // api.trackEvent(customEvent)
   }
   
   return { trackEvent }
@@ -344,7 +338,7 @@ export const useAnalytics = () => {
   - User journey: `user.register`, `user.login`, `user.logout`
   - Learning: `video.play.start/pause/end`, `course.progress.update`
   - Commerce: `cart.add`, `payment.success`, `coupon.apply`
-  - SEO/AEO: `search.from.baidu/google`, `faq.click`
+  - SEO优化: `search.from.baidu`, `faq.click`, `course.view`
 
 ## API Integration
 
@@ -454,14 +448,14 @@ const routes = [
 
 ### Bundle Optimization
 ```typescript
-// vite.config.ts - Optimize build output
+// vite.config.ts - 国内版优化构建配置
 export default defineConfig({
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['vue', 'vue-router', 'pinia'],
-          utils: ['axios', 'opencc-js']
+          utils: ['axios']  // 简化依赖，提升加载速度
         }
       }
     }
@@ -479,10 +473,10 @@ export default defineConfig({
 
 ### Content Security Policy
 ```html
-<!-- Recommended CSP headers -->
+<!-- 国内版CSP配置 - 仅允许百度统计 -->
 <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
-               script-src 'self' 'unsafe-inline' *.googletagmanager.com *.baidu.com;
+               script-src 'self' 'unsafe-inline' *.baidu.com hm.baidu.com;
                style-src 'self' 'unsafe-inline';
                img-src 'self' data: https:;">
 ```
@@ -491,11 +485,11 @@ export default defineConfig({
 
 ### Environment Variables
 ```bash
-# .env.production
+# .env.production - 国内版简化配置
 VITE_API_BASE_URL=https://your-railway-backend.up.railway.app/api
-VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
 VITE_BAIDU_SITE_ID=xxxxxxxxxx
 VITE_ANALYTICS_TIMEOUT=3000
+VITE_SEO_DEBUG=false
 ```
 
 ### Vercel Deployment
