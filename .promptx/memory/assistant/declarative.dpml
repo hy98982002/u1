@@ -64,4 +64,19 @@
     </content>
     <tags>#其他</tags>
   </item>
+  <item id="mem_1756643637909_l5mnrnu8m" time="2025/08/31 20:33">
+    <content>
+      UAI项目docs目录文件命名优化：用户通过截图反馈prd.md文件命名不规范，缺少版本号识别。执行重命名操作：prd.md → UAI_SEO_PRD_v6.0.md，确保文件命名包含版本和功能信息。当前docs目录包含：
+      1. UAI_SEO_PRD_v6.0.md (SEO/AEO优化PRD)
+      2. core-business-prd-v7.md (核心业务PRD)
+      3. UAI_Unified_PRD_v5.0.md (统一主PRD)
+      4. RBAC_Brownfield_PRD.md (权限系统PRD)
+      5. RBAC_Technical_Specification.md (RBAC技术规范)
+      6. RBAC角色调整建议.md (角色优化建议)
+      7. PRD-Management.md (PRD管理导航)
+    
+      优化后文档命名更清晰，便于项目管理和版本追踪。
+    </content>
+    <tags>#其他</tags>
+  </item>
 </memory>
