@@ -52,6 +52,19 @@ src/
 │   ├── Order.vue                 # Order processing page
 │   └── PersonalCenter.vue        # User dashboard
 ├── components/                    # Reusable components (PascalCase)
+│   ├── auth/                     # Authentication components
+│   │   ├── LoginModal.vue       # Login modal (手机验证码/密码/微信)
+│   │   ├── RegisterForm.vue     # Registration form
+│   │   └── WeChatLogin.vue      # WeChat OAuth component
+│   ├── course/                   # Course-related components  
+│   │   ├── CourseCard.vue       # Course display card
+│   │   ├── CourseStage.vue      # 分层课程展示组件
+│   │   ├── LearningProgress.vue # Learning progress tracker
+│   │   └── CourseTrial.vue      # 试学功能组件
+│   ├── payment/                  # Payment and membership
+│   │   ├── PaymentModal.vue     # Payment processing
+│   │   ├── MembershipCard.vue   # Membership display
+│   │   └── PriceComparison.vue  # Price comparison component
 │   ├── cart/                     # Shopping cart components
 │   ├── order/                    # Order processing components
 │   ├── personCenter/             # Personal dashboard components
@@ -59,23 +72,31 @@ src/
 │   │   ├── SEOHead.vue          # 动态meta标签组件
 │   │   └── FAQSection.vue       # FAQ组件
 │   ├── Navbar.vue               # Main navigation
-│   ├── CourseCard.vue           # Course display card
-│   ├── LoginModal.vue           # Authentication modal
 │   └── ...                     # Other reusable components
 ├── store/                        # Pinia state management
 │   ├── index.ts                 # Store configuration
-│   ├── authStore.ts             # Authentication state
-│   ├── courseStore.ts           # Course data state
+│   ├── authStore.ts             # Authentication state (多登录方式)
+│   ├── courseStore.ts           # Course data state (分层课程体系)
+│   ├── membershipStore.ts       # Membership and subscription state
+│   ├── learningStore.ts         # Learning progress state
 │   ├── uiStore.ts               # UI/UX state
 │   └── seoStore.ts              # SEO状态管理
 ├── api/                          # Axios API wrappers
-│   ├── auth.ts                  # Authentication API
-│   ├── courses.ts               # Course management API
+│   ├── auth.ts                  # Authentication API (手机验证码/密码/微信)
+│   ├── courses.ts               # Course management API (7层课程体系)
+│   ├── payment.ts               # Payment and membership API
+│   ├── sms.ts                   # SMS verification API (阿里云)
+│   ├── learning.ts              # Learning progress tracking API
 │   └── orders.ts                # Order processing API
 ├── router/                       # Vue Router configuration
 │   └── index.ts                 # Route definitions
 ├── types/                        # TypeScript definitions
 │   ├── index.ts                 # Common types
+│   ├── auth.ts                  # Authentication types (多登录方式)
+│   ├── course.ts                # Course types (7层课程体系)
+│   ├── membership.ts            # Membership and subscription types
+│   ├── learning.ts              # Learning progress types
+│   ├── payment.ts               # Payment processing types
 │   ├── cart.ts                  # Shopping cart types
 │   ├── order.ts                 # Order types
 │   └── seo.ts                   # SEO类型定义
@@ -335,9 +356,10 @@ export const useAnalytics = () => {
 - **Naming Convention**: `module.action.state` (e.g., `video.play.start`)
 - **Data Attributes**: Add `data-track` attributes to trackable elements
 - **Core Events**:
-  - User journey: `user.register`, `user.login`, `user.logout`
-  - Learning: `video.play.start/pause/end`, `course.progress.update`
-  - Commerce: `cart.add`, `payment.success`, `coupon.apply`
+  - User journey: `user.register`, `user.login`, `user.logout`, `user.wechat_bind`
+  - Learning: `video.play.start/pause/end`, `course.progress.update`, `course.trial.start`
+  - Commerce: `cart.add`, `payment.success`, `membership.subscribe`, `coupon.apply`
+  - Course stages: `stage.tiyan.enter`, `stage.rumen.unlock`, `stage.member.access`
   - SEO优化: `search.from.baidu`, `faq.click`, `course.view`
 
 ## API Integration
@@ -405,6 +427,64 @@ export const courseAPI = {
 4. **Build reusable components** in `src/components/` with proper naming
 5. **Create page components** in `src/views/` using existing patterns
 6. **Update router configuration** in `src/router/index.ts` for new routes
+
+### 核心业务功能开发重点
+
+#### 多登录方式实现
+```vue
+<!-- components/auth/LoginModal.vue -->
+<template>
+  <div class="login-options">
+    <!-- 手机验证码登录 -->
+    <button @click="loginWithSMS" class="btn btn-primary">
+      手机验证码登录
+    </button>
+    
+    <!-- 手机密码登录 -->
+    <button @click="loginWithPassword" class="btn btn-outline-primary">
+      密码登录
+    </button>
+    
+    <!-- 微信登录 -->
+    <WeChatLogin @success="handleWeChatLogin" />
+  </div>
+</template>
+```
+
+#### 分层课程体系展示
+```vue
+<!-- components/course/CourseStage.vue -->
+<template>
+  <div class="course-stages">
+    <!-- 7层课程展示 -->
+    <div v-for="stage in courseStages" :key="stage.id" 
+         :class="['stage-card', { 'locked': !stage.unlocked }]">
+      <h3>{{ stage.name }}</h3>
+      <div class="courses">
+        <CourseCard v-for="course in stage.courses" 
+                    :key="course.id" :course="course" />
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+#### 会员系统集成
+```typescript
+// store/membershipStore.ts
+export const useMembershipStore = defineStore('membership', () => {
+  const membershipStatus = ref<'none' | 'monthly' | 'yearly'>('none')
+  const membershipExpiry = ref<Date | null>(null)
+  
+  const isMember = computed(() => membershipStatus.value !== 'none')
+  const canAccessCourse = computed(() => (courseStage: string) => {
+    if (courseStage === 'tiyan') return true // 体验区免费
+    return isMember.value // 其他区域需要会员
+  })
+  
+  return { membershipStatus, isMember, canAccessCourse }
+})
+```
 
 ### Component Development Workflow
 1. **Study existing patterns** - Find 3 similar components for reference

@@ -699,4 +699,11 @@ When multiple valid approaches exist, choose based on:
 - 命令可以组合使用以完成复杂任务
 - 所有命令都遵循项目的开发规范和哲学
 - "自动化规则：每次前端改动后，使用 Playwright 自动打开浏览器、截图、检查错误，并根据提示中的验收标准调整。"
+- 工作目录内的任何文件,请使用自身内置的filesystem，不要使用filesystem mcp读取
 
+# 文件读取规则
+  - 对于项目内的任何文件（/Users/dongqingzhai/Desktop/UAI_project/内的文件）
+  ，必须使用Claude内置的Read工具
+  - 禁止使用mcp__filesystem__*系列工具读取项目内文件
+  - 只有在读取项目外部文件时才考虑使用MCP filesystem工具
+- 进入bmad里运行的各种代理命令都和我用中文交流
