@@ -706,3 +706,4 @@ When multiple valid approaches exist, choose based on:
   ，必须使用Claude内置的Read工具
   - 禁止使用mcp__filesystem__*系列工具读取项目内文件
   - 只有在读取项目外部文件时才考虑使用MCP filesystem工具
+- 进入bmad里运行的各种代理命令都和我用中文交流
