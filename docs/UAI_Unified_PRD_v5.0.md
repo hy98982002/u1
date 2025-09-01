@@ -799,9 +799,7 @@ const pointsSystem = {
   earning: {
     dailyCheckin: 10,           // 每日签到
     courseComplete: 50,         // 完成课程
-    workSubmit: 20,             // 提交作业
-    communityPost: 15,          // 社区发帖
-    referralSuccess: 100        // 推荐成功
+    
   },
   
   redemption: {
@@ -1570,7 +1568,7 @@ const phase1Technical = {
       '数据分析基础架构'
     ],
     deliverables: [
-      'Adobe Firefly API集成完成',
+     
       '支付宝+Stripe双支付支持',
       '事件追踪系统上线',
       '实时数据大屏功能'
@@ -1719,7 +1717,7 @@ const technicalMilestones = {
   month1: {
     milestone: 'AI工具集成MVP完成',
     criteria: [
-      'Adobe Firefly API稳定调用',
+      
       'Logo生成功能上线测试',
       '质量评估系统基础版本',
       'API响应时间<2秒'
