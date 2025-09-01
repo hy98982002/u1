@@ -8,14 +8,22 @@
 
 ```mermaid
 graph TD
-    A[UAI_Unified_PRD_v5.0.md] --> B[UAI_SEO_PRD_v6.0.md]
-    A --> C[core-business-prd-v7.md]
-    A --> F[RBAC_Brownfield_PRD.md]
+    A[UAI_Unified_PRD_v5.0.md] --> A1[UAL_Unified_PRD_v5-1.md<br/>产品核心与市场]
+    A --> A2[UAL_Unified_PRD_v5-2.md<br/>技术实现与用户体验]
+    A --> A3[UAL_Unified_PRD_v5-3.md<br/>运营管理与实施]
+    
+    A1 --> B[UAI_SEO_PRD_v6.0.md]
+    A2 --> C[core-business-prd-v7.md]
+    A3 --> F[RBAC_Brownfield_PRD.md]
+    
     B --> D[SEO/AEO优化实施]
     C --> E[核心业务功能实施]
     F --> G[权限系统实施]
     
-    style A fill:#e1f5fe
+    style A fill:#f5f5f5
+    style A1 fill:#e3f2fd
+    style A2 fill:#e8f5e8
+    style A3 fill:#fff3e0
     style B fill:#fff3e0
     style C fill:#f3e5f5
     style F fill:#e8f5e8
@@ -24,23 +32,48 @@ graph TD
     style G fill:#e8f5e8
 ```
 
+### ✨ v5.0 分片说明
+**原始文档已分片优化**: `UAI_Unified_PRD_v5.0.md` (2,685行) 因篇幅过长已分解为三个逻辑模块：
+- **5-1**: 产品核心与市场 (326行) - 执行摘要、产品定位、SEO/AEO策略、核心功能架构
+- **5-2**: 技术实现与用户体验 (689行) - 技术栈、前后端架构、UX设计、电商系统  
+- **5-3**: 运营管理与实施 (1,667行) - 数据分析、风险评估、实施路线图、预算规划
+
 ## 📄 PRD文档清单
 
 | PRD文档 | 版本 | 状态 | 专注领域 | 文件路径 | 更新日期 |
 |---------|------|------|----------|----------|----------|
-| **UAI统一PRD** | v5.0 | 📋 基础框架 | 整体产品愿景和技术决策 | `/docs/UAI_Unified_PRD_v5.0.md` | 历史版本 |
+| **UAI统一PRD (原始)** | v5.0 | 📋 已分片 | 整体产品愿景和技术决策 | `/docs/UAI_Unified_PRD_v5.0.md` | 历史版本 |
+| **└─ 产品核心与市场** | v5-1 | ✅ 分片完成 | 执行摘要、产品定位、SEO/AEO策略 | `/docs/UAL_Unified_PRD_v5/UAL_Unified_PRD_v5-1.md` | 2025-09-01 |
+| **└─ 技术实现与用户体验** | v5-2 | ✅ 分片完成 | 技术栈、前后端架构、UX设计 | `/docs/UAL_Unified_PRD_v5/UAL_Unified_PRD_v5-2.md` | 2025-09-01 |
+| **└─ 运营管理与实施** | v5-3 | ✅ 分片完成 | 数据分析、风险评估、实施计划 | `/docs/UAL_Unified_PRD_v5/UAL_Unified_PRD_v5-3.md` | 2025-09-01 |
 | **SEO/AEO优化PRD** | v6.0 | ✅ 完成 | 搜索引擎优化和流量获取 | `/docs/UAI_SEO_PRD_v6.0.md` | 2025-08-31 |
 | **核心业务功能PRD** | v7.0 | ✅ 完成 | 教育产品核心功能和用户体验 | `/docs/core-business-prd-v7.md` | 2025-08-31 |
 | **RBAC权限系统PRD** | v1.0 | ✅ 完成 | 角色权限管理和安全架构 | `/docs/RBAC_Brownfield_PRD.md` | 2025-08-31 |
 
 ## 🎯 PRD领域划分
 
-### PRD v5.0 - 基础框架（历史文档）
-**领域范围**: 整体产品愿景、技术栈选择、基础架构
-- 产品定位和市场分析
-- 技术栈决策（Vue 3 + Django）
-- 基础业务规则定义
-- 初期功能规划
+### PRD v5.0 - 基础框架（已分片为三个模块）
+
+#### 📖 v5-1: 产品核心与市场
+**领域范围**: 产品战略、市场定位、流量策略
+- 🎯 执行摘要和核心战略要点
+- 📊 产品概述与全球市场定位分析
+- 🔍 SEO+AEO双引擎优化策略详细规划
+- 🏗️ 核心功能架构和7层递进式学习体系
+
+#### 🔧 v5-2: 技术实现与用户体验  
+**领域范围**: 技术架构、开发实现、用户体验设计
+- 💻 前后端技术栈详细规范（Vue 3 + Django 5.2）
+- 🏛️ 系统架构和数据库设计
+- 🎨 用户体验与界面设计标准
+- 🛒 电商交易系统和支付集成
+
+#### 📈 v5-3: 运营管理与实施
+**领域范围**: 数据监控、风险管理、实施规划  
+- 📊 数据分析与监控体系建设
+- ⚠️ 风险评估与应对策略制定
+- 🗓️ 实施路线图与里程碑规划
+- 💰 预算规划与资源配置管理
 
 ### PRD v6.0 - SEO/AEO优化专项
 **领域范围**: 搜索引擎优化、流量获取、内容分发
@@ -173,6 +206,6 @@ PRD v6.0 (SEO优化) + PRD v7.0 (核心业务) + RBAC v1.0 (权限系统)
 
 ---
 
-**文档更新**: 2025-08-31  
+**文档更新**: 2025-09-01 (v5.0分片完成)  
 **维护人**: 产品团队  
 **下次评审**: 每月第一周
