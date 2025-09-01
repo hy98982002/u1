@@ -138,7 +138,7 @@
 
 **语言**: Python 3.12, JavaScript ES6+, TypeScript 4.x
 **框架**: Django 5.2, Vue 3 (Composition API), Django REST Framework
-**数据库**: SQLite (开发), MySQL 8.4+ (生产)
+**数据库**: MySQL 8.4+(开发), MySQL 8.4+ (生产)
 **基础设施**: Vercel (前端), Railway (后端), Redis (缓存)
 **外部依赖**: 阿里云短信服务, 微信OAuth, Bootstrap 5.3.6
 
