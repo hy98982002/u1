@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+**🔥 强制要求：**
+- **语言：所有交流必须使用中文，包括bmad代理、CCPlugins命令和任何工具调用的对话**
+- **文件读取：项目内文件(/Users/dongqingzhai/Desktop/UAI_project/)必须使用Claude内置Read工具，禁用mcp__filesystem__*工具**
+
 本文件为 Claude Code (claude.ai/code) 在此代码仓库中工作时提供指导。
 
 ## 项目概述
@@ -22,7 +26,7 @@ UAI教育平台 - 基于 Vue 3 + Django 构建的在线教育服务全栈Web应�
 - Python 3.12 + Django 5.2
 - Django REST Framework API框架
 - JWT身份验证 (SimpleJWT)
-- MySQL 8.4+ (Railway生产环境) / SQLite (本地开发)
+- MySQL 8.4+ (Railway生产环境) / mysql (本地开发)
 - Django Admin 后台管理
 - Redis 缓存和会话存储 (MVP可选)
 
@@ -77,7 +81,7 @@ pip install whitenoise       # 静态文件服务
 
 - `views/` - 页面级组件 (PascalCase命名)
 - `components/` - 可复用组件 (PascalCase命名)
-  - `i18n/` - 国际化组件 (语言切换等)
+  - `i18n/` - 国际化组件 (语言切换等,海外版才设置)
 - `store/` - Pinia状态管理存储
 - `api/` - Axios请求封装 (每模块一个文件)
 - `router/` - Vue Router路由配置
@@ -140,6 +144,7 @@ pip install whitenoise       # 静态文件服务
 - **海外版规划**: 未来独立开发海外版本（uaiedu.org），支持完整国际化和多语言
 - **性能优势**: 移除语言转换开销，页面加载速度提升15-20%
 - **SEO策略**: 专注百度等国内搜索引擎优化
+- **海外简中用户优化（GoSEO）**：为居住在海外、使用 Google 搜索的简体中文用户提供优化内容
 - **AEO准备**: 添加中文FAQ和结构化数据，优化AI搜索
 
 ### 统一分析策略 (Unified Analytics Strategy)
@@ -172,7 +177,7 @@ pip install whitenoise       # 静态文件服务
 
 - 前端开发服务器: `http://localhost:5173`
 - 后端开发服务器: `http://localhost:8000`
-- 数据库: SQLite (开发环境), MySQL (生产环境)
+- 数据库: MySql(开发环境), MySQL (生产环境)
 - 数据库管理: TablePlus (本地和远程客户端)
 
 ### 安全注意事项
@@ -228,7 +233,7 @@ pip install whitenoise       # 静态文件服务
 
 #### 数据库迁移策略
 
-- **开发环境**: SQLite用于快速本地开发
+- **开发环境**: MySQL 8.45用于快速本地开发
 - **生产环境**: Railway上的MySQL 8.4+
   - 熟悉的MySQL语法和管理
   - MySQL 8.0+提供JSON字段支持
@@ -262,7 +267,7 @@ pip install whitenoise       # 静态文件服务
 1. 添加结构化数据(JSON-LD)用于课程、FAQ、组织模式
 2. 包含FAQ部分和自然语言问答
 3. 确保适当的元标题、描述和alt属性
-4. 考虑内容中的简繁中文关键词
+4. 考虑内容中的简繁中文关键词(适用于海外版)
 
 ### 分析实现任务
 
@@ -699,11 +704,9 @@ pip install whitenoise       # 静态文件服务
 - 命令可以组合使用以完成复杂任务
 - 所有命令都遵循项目的开发规范和哲学
 - "自动化规则：每次前端改动后，使用 Playwright 自动打开浏览器、截图、检查错误，并根据提示中的验收标准调整。"
-- 工作目录内的任何文件,请使用自身内置的filesystem，不要使用filesystem mcp读取
+
 
 # 文件读取规则
-  - 对于项目内的任何文件（/Users/dongqingzhai/Desktop/UAI_project/内的文件）
-  ，必须使用Claude内置的Read工具
-  - 禁止使用mcp__filesystem__*系列工具读取项目内文件
+  
   - 只有在读取项目外部文件时才考虑使用MCP filesystem工具
-  - 进入bmad里运行的各种代理命令都和我用中文交流
+  
