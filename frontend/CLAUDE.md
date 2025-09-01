@@ -61,16 +61,32 @@ src/
 │   │   ├── CourseStage.vue      # 分层课程展示组件
 │   │   ├── LearningProgress.vue # Learning progress tracker
 │   │   └── CourseTrial.vue      # 试学功能组件
+│   ├── memberZone/               # 会员专区组件 (Premium Member功能)
+│   │   ├── MemberCourseList.vue # 会员专属课程列表
+│   │   └── MemberBenefits.vue   # 会员权益展示
+│   ├── projectZone/              # 项目实战组件 (项目落地专区)
+│   │   ├── ProjectCard.vue      # 实战项目卡片
+│   │   └── ProjectChallenge.vue # 项目挑战模块
+│   ├── coupon/                   # 优惠券相关组件
+│   │   ├── CouponModal.vue      # 优惠券领取弹窗
+│   │   └── CouponCountdown.vue  # 倒计时组件
 │   ├── payment/                  # Payment and membership
 │   │   ├── PaymentModal.vue     # Payment processing
 │   │   ├── MembershipCard.vue   # Membership display
 │   │   └── PriceComparison.vue  # Price comparison component
+│   ├── rbac/                     # RBAC权限控制组件
+│   │   ├── PermissionGate.vue   # 权限门控组件
+│   │   └── RoleGuard.vue        # 角色守卫组件
 │   ├── cart/                     # Shopping cart components
 │   ├── order/                    # Order processing components
 │   ├── personCenter/             # Personal dashboard components
 │   ├── seo/                      # SEO相关组件
 │   │   ├── SEOHead.vue          # 动态meta标签组件
-│   │   └── FAQSection.vue       # FAQ组件
+│   │   ├── FAQSection.vue       # FAQ组件
+│   │   ├── BreadcrumbSchema.vue # 面包屑结构化数据
+│   │   └── CourseSchema.vue     # 课程结构化数据
+│   ├── i18n/                     # 国际化组件预留 (V1暂不启用)
+│   │   └── LanguageSwitcher.vue # 语言切换器 (海外版预留)
 │   ├── Navbar.vue               # Main navigation
 │   └── ...                     # Other reusable components
 ├── store/                        # Pinia state management
@@ -79,6 +95,9 @@ src/
 │   ├── courseStore.ts           # Course data state (分层课程体系)
 │   ├── membershipStore.ts       # Membership and subscription state
 │   ├── learningStore.ts         # Learning progress state
+│   ├── rbacStore.ts             # RBAC权限状态管理
+│   ├── couponStore.ts           # 优惠券状态管理
+│   ├── projectStore.ts          # 项目实战状态管理
 │   ├── uiStore.ts               # UI/UX state
 │   └── seoStore.ts              # SEO状态管理
 ├── api/                          # Axios API wrappers
@@ -87,6 +106,9 @@ src/
 │   ├── payment.ts               # Payment and membership API
 │   ├── sms.ts                   # SMS verification API (阿里云)
 │   ├── learning.ts              # Learning progress tracking API
+│   ├── rbac.ts                  # RBAC权限管理API
+│   ├── coupon.ts                # 优惠券管理API
+│   ├── project.ts               # 项目实战API
 │   └── orders.ts                # Order processing API
 ├── router/                       # Vue Router configuration
 │   └── index.ts                 # Route definitions
@@ -97,6 +119,9 @@ src/
 │   ├── membership.ts            # Membership and subscription types
 │   ├── learning.ts              # Learning progress types
 │   ├── payment.ts               # Payment processing types
+│   ├── rbac.ts                  # RBAC权限系统类型定义
+│   ├── coupon.ts                # 优惠券系统类型定义
+│   ├── project.ts               # 项目实战类型定义
 │   ├── cart.ts                  # Shopping cart types
 │   ├── order.ts                 # Order types
 │   └── seo.ts                   # SEO类型定义
@@ -105,14 +130,20 @@ src/
 │   ├── seo.ts                   # SEO工具函数
 │   └── tracking.ts              # Analytics utilities
 ├── composables/                  # Vue 3 composables
-│   └── useAnalytics.ts          # 分析统计composable
+│   ├── useAnalytics.ts          # 分析统计composable
+│   ├── useRBAC.ts               # RBAC权限检查composable
+│   └── useI18n.ts               # 国际化composable (海外版预留)
 ├── assets/                       # Static resources
 │   ├── icons/                   # Logo and icon resources
 │   ├── images/                  # Business images (course covers, avatars)
 │   ├── fonts-clarity.css        # Font clarity optimization
 │   └── vue.svg                  # Framework assets
+├── directives/                   # Vue指令
+│   └── rbac.ts                  # 权限控制指令 (v-permission, v-role)
 └── config/                       # Configuration files
-    └── baidu.json               # 百度统计配置
+    ├── baidu.json               # 百度统计配置
+    └── i18n/                    # 国际化配置预留 (V1不启用)
+        └── zh-CN.json           # 简体中文文案 (结构化管理)
 ```
 
 ### 后端API集成
@@ -322,6 +353,20 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 // 海外版将单独实现完整的区域检测和i18n功能
 ```
 
+### 国际化预留架构
+虽然V1.0专注国内版，但为未来海外版预留基础结构：
+- `config/i18n/zh-CN.json`: 结构化文案管理，利于后期替换
+- `composables/useI18n.ts`: 国际化composable预留接口
+- `components/i18n/LanguageSwitcher.vue`: 语言切换组件预留
+- 组件中统一通过 `$t('key')` 访问文案（当前直接返回中文）
+
+```typescript
+// 当前简化实现，海外版时扩展为完整i18n
+const useI18n = () => ({
+  t: (key: string) => zhCN[key] || key // V1.0直接返回中文
+})
+```
+
 ## 分析和跟踪
 
 ### 国内版统一策略
@@ -355,12 +400,27 @@ export const useAnalytics = () => {
 ### 事件跟踪标准
 - **命名约定**: `module.action.state` (如: `video.play.start`)
 - **数据属性**: 为可跟踪元素添加 `data-track` 属性
-- **核心事件**:
-  - 用户旅程: `user.register`, `user.login`, `user.logout`, `user.wechat_bind`
-  - 学习行为: `video.play.start/pause/end`, `course.progress.update`, `course.trial.start`
-  - 商业转化: `cart.add`, `payment.success`, `membership.subscribe`, `coupon.apply`
-  - 课程阶段: `stage.tiyan.enter`, `stage.rumen.unlock`, `stage.member.access`
-  - SEO优化: `search.from.baidu`, `faq.click`, `course.view`
+
+### 埋点分阶段实施计划
+**阶段一：注册与登录转化路径**
+- `user.register`, `user.login`, `user.logout`, `user.wechat_bind`
+- 目标：优化注册转化率
+
+**阶段二：试听与课程探索路径** 
+- `course.trial.start`, `course.view`, `stage.tiyan.enter`, `faq.click`
+- 目标：提升免费用户到付费的转化
+
+**阶段三：购买与会员转化路径**
+- `cart.add`, `payment.success`, `membership.subscribe`, `coupon.apply` 
+- 目标：优化付费转化和会员订阅
+
+**阶段四：学习行为深度分析**
+- `video.play.start/pause/end`, `course.progress.update`, `learning.complete`
+- 目标：提升课程完成率和用户留存
+
+**阶段五：SEO/AEO效果跟踪**
+- `search.from.baidu`, `course.view.from.seo`, `content.share`
+- 目标：评估SEO流量质量和内容传播效果
 
 ## API集成
 
@@ -384,10 +444,17 @@ request.interceptors.request.use(config => {
   return config
 })
 
-// 响应拦截器 - 处理统一响应格式
+// 响应拦截器 - 处理统一响应格式 + JWT失效处理
 request.interceptors.response.use(
   response => response.data, // 提取 { status, data, msg }
   error => {
+    // 401错误全局处理：JWT失效自动登出
+    if (error.response?.status === 401) {
+      const authStore = useAuthStore()
+      authStore.logout()
+      router.push('/login')
+      // 可选：显示友好提示
+    }
     console.error('API错误:', error)
     return Promise.reject(error)
   }
@@ -484,6 +551,37 @@ export const useMembershipStore = defineStore('membership', () => {
   
   return { membershipStatus, isMember, canAccessCourse }
 })
+```
+
+#### RBAC权限系统集成
+```typescript
+// composables/useRBAC.ts - 简化权限检查
+export const useRBAC = () => {
+  const rbacStore = useRBACStore()
+  
+  const hasRole = (role: string) => rbacStore.userRoles.includes(role)
+  const hasPermission = (permission: string) => rbacStore.permissions.includes(permission)
+  const canAccessCourse = (courseStage: string) => {
+    // 基于6角色体系的课程访问控制
+    if (courseStage === 'tiyan') return true
+    if (hasRole('Premium Member')) return courseStage !== 'employment'
+    return hasRole('Staff Admin') || hasRole('Super Admin')
+  }
+  
+  return { hasRole, hasPermission, canAccessCourse }
+}
+```
+
+```vue
+<!-- 权限控制使用示例 -->
+<template>
+  <PermissionGate permission="course.edit">
+    <button @click="editCourse">编辑课程</button>
+  </PermissionGate>
+  
+  <!-- 或使用指令 -->
+  <div v-permission="'member.access'">会员专属内容</div>
+</template>
 ```
 
 ### 组件开发工作流
@@ -601,7 +699,10 @@ VITE_SEO_DEBUG=false
 - [ ] 组件遵循PascalCase命名
 - [ ] 优先使用Bootstrap工具类而非自定义CSS
 - [ ] Props和emits使用TypeScript接口
-- [ ] Pinia存储遵徬omposition API模式
+- [ ] Pinia存储遵循Composition API模式
+- [ ] 涉及权限的组件正确使用RBAC权限控制
+- [ ] 埋点事件遵循命名约定和分阶段计划
+- [ ] SEO组件正确集成结构化数据
 
 ## 重要提醒
 
