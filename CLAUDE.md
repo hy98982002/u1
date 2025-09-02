@@ -1,141 +1,137 @@
 # CLAUDE.md
 
-**🔥 强制要求：**
-- **语言：所有交流必须使用中文，包括bmad代理、CCPlugins命令和任何工具调用的对话**
-- **文件读取：项目内文件(/Users/dongqingzhai/Desktop/UAI_project/)必须使用Claude内置Read工具，禁用mcp__filesystem__*工具**
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-本文件为 Claude Code (claude.ai/code) 在此代码仓库中工作时提供指导。
+## Project Overview
 
-## 项目概述
+UAI Education Platform - A full-stack web application built with Vue 3 + Django for online education services. The project uses a frontend-backend separation architecture with JWT authentication.
 
-UAI教育平台 - 基于 Vue 3 + Django 构建的在线教育服务全栈Web应用。项目采用前后端分离架构，使用JWT身份验证。
+## Technology Stack
 
-## 技术栈
+**Frontend:**
 
-**前端：**
+- Vue 3 with Composition API + TypeScript
+- Vite build tool
+- Bootstrap 5.3.6 for UI (no other UI frameworks)
+- Pinia for state management
+- Vue Router for routing
+- Axios for API requests
 
-- Vue 3 配合 Composition API + TypeScript
-- Vite 构建工具
-- Bootstrap 5.3.6 UI框架（禁用其他UI框架）
-- Pinia 状态管理
-- Vue Router 路由
-- Axios API请求
-
-**后端：**
+**Backend:**
 
 - Python 3.12 + Django 5.2
-- Django REST Framework API框架
-- JWT身份验证 (SimpleJWT)
-- MySQL 8.4+ (Railway生产环境) / mysql (本地开发)
-- Django Admin 后台管理
-- Redis 缓存和会话存储 (MVP可选)
+- Django REST Framework for APIs
+- JWT authentication (SimpleJWT)
+- MySQL 8.4+ (Railway production) / SQLite (local development)
+- Django Admin for backend management
+- Redis for caching and session storage (optional for MVP)
 
-## 开发命令
+## Development Commands
 
-### 前端 (从 `/frontend` 目录执行)
+### Frontend (from `/frontend` directory)
 
 ```bash
-npm install                    # 安装依赖
-npm run dev                   # 启动开发服务器 (localhost:5173)
-npm run build                 # 生产构建
-npm run build:check           # 带TypeScript检查的构建
-npm run type-check            # 仅TypeScript类型检查
-npm run preview               # 预览生产构建
+npm install                    # Install dependencies
+npm run dev                   # Start development server (localhost:5173)
+npm run build                 # Production build
+npm run build:check           # Build with TypeScript checking
+npm run type-check            # TypeScript type checking only
+npm run preview               # Preview production build
 
-# 国际化 (实现OpenCC时)
-npm install opencc-js         # 安装OpenCC简繁转换
+# Internationalization (when implementing OpenCC)
+npm install opencc-js         # Install OpenCC for simplified/traditional conversion
 
-# 分析跟踪 (实现分析时)
-npm install vue-gtag          # Vue3 Google Analytics集成 (条件加载)
-npm install @types/gtag       # gtag的TypeScript定义
+# Analytics tracking (when implementing analytics)
+npm install vue-gtag          # Vue3 Google Analytics integration (conditional loading)
+npm install @types/gtag       # TypeScript definitions for gtag
 ```
 
-### 后端 (从 `/backend` 目录执行)
+### Backend (from `/backend` directory)
 
 ```bash
-# 设置虚拟环境
+# Setup virtual environment
 python -m venv venv
 source venv/bin/activate      # macOS/Linux
-# 或 venv\Scripts\activate    # Windows
+# or venv\Scripts\activate    # Windows
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 
-# 开发服务器
-python manage.py runserver    # 启动Django服务器 (localhost:8000)
+# Development server
+python manage.py runserver    # Start Django server (localhost:8000)
 
-# 数据库操作
+# Database operations
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 
-# 生产部署准备
-# requirements.txt中已包含mysqlclient用于MySQL支持
-pip install gunicorn         # 生产环境WSGI服务器
-pip install whitenoise       # 静态文件服务
+# Production deployment preparation
+# mysqlclient already in requirements.txt for MySQL support
+pip install gunicorn         # WSGI server for production
+pip install whitenoise       # Static files serving
 ```
 
-## 项目架构
+## Project Architecture
 
-### 前端结构 (`/frontend/src/`)
+### Frontend Structure (`/frontend/src/`)
 
-- `views/` - 页面级组件 (PascalCase命名)
-- `components/` - 可复用组件 (PascalCase命名)
-  - `i18n/` - 国际化组件 (语言切换等,海外版才设置)
-- `store/` - Pinia状态管理存储
-- `api/` - Axios请求封装 (每模块一个文件)
-- `router/` - Vue Router路由配置
-- `types/` - TypeScript类型定义
-- `utils/` - 工具函数
-  - `i18n.ts` - OpenCC转换工具 (实现时)
-  - `tracking.ts` - 分析和事件跟踪工具
-- `assets/` - 静态资源，按子目录组织：
-  - `icons/` - 图标和Logo资源
-  - `images/` - 业务图片 (课程封面、头像等)
-- `config/` - 配置文件
-  - `tracking.json` - 分析跟踪配置
+- `views/` - Page-level components (PascalCase naming)
+- `components/` - Reusable components (PascalCase naming)
+  - `i18n/` - Internationalization components (language switcher, etc.)
+- `store/` - Pinia stores for state management
+- `api/` - Axios request wrappers (one file per module)
+- `router/` - Vue Router configuration
+- `types/` - TypeScript type definitions
+- `utils/` - Utility functions
+  - `i18n.ts` - OpenCC conversion utilities (when implemented)
+  - `tracking.ts` - Analytics and event tracking utilities
+- `assets/` - Static assets with organized subdirectories:
+  - `icons/` - Logo and icon resources
+  - `images/` - Business images (course covers, avatars, etc.)
+- `config/` - Configuration files
+  - `tracking.json` - Analytics tracking configuration
 
-### 后端结构 (`/backend/`)
+### Backend Structure (`/backend/`)
 
-- `apps/` - Django应用模块：
-  - `users/` - 用户认证和管理
-  - `courses/` - 课程管理系统
-  - `cart/` - 购物车功能
-  - `orders/` - 订单处理
-  - `learning/` - 学习进度跟踪
-  - `reviews/` - 课程评价系统
-  - `analytics/` - 用户行为跟踪和分析
-  - `system/` - 系统级功能
+- `apps/` - Django application modules:
+  - `users/` - User authentication and management
+  - `courses/` - Course management system
+  - `cart/` - Shopping cart functionality
+  - `orders/` - Order processing
+  - `learning/` - Learning progress tracking
+  - `reviews/` - Course review system
+  - `analytics/` - User behavior tracking and analytics
+  - `system/` - System-level functionality
 
-### API设计模式
+### API Design Patterns
 
-所有API响应遵循以下结构：
+All API responses follow this structure:
 
 ```json
 {
-  "status": 200, // HTTP状态码
-  "data": {}, // 响应数据
-  "msg": "Success" // 响应消息
+  "status": 200, // HTTP status code
+  "data": {}, // Response data
+  "msg": "Success" // Response message
 }
 ```
 
-所有API端点都使用 `/api/` 前缀，并采用JWT身份验证。
+All API endpoints are prefixed with `/api/` and use JWT authentication.
 
-## 开发约定
+## Development Conventions
 
-### 代码风格
+### Code Style
 
-- **前端**: 只使用Composition API (禁止Options API)
-- **组件**: PascalCase命名 (如：`UserProfile.vue`)
-- **API文件**: camelCase (如：`userService.ts`)
-- **图片导入**: 总是使用import语句，永远不用字符串路径
-- **所有交流**: 注释和文档使用中文
+- **Frontend**: Use Composition API exclusively (no Options API)
+- **Components**: PascalCase naming (e.g., `UserProfile.vue`)
+- **API files**: camelCase (e.g., `userService.ts`)
+- **Image imports**: Always use import statements, never string paths
+- **All communication**: Chinese language for comments and documentation
 
-### 安全要求
+### Security Requirements
 
-- 永远不要硬编码敏感信息 (API密钥、密码等)
-- 使用 `.env` 文件进行配置 (确保 `.env` 在 `.gitignore` 中)
-- 遵循Django安全最佳实践进行身份验证和CSRF保护
+- Never hardcode sensitive information (API keys, secrets, passwords)
+- Use `.env` files for configuration (ensure `.env` is in `.gitignore`)
+- Follow Django security best practices for authentication and CSRF protection
 
 ### 国内版语言策略 (Domestic Version Language Strategy)
 
@@ -144,7 +140,6 @@ pip install whitenoise       # 静态文件服务
 - **海外版规划**: 未来独立开发海外版本（uaiedu.org），支持完整国际化和多语言
 - **性能优势**: 移除语言转换开销，页面加载速度提升15-20%
 - **SEO策略**: 专注百度等国内搜索引擎优化
-- **海外简中用户优化（GoSEO）**：为居住在海外、使用 Google 搜索的简体中文用户提供优化内容
 - **AEO准备**: 添加中文FAQ和结构化数据，优化AI搜索
 
 ### 统一分析策略 (Unified Analytics Strategy)
@@ -157,167 +152,167 @@ pip install whitenoise       # 静态文件服务
 - **隐私合规**: 仅基于ID跟踪，无敏感个人信息
 - **性能优势**: 单一分析提供商，优化加载速度
 
-### 图片管理
+### Image Management
 
-- 图片必须作为模块导入：`import logoImg from '@/assets/icons/logo.png'`
-- 所有图片必须有有意义的 `alt` 属性
-- 课程图片命名规则：`{stage}-{course}-cover.{ext}`
-- 阶段：tiyan/rumen/jingjin/shizhan/xiangmuluodi
+- Images must be imported as modules: `import logoImg from '@/assets/icons/logo.png'`
+- All images must have meaningful `alt` attributes
+- Course images follow naming: `{stage}-{course}-cover.{ext}`
+- Stages: tiyan/rumen/jingjin/shizhan/xiangmuluodi
 
-## 重要文件和配置
+## Important Files and Configuration
 
-### 关键配置文件
+### Key Configuration Files
 
-- `frontend/vite.config.ts` - Vite配置和路径别名
-- `backend/uai_backend/settings.py` - Django设置 (当前使用SQLite)
-- `frontend/package.json` - 前端依赖和脚本
-- `backend/requirements.txt` - Python依赖
+- `frontend/vite.config.ts` - Vite configuration with path aliases
+- `backend/uai_backend/settings.py` - Django settings (currently using SQLite)
+- `frontend/package.json` - Frontend dependencies and scripts
+- `backend/requirements.txt` - Python dependencies
 
-### 开发环境
+### Development Environment
 
-- 前端开发服务器: `http://localhost:5173`
-- 后端开发服务器: `http://localhost:8000`
-- 数据库: MySql(开发环境), MySQL (生产环境)
-- 数据库管理: TablePlus (本地和远程客户端)
+- Frontend dev server: `http://localhost:5173`
+- Backend dev server: `http://localhost:8000`
+- Database: SQLite (development), MySQL (production)
+- Database management: TablePlus (local and remote client)
 
-### 安全注意事项
+### Security Notes
 
-⚠️ **警告**: 当前的 `settings.py` 包含硬编码的SECRET_KEY和DEBUG=True。这些应该在任何生产部署之前移至环境变量。
+⚠️ **Warning**: The current `settings.py` contains a hardcoded SECRET_KEY and DEBUG=True. These should be moved to environment variables before any production deployment.
 
-## 部署架构
+## Deployment Architecture
 
-### 生产环境
+### Production Environment
 
-- **前端部署**: Vercel (Git自动部署)
-  - 域名: `uaiedu.com` (主域名)
-  - 构建命令: `npm run build`
-  - 框架预设: Vite
-  - 环境变量: API端点、SEO密钥
-- **后端部署**: Railway (Django + MySQL)
-  - Git仓库自动部署
-  - MySQL 8.4+ 数据库配置连接池
-  - Redis缓存和会话 (MVP可选)
-  - 环境变量: DATABASE_URL, SECRET_KEY, DEBUG=False
-- **数据库管理**:
-  - Railway Dashboard (生产环境监控)
-  - TablePlus (本地开发和远程访问)
+- **Frontend Deployment**: Vercel (Automatic deployment from Git)
+  - Domain: `uaiedu.com` (primary domain)
+  - Build command: `npm run build`
+  - Framework preset: Vite
+  - Environment variables: API endpoints, SEO keys
+- **Backend Deployment**: Railway (Django + MySQL)
+  - Auto-deployment from Git repository
+  - MySQL 8.4+ database with connection pooling
+  - Redis for caching and sessions (optional for MVP)
+  - Environment variables: DATABASE_URL, SECRET_KEY, DEBUG=False
+- **Database Management**:
+  - Railway Dashboard (production monitoring)
+  - TablePlus (local development and remote access)
 
-### CI/CD流水线
+### CI/CD Pipeline
 
-#### 开发工作流
+#### Development Workflow
 
 ```bash
-本地开发 → Git推送 → 自动部署
-├── 前端 (Vercel):
-│   ├── 类型检查 (vue-tsc)
-│   ├── 构建优化 (vite build)
-│   ├── CDN分发 (全球边缘节点)
-│   └── PR预览部署
+Local Development → Git Push → Automatic Deployment
+├── Frontend (Vercel):
+│   ├── Type checking (vue-tsc)
+│   ├── Build optimization (vite build)
+│   ├── CDN distribution (global edge nodes)
+│   └── Preview deployments for PRs
 │
-└── 后端 (Railway):
-    ├── 依赖安装 (pip install -r requirements.txt)
-    ├── 数据库迁移 (python manage.py migrate)
-    ├── 静态文件收集 (python manage.py collectstatic)
-    ├── 健康检查和监控
-    └── 代码变更自动重启
+└── Backend (Railway):
+    ├── Dependency installation (pip install -r requirements.txt)
+    ├── Database migrations (python manage.py migrate)
+    ├── Static files collection (python manage.py collectstatic)
+    ├── Health checks and monitoring
+    └── Auto-restart on code changes
 ```
 
-#### 环境配置
+#### Environment Configuration
 
-- **本地开发**: `.env` 文件存储敏感数据
-- **生产环境**: 平台特定环境变量
-  - Vercel: 环境变量面板
-  - Railway: 环境变量标签页
-- **CORS设置**: 后端配置允许Vercel域名源
-- **API端点**: 前端配置Railway后端URL
+- **Local Development**: `.env` files for sensitive data
+- **Production**: Platform-specific environment variables
+  - Vercel: Environment Variables panel
+  - Railway: Environment Variables tab
+- **CORS Setup**: Backend configured to allow Vercel domain origins
+- **API Endpoints**: Frontend configured with Railway backend URLs
 
-#### 数据库迁移策略
+#### Database Migration Strategy
 
-- **开发环境**: MySQL 8.45用于快速本地开发
-- **生产环境**: Railway上的MySQL 8.4+
-  - 熟悉的MySQL语法和管理
-  - MySQL 8.0+提供JSON字段支持
-  - 优秀的Web应用性能
-  - TablePlus提供卓越的MySQL管理体验
-- **迁移路径**: requirements.txt中已配置mysqlclient
+- **Development**: SQLite for rapid local development
+- **Production**: MySQL 8.4+ on Railway
+  - Familiar MySQL syntax and administration
+  - JSON field support available in MySQL 8.0+
+  - Excellent performance for web applications
+  - TablePlus provides superior MySQL management experience
+- **Migration Path**: mysqlclient already configured in requirements.txt
 
-## 开发工作流
+## Development Workflow
 
-1. **前端开发**: 初期使用模拟数据，后期集成后端API
-2. **后端开发**: 遵循Django REST约定，实现RBAC权限
-3. **API集成**: 确保所有请求自动包含JWT令牌
-4. **状态管理**: 使用Pinia存储，避免与组件本地状态混合
-5. **样式设计**: 使用Bootstrap 5.3.6类，维护响应式设计
+1. **Frontend Development**: Use mock data initially, then integrate with backend APIs
+2. **Backend Development**: Follow Django REST conventions, implement RBAC permissions
+3. **API Integration**: Ensure all requests include JWT tokens automatically
+4. **State Management**: Use Pinia stores, avoid mixing with component local state
+5. **Styling**: Use Bootstrap 5.3.6 classes, maintain responsive design
 
-## 常见开发任务
+## Common Development Tasks
 
-添加新功能时：
+When adding new features:
 
-1. 在后端创建遵循nREST约定的API端点
-2. 在 `src/api/` 中添加对应的前端API服务
-3. 必要时实现Pinia存储用于状态管理
-4. 在 `src/components/` 中创建可复用组件
-5. 在 `src/views/` 中构建页面组件
-6. 更新路由配置以支持新路由
+1. Create API endpoints in backend following REST conventions
+2. Add corresponding frontend API service in `src/api/`
+3. Implement Pinia store for state management if needed
+4. Create reusable components in `src/components/`
+5. Build page components in `src/views/`
+6. Update router configuration for new routes
 
-### SEO/AEO优化任务
+### SEO/AEO Optimization Tasks
 
-添加内容页面(课程、文章等)时：
+When adding content pages (courses, articles, etc.):
 
-1. 添加结构化数据(JSON-LD)用于课程、FAQ、组织模式
-2. 包含FAQ部分和自然语言问答
-3. 确保适当的元标题、描述和alt属性
-4. 考虑内容中的简繁中文关键词(适用于海外版)
+1. Add structured data (JSON-LD) for Course, FAQ, Organization schemas
+2. Include FAQ sections with natural language Q&A
+3. Ensure proper meta titles, descriptions, and alt attributes
+4. Consider both simplified and traditional Chinese keywords in content
 
-### 分析实现任务
+### Analytics Implementation Tasks
 
-实现用户行为跟踪时：
+When implementing user behavior tracking:
 
-1. **设置阶段**：
+1. **Setup Phase**:
 
-   - 添加百度统计集成
-   - 创建 `analytics` Django应用用于自定义事件存储
-   - 配置Vue3跟踪组合式函数用于统一跟踪
+   - Add Baidu Analytics integration
+   - Create `analytics` Django app for custom event storage
+   - Configure Vue3 tracking composables for unified tracking
 
-2. **核心事件跟踪**：
+2. **Core Event Tracking**:
 
-   - 用户旅程: `user.register`, `user.login`, `user.logout`
-   - 学习行为: `video.play.start/pause/end`, `course.progress.update`
-   - 转化漏斗: `cart.add`, `payment.success`, `coupon.apply`
-   - SEO/AEO事件: `search.from.baidu`, `faq.click`, `ai.referral`
+   - User journey: `user.register`, `user.login`, `user.logout`
+   - Learning behavior: `video.play.start/pause/end`, `course.progress.update`
+   - Conversion funnel: `cart.add`, `payment.success`, `coupon.apply`
+   - SEO/AEO events: `search.from.baidu`, `faq.click`, `ai.referral`
 
-3. **实现标准**：
-   - 事件命名约定: `module.action.state` (如: `video.play.start`)
-   - 为可跟踪元素添加 `data-track` 属性
-   - 使用Django中间件进行API请求跟踪
-   - 在MySQL中存储关键业务事件(永远不依赖第三方)
-   - 性能: 直接百度统计集成以获得最佳加载速度
+3. **Implementation Standards**:
+   - Event naming convention: `module.action.state` (e.g., `video.play.start`)
+   - Add `data-track` attributes to trackable elements
+   - Use Django middleware for API request tracking
+   - Store critical business events in MySQL (never rely solely on 3rd party)
+   - Performance: direct Baidu Analytics integration for optimal loading speed
 
-### 部署任务
+### Deployment Tasks
 
-准备生产部署时：
+When preparing for production deployment:
 
-1. **前端 (Vercel设置)**：
+1. **Frontend (Vercel Setup)**:
 
-   - 连接GitHub仓库到Vercel项目
-   - 配置构建设置(框架: Vite, 构建命令: `npm run build`)
-   - 设置环境变量(API_BASE_URL等)
-   - 配置自定义域名(uaiedu.com)
+   - Connect GitHub repository to Vercel project
+   - Configure build settings (Framework: Vite, Build command: `npm run build`)
+   - Set environment variables (API_BASE_URL, etc.)
+   - Configure custom domain (uaiedu.com)
 
-2. **后端 (Railway设置)**：
+2. **Backend (Railway Setup)**:
 
-   - 连接GitHub仓库到Railway项目
-   - 添加MySQL数据库服务(8.4+推荐)
-   - 设置环境变量(SECRET_KEY, DEBUG=False, DATABASE_URL)
-   - 为Vercel域名配置CORS设置
-   - 添加Redis服务用于缓存(MVP可选)
-   - 设置分析环境变量(BAIDU_ANALYTICS_ID)
+   - Connect GitHub repository to Railway project
+   - Add MySQL database service (8.4+ recommended)
+   - Set environment variables (SECRET_KEY, DEBUG=False, DATABASE_URL)
+   - Configure CORS settings for Vercel domain
+   - Add Redis service for caching (optional for MVP)
+   - Set analytics environment variables (BAIDU_ANALYTICS_ID)
 
-3. **数据库迁移**：
-   - requirements.txt中已配置mysqlclient
-   - 创建包含环境变量的生产设置文件
-   - 在Railway预发环境测试迁移
-   - 配置TablePlus远程MySQL访问
+3. **Database Migration**:
+   - mysqlclient already configured in requirements.txt
+   - Create production settings file with environment variables
+   - Test migrations on Railway staging environment
+   - Configure TablePlus for remote MySQL access
 
 ## Development Philosophy
 
@@ -329,174 +324,174 @@ pip install whitenoise       # 静态文件服务
 
 > **决策框架**: 当有多种方案时，按可测试性 > 可读性 > 一致性 > 简单性的顺序选择。
 
-# 开发指南
+# Development Guidelines
 
-## 理念
+## Philosophy
 
-### 核心信念
+### Core Beliefs
 
-- **渐进式进展优于大爬轰** - 能编译和通过测试的小变更
-- **从现有代码中学习** - 先研究再计划后实现
-- **实用主义优于教条主义** - 适应项目现实
-- **意图清晰优于巧妙代码** - 做无聊和明显的事
+- **Incremental progress over big bangs** - Small changes that compile and pass tests
+- **Learning from existing code** - Study and plan before implementing
+- **Pragmatic over dogmatic** - Adapt to project reality
+- **Clear intent over clever code** - Be boring and obvious
 
-### 简单意味着
+### Simplicity Means
 
-- 每个函数/类单一责任
-- 避免过早抽象
-- 不做巧妙的技巧 - 选择无聊的解决方案
-- 如果你需要解释它，那就太复杂了
+- Single responsibility per function/class
+- Avoid premature abstractions
+- No clever tricks - choose the boring solution
+- If you need to explain it, it's too complex
 
-## 流程
+## Process
 
-### 1. 计划和分阶段
+### 1. Planning & Staging
 
-将复杂工作分解3-5个阶段。在 `IMPLEMENTATION_PLAN.md` 中文档化：
+Break complex work into 3-5 stages. Document in `IMPLEMENTATION_PLAN.md`:
 
 ```markdown
-## 阶段 N: [名称]
+## Stage N: [Name]
 
-**目标**: [具体交付物]
-**成功标准**: [可测试结果]
-**测试**: [具体测试用例]
-**状态**: [未开始|进行中|完成]
+**Goal**: [Specific deliverable]
+**Success Criteria**: [Testable outcomes]
+**Tests**: [Specific test cases]
+**Status**: [Not Started|In Progress|Complete]
 ```
 
-- 进展时更新状态
-- 所有阶段完成时删除文件
+- Update status as you progress
+- Remove file when all stages are done
 
-### 2. 实现流程
+### 2. Implementation Flow
 
-1. **理解** - 研究代码库中的现有模式
-2. **测试** - 先写测试(红)
-3. **实现** - 最少代码使测试通过(绿)
-4. **重构** - 在测试通过的情况下清理代码
-5. **提交** - 带有清晰的消息链接到计划
+1. **Understand** - Study existing patterns in codebase
+2. **Test** - Write test first (red)
+3. **Implement** - Minimal code to pass (green)
+4. **Refactor** - Clean up with tests passing
+5. **Commit** - With clear message linking to plan
 
-### 3. 遇到困难时(尝试3次后)
+### 3. When Stuck (After 3 Attempts)
 
-**关键**: 每个问题最多尝试3次，然后停下。
+**CRITICAL**: Maximum 3 attempts per issue, then STOP.
 
-1. **记录失败原因**:
+1. **Document what failed**:
 
-   - 你尝试了什么
-   - 具体的错误消息
-   - 你认为失败的原因
+   - What you tried
+   - Specific error messages
+   - Why you think it failed
 
-2. **研究替代方案**:
+2. **Research alternatives**:
 
-   - 找到2-3个类似的实现
-   - 注意使用的不同方法
+   - Find 2-3 similar implementations
+   - Note different approaches used
 
-3. **质疑基础**:
+3. **Question fundamentals**:
 
-   - 这是正确的抽象层级吗？
-   - 这能分解为更小的问题吗？
-   - 有更简单的方法吗？
+   - Is this the right abstraction level?
+   - Can this be split into smaller problems?
+   - Is there a simpler approach entirely?
 
-4. **尝试不同角度**:
-   - 不同的库/框架特性？
-   - 不同的架构模式？
-   - 移除抽象而不是添加？
+4. **Try different angle**:
+   - Different library/framework feature?
+   - Different architectural pattern?
+   - Remove abstraction instead of adding?
 
-## 技术标准
+## Technical Standards
 
-### 架构原则
+### Architecture Principles
 
-- **组合优于继承** - 使用依赖注入
-- **接口优于单例** - 启用测试和灵活性
-- **明确优于隐式** - 清晰的数据流和依赖
-- **尽可能测试驱动** - 不要禁用测试，修复它们
+- **Composition over inheritance** - Use dependency injection
+- **Interfaces over singletons** - Enable testing and flexibility
+- **Explicit over implicit** - Clear data flow and dependencies
+- **Test-driven when possible** - Never disable tests, fix them
 
-### 代码质量
+### Code Quality
 
-- **每次提交必须**:
+- **Every commit must**:
 
-  - 编译成功
-  - 通过所有现有测试
-  - 包含新功能的测试
-  - 遵循项目格式化/代码检查
+  - Compile successfully
+  - Pass all existing tests
+  - Include tests for new functionality
+  - Follow project formatting/linting
 
-- **提交之前**:
-  - 运行格式化程序/代码检查器
-  - 自审查变更
-  - 确保提交消息解释“为什么”
+- **Before committing**:
+  - Run formatters/linters
+  - Self-review changes
+  - Ensure commit message explains "why"
 
-### 错误处理
+### Error Handling
 
-- 使用描述性消息快速失败
-- 包含调试上下文
-- 在适当的层级处理错误
-- 永远不要静默吞没异常
+- Fail fast with descriptive messages
+- Include context for debugging
+- Handle errors at appropriate level
+- Never silently swallow exceptions
 
-## 决策框架
+## Decision Framework
 
-当存在多个有效方法时，按以下顺序选择：
+When multiple valid approaches exist, choose based on:
 
-1. **可测试性** - 我能轻松测试这个吗？
-2. **可读性** - 6个月后有人能理解这个吗？
-3. **一致性** - 这符合项目模式吗？
-4. **简单性** - 这是可行的最简单解决方案吗？
-5. **可逆性** - 后续变更有多难？
+1. **Testability** - Can I easily test this?
+2. **Readability** - Will someone understand this in 6 months?
+3. **Consistency** - Does this match project patterns?
+4. **Simplicity** - Is this the simplest solution that works?
+5. **Reversibility** - How hard to change later?
 
-## 项目集成
+## Project Integration
 
-### 学习代码库
+### Learning the Codebase
 
-- 找到3个类似的功能/组件
-- 识别通用模式和约定
-- 尽可能使用相同的库/工具
-- 遵循现有的测试模式
+- Find 3 similar features/components
+- Identify common patterns and conventions
+- Use same libraries/utilities when possible
+- Follow existing test patterns
 
-### 工具
+### Tooling
 
-- 使用项目现有的构建系统
-- 使用项目的测试框架
-- 使用项目的格式化/代码检查器设置
-- 没有充分理由不要引入新工具
+- Use project's existing build system
+- Use project's test framework
+- Use project's formatter/linter settings
+- Don't introduce new tools without strong justification
 
-## 质量门禁
+## Quality Gates
 
-### 完成的定义
+### Definition of Done
 
-- [ ] 已编写和通过测试
-- [ ] 代码遵循项目约定
-- [ ] 没有代码检查器/格式化器警告
-- [ ] 提交消息清晰
-- [ ] 实现与计划匹配
-- [ ] 没有无issue编号的TODO
+- [ ] Tests written and passing
+- [ ] Code follows project conventions
+- [ ] No linter/formatter warnings
+- [ ] Commit messages are clear
+- [ ] Implementation matches plan
+- [ ] No TODOs without issue numbers
 
-### 测试指南
+### Test Guidelines
 
-- 测试行为，而不是实现
-- 尽可能每个测试一个断言
-- 清晰的测试名称描述场景
-- 使用现有的测试工具/助手
-- 测试应该是确定性的
+- Test behavior, not implementation
+- One assertion per test when possible
+- Clear test names describing scenario
+- Use existing test utilities/helpers
+- Tests should be deterministic
 
-## 重要提醒
+## Important Reminders
 
-**永远不要**:
+**NEVER**:
 
-- 使用 `--no-verify` 绕过提交钩子
-- 禁用测试而不是修复它们
-- 提交不能编译的代码
-- 做假设 - 用现有代码验证
+- Use `--no-verify` to bypass commit hooks
+- Disable tests instead of fixing them
+- Commit code that doesn't compile
+- Make assumptions - verify with existing code
 
-**总是**:
+**ALWAYS**:
 
-- 增量式提交可工作的代码
-- 进展时更新计划文档
-- 从现有实现中学习
-- 3次失败尝试后停下来重新评估
+- Commit working code incrementally
+- Update plan documentation as you go
+- Learn from existing implementations
+- Stop after 3 failed attempts and reassess
 
-## 文档参考
+## Documentation References
 
-- 主项目规则: `README.md`
-- 前端特定规则: `frontend/AGENTS.md`
-- 后端特定规则: `backend/AGENTS.md`
-- Cursor开发规则: `.cursor/rules/` 目录
-- 安全指南: `Cursor User Rules.md`
+- Main project rules: `README.md`
+- Frontend-specific rules: `frontend/AGENTS.md`
+- Backend-specific rules: `backend/AGENTS.md`
+- Cursor development rules: `.cursor/rules/` directory
+- Security guidelines: `Cursor User Rules.md`
 
 ## CCPlugins - Enhanced Development Commands
 
@@ -704,9 +699,11 @@ pip install whitenoise       # 静态文件服务
 - 命令可以组合使用以完成复杂任务
 - 所有命令都遵循项目的开发规范和哲学
 - "自动化规则：每次前端改动后，使用 Playwright 自动打开浏览器、截图、检查错误，并根据提示中的验收标准调整。"
-
+- 工作目录内的任何文件,请使用自身内置的filesystem，不要使用filesystem mcp读取
 
 # 文件读取规则
-  
+  - 对于项目内的任何文件（/Users/dongqingzhai/Desktop/UAI_project/内的文件）
+  ，必须使用Claude内置的Read工具
+  - 禁止使用mcp__filesystem__*系列工具读取项目内文件
   - 只有在读取项目外部文件时才考虑使用MCP filesystem工具
-  
+- 进入bmad里运行的各种代理命令都和我用中文交流

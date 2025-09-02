@@ -1,48 +1,48 @@
-# CLAUDE.md - 前端开发指南
+# CLAUDE.md - Frontend Development Guide
 
-本文件为Claude Code在UAI教育平台的 `/frontend` 目录中工作时提供前端特定指导。
+This file provides frontend-specific guidance for Claude Code when working in the `/frontend` directory of the UAI Education Platform.
 
-## 项目概述
+## Project Overview
 
-UAI教育平台前端 - Vue 3 + TypeScript + Vite构建的在线教育服务应用。仅前端开发上下文，专注于响应式设计、组件架构和现代JavaScript实践。
+UAI Education Platform Frontend - Vue 3 + TypeScript + Vite application for online education services. Frontend-only development context with focus on responsive design, component architecture, and modern JavaScript practices.
 
-## 前端技术栈
+## Frontend Technology Stack
 
-**核心框架：**
-- Vue 3 配合 Composition API + TypeScript
-- Vite 构建工具和开发服务器
-- Bootstrap 5.3.6 UI框架 (禁止使用其他UI框架)
-- Pinia 状态管理
-- Vue Router 客户端路由
-- Axios API请求
+**Core Framework:**
+- Vue 3 with Composition API + TypeScript
+- Vite build tool and development server
+- Bootstrap 5.3.6 for UI (no other UI frameworks allowed)
+- Pinia for state management
+- Vue Router for client-side routing
+- Axios for API requests
 
-**开发工具：**
-- TypeScript 类型安全
-- ESLint + Prettier 代码质量
-- Vite 快速开发和优化构建
+**Development Tools:**
+- TypeScript for type safety
+- ESLint + Prettier for code quality
+- Vite for fast development and optimized builds
 
-## 开发命令
+## Development Commands
 
-所有命令都应该在 `/frontend` 目录下执行：
+All commands should be run from the `/frontend` directory:
 
 ```bash
-# 开发工作流
-npm install                    # 安装所有依赖
-npm run dev                   # 启动开发服务器 (localhost:5173)
-npm run build                 # 生产构建
-npm run build:check           # 带TypeScript检查的构建
-npm run type-check            # 仅TypeScript类型检查
-npm run preview               # 预览生产构建
+# Development workflow
+npm install                    # Install all dependencies
+npm run dev                   # Start development server (localhost:5173)
+npm run build                 # Production build
+npm run build:check           # Build with TypeScript checking
+npm run type-check            # TypeScript type checking only
+npm run preview               # Preview production build
 
-# 特定功能包
-npm install opencc-js         # 中文简繁转换
-npm install vue-gtag          # 分析集成 (条件加载)
-npm install @types/gtag       # 分析的TypeScript定义
+# Feature-specific packages
+npm install opencc-js         # Chinese simplified/traditional conversion
+npm install vue-gtag          # Analytics integration (conditional loading)
+npm install @types/gtag       # TypeScript definitions for analytics
 ```
 
-## 前端架构
+## Frontend Architecture
 
-### 目录结构 (`/frontend/src/`)
+### Directory Structure (`/frontend/src/`)
 ```
 src/
 ├── views/                         # Page-level components (PascalCase)
@@ -61,32 +61,16 @@ src/
 │   │   ├── CourseStage.vue      # 分层课程展示组件
 │   │   ├── LearningProgress.vue # Learning progress tracker
 │   │   └── CourseTrial.vue      # 试学功能组件
-│   ├── memberZone/               # 会员专区组件 (Premium Member功能)
-│   │   ├── MemberCourseList.vue # 会员专属课程列表
-│   │   └── MemberBenefits.vue   # 会员权益展示
-│   ├── projectZone/              # 项目实战组件 (项目落地专区)
-│   │   ├── ProjectCard.vue      # 实战项目卡片
-│   │   └── ProjectChallenge.vue # 项目挑战模块
-│   ├── coupon/                   # 优惠券相关组件
-│   │   ├── CouponModal.vue      # 优惠券领取弹窗
-│   │   └── CouponCountdown.vue  # 倒计时组件
 │   ├── payment/                  # Payment and membership
 │   │   ├── PaymentModal.vue     # Payment processing
 │   │   ├── MembershipCard.vue   # Membership display
 │   │   └── PriceComparison.vue  # Price comparison component
-│   ├── rbac/                     # RBAC权限控制组件
-│   │   ├── PermissionGate.vue   # 权限门控组件
-│   │   └── RoleGuard.vue        # 角色守卫组件
 │   ├── cart/                     # Shopping cart components
 │   ├── order/                    # Order processing components
 │   ├── personCenter/             # Personal dashboard components
 │   ├── seo/                      # SEO相关组件
 │   │   ├── SEOHead.vue          # 动态meta标签组件
-│   │   ├── FAQSection.vue       # FAQ组件
-│   │   ├── BreadcrumbSchema.vue # 面包屑结构化数据
-│   │   └── CourseSchema.vue     # 课程结构化数据
-│   ├── i18n/                     # 国际化组件预留 (V1暂不启用)
-│   │   └── LanguageSwitcher.vue # 语言切换器 (海外版预留)
+│   │   └── FAQSection.vue       # FAQ组件
 │   ├── Navbar.vue               # Main navigation
 │   └── ...                     # Other reusable components
 ├── store/                        # Pinia state management
@@ -95,9 +79,6 @@ src/
 │   ├── courseStore.ts           # Course data state (分层课程体系)
 │   ├── membershipStore.ts       # Membership and subscription state
 │   ├── learningStore.ts         # Learning progress state
-│   ├── rbacStore.ts             # RBAC权限状态管理
-│   ├── couponStore.ts           # 优惠券状态管理
-│   ├── projectStore.ts          # 项目实战状态管理
 │   ├── uiStore.ts               # UI/UX state
 │   └── seoStore.ts              # SEO状态管理
 ├── api/                          # Axios API wrappers
@@ -106,9 +87,6 @@ src/
 │   ├── payment.ts               # Payment and membership API
 │   ├── sms.ts                   # SMS verification API (阿里云)
 │   ├── learning.ts              # Learning progress tracking API
-│   ├── rbac.ts                  # RBAC权限管理API
-│   ├── coupon.ts                # 优惠券管理API
-│   ├── project.ts               # 项目实战API
 │   └── orders.ts                # Order processing API
 ├── router/                       # Vue Router configuration
 │   └── index.ts                 # Route definitions
@@ -119,9 +97,6 @@ src/
 │   ├── membership.ts            # Membership and subscription types
 │   ├── learning.ts              # Learning progress types
 │   ├── payment.ts               # Payment processing types
-│   ├── rbac.ts                  # RBAC权限系统类型定义
-│   ├── coupon.ts                # 优惠券系统类型定义
-│   ├── project.ts               # 项目实战类型定义
 │   ├── cart.ts                  # Shopping cart types
 │   ├── order.ts                 # Order types
 │   └── seo.ts                   # SEO类型定义
@@ -130,44 +105,38 @@ src/
 │   ├── seo.ts                   # SEO工具函数
 │   └── tracking.ts              # Analytics utilities
 ├── composables/                  # Vue 3 composables
-│   ├── useAnalytics.ts          # 分析统计composable
-│   ├── useRBAC.ts               # RBAC权限检查composable
-│   └── useI18n.ts               # 国际化composable (海外版预留)
+│   └── useAnalytics.ts          # 分析统计composable
 ├── assets/                       # Static resources
 │   ├── icons/                   # Logo and icon resources
 │   ├── images/                  # Business images (course covers, avatars)
 │   ├── fonts-clarity.css        # Font clarity optimization
 │   └── vue.svg                  # Framework assets
-├── directives/                   # Vue指令
-│   └── rbac.ts                  # 权限控制指令 (v-permission, v-role)
 └── config/                       # Configuration files
-    ├── baidu.json               # 百度统计配置
-    └── i18n/                    # 国际化配置预留 (V1不启用)
-        └── zh-CN.json           # 简体中文文案 (结构化管理)
+    └── baidu.json               # 百度统计配置
 ```
 
-### 后端API集成
-- **基础URL**: `http://localhost:8000/api/` (开发环境)
-- **生产URL**: Railway后端URL (通过环境变量配置)
-- **身份验证**: JWT令牌通过Axios拦截器自动附加
-- **响应格式**: 所有API返回 `{ status, data, msg }` 结构
+### Backend API Integration
+- **Base URL**: `http://localhost:8000/api/` (development)
+- **Production URL**: Railway backend URL (configured via environment variables)
+- **Authentication**: JWT tokens automatically attached via Axios interceptors
+- **Response Format**: All APIs return `{ status, data, msg }` structure
 
-## 开发约定
+## Development Conventions
 
-### Vue 3 编码标准
-- **仅Composition API**: 严格禁止使用Options API
-- **TypeScript必需**: 所有 `.vue` 文件必须使用 `<script setup lang="ts">`
-- **组件命名**: 所有组件使用PascalCase (如：`UserProfile.vue`)
-- **Props/Emits**: 使用TypeScript接口定义props
+### Vue 3 Coding Standards
+- **Composition API Only**: Strictly forbidden to use Options API
+- **TypeScript Required**: All `.vue` files must use `<script setup lang="ts">`
+- **Component Naming**: PascalCase for all components (e.g., `UserProfile.vue`)
+- **Props/Emits**: Use TypeScript interfaces for prop definitions
 
-**推荐的组件结构：**
+**Recommended Component Structure:**
 ```vue
 <template>
-  <!-- 优先使用Bootstrap工具类 -->
+  <!-- Bootstrap utility classes preferred -->
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8">
-        <!-- 主要内容 -->
+        <!-- Main content -->
       </div>
     </div>
   </div>
@@ -177,45 +146,45 @@ src/
 import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '@/store/authStore'
 
-// 接口定义
+// Interface definitions
 interface Props {
   title: string
   isVisible?: boolean
 }
 
-// Props和emits
+// Props and emits
 const props = withDefaults(defineProps<Props>(), {
   isVisible: true
 })
 
-// 响应式数据
+// Reactive data
 const loading = ref(false)
 const authStore = useAuthStore()
 
-// 计算属性
+// Computed properties
 const displayTitle = computed(() => 
   props.title.toUpperCase()
 )
 
-// 生命周期
+// Lifecycle
 onMounted(() => {
-  // 组件初始化
+  // Component initialization
 })
 </script>
 
 <style scoped>
-/* 仅在Bootstrap不足时使用自定义样式 */
+/* Custom styles only when Bootstrap is insufficient */
 </style>
 ```
 
-### 使用Pinia进行状态管理
+### State Management with Pinia
 ```typescript
 // store/authStore.ts
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  // 状态
+  // State
   const token = ref<string | null>(localStorage.getItem('token'))
   const userInfo = ref<UserInfo | null>(null)
 
@@ -224,7 +193,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Actions
   const login = async (credentials: LoginCredentials) => {
-    // 实现逻辑
+    // Implementation
   }
 
   const logout = () => {
@@ -243,27 +212,27 @@ export const useAuthStore = defineStore('auth', () => {
 })
 ```
 
-## UI/UX指南
+## UI/UX Guidelines
 
-### Bootstrap 5.3.6 使用
-- **工具类优先**: 优先使用Bootstrap工具类而非自定义CSS
-- **网格系统**: 使用 `row` 和 `col-*` 类进行响应式布局
-- **组件**: 利用Bootstrap组件(按钮、卡片、模态框)
-- **自定义样式**: 仅在Bootstrap无法实现设计时才添加自定义CSS
+### Bootstrap 5.3.6 Usage
+- **Utility Classes First**: Prefer Bootstrap utility classes over custom CSS
+- **Grid System**: Use `row` and `col-*` classes for responsive layouts
+- **Components**: Leverage Bootstrap components (buttons, cards, modals)
+- **Custom Styles**: Only add custom CSS when Bootstrap cannot achieve the design
 
-### 响应式设计标准
-- **移动端优先**: 所有组件必须在≤768px屏幕上正常工作
-- **断点**:
-  - `xs`: <576px (手机)
-  - `sm`: ≥576px (手机横屏)
-  - `md`: ≥768px (平板)
-  - `lg`: ≥992px (桌面)
-  - `xl`: ≥1200px (大桌面)
-  - `xxl`: ≥1400px (超大屏幕)
+### Responsive Design Standards
+- **Mobile First**: All components must work on ≤768px screens
+- **Breakpoints**:
+  - `xs`: <576px (mobile)
+  - `sm`: ≥576px (mobile landscape)
+  - `md`: ≥768px (tablet)
+  - `lg`: ≥992px (desktop)
+  - `xl`: ≥1200px (large desktop)
+  - `xxl`: ≥1400px (extra large)
 
-### Mac设备优化
+### Mac Device Optimization
 ```css
-/* Mac特定响应式处理 */
+/* Mac-specific responsive handling */
 @media (min-width: 1440px) and (-webkit-min-device-pixel-ratio: 2) {
   .course-cards-container {
     max-width: 1200px;
@@ -273,11 +242,11 @@ export const useAuthStore = defineStore('auth', () => {
 }
 ```
 
-### 字体清晰度系统
-**核心原则**: 层分离架构确保文本内容保持在清晰层，而毛玻璃效果仅应用于背景层。
+### Font Clarity System
+**Core Principle**: Layer separation architecture ensuring text content stays on clear layers while glassmorphism effects only apply to background layers.
 
 ```css
-/* 全局字体优化 */
+/* Global font optimization */
 body {
   font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -285,60 +254,60 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* 层分离系统 */
+/* Layer separation system */
 .text-layer {
-  z-index: 10; /* 绝对清晰 */
+  z-index: 10; /* Absolute clarity */
   backdrop-filter: none !important;
 }
 
 .glass-background {
-  z-index: 1; /* 模糊效果 */
+  z-index: 1; /* Blur effects */
 }
 ```
 
-## 图片资源管理
+## Image Asset Management
 
-### 资源目录结构
+### Asset Directory Structure
 ```
 src/assets/
-├── icons/                    # Logo和图标资源
+├── icons/                    # Logos and icon resources
 │   ├── logo.png
 │   └── logo.svg
-└── images/                   # 业务图片
-    ├── tiyan-*-cover.jpg     # 免费体验课程
-    ├── rumen-*-cover.jpg     # 基础课程
-    ├── jingjin-*-cover.jpg   # 进阶课程
-    ├── shizhan-*-cover.jpg   # 项目课程
-    └── xiangmuluodi-*-cover.png # 企业课程
+└── images/                   # Business images
+    ├── tiyan-*-cover.jpg     # Free trial courses
+    ├── rumen-*-cover.jpg     # Basic courses  
+    ├── jingjin-*-cover.jpg   # Advanced courses
+    ├── shizhan-*-cover.jpg   # Project courses
+    └── xiangmuluodi-*-cover.png # Enterprise courses
 ```
 
-### 图片导入标准
-**始终使用import语句，永远不用字符串路径：**
+### Image Import Standards
+**Always use import statements, never string paths:**
 
 ```vue
 <script setup lang="ts">
-// ✅ 正确 - 将图片作为模块导入
+// ✅ Correct - Import images as modules
 import logoImg from '@/assets/icons/logo.png'
 import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 </script>
 
 <template>
-  <!-- ✅ 使用导入的变量 -->
+  <!-- ✅ Use imported variables -->
   <img :src="logoImg" alt="UAI Logo" />
   <img :src="courseCover" alt="Python Course" />
   
-  <!-- ❌ 避免字符串路径 -->
+  <!-- ❌ Avoid string paths -->
   <!-- <img src="@/assets/icons/logo.png" alt="Logo" /> -->
 </template>
 ```
 
-### 课程图片命名约定
-- **文件前缀必须与课程阶段匹配**:
-  - `tiyan-` → `stage: 'free'` (免费体验)
-  - `rumen-` → `stage: 'basic'` (基础级别)
-  - `jingjin-` → `stage: 'advanced'` (进阶级别)
-  - `shizhan-` → `stage: 'project'` (项目级别)
-  - `xiangmuluodi-` → `stage: 'landing'` (企业级别)
+### Course Image Naming Convention
+- **File prefix must match course stage**:
+  - `tiyan-` → `stage: 'free'` (Free trial)
+  - `rumen-` → `stage: 'basic'` (Basic level)
+  - `jingjin-` → `stage: 'advanced'` (Advanced level) 
+  - `shizhan-` → `stage: 'project'` (Project level)
+  - `xiangmuluodi-` → `stage: 'landing'` (Enterprise level)
 
 ## 国内版语言策略
 
@@ -353,21 +322,7 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 // 海外版将单独实现完整的区域检测和i18n功能
 ```
 
-### 国际化预留架构
-虽然V1.0专注国内版，但为未来海外版预留基础结构：
-- `config/i18n/zh-CN.json`: 结构化文案管理，利于后期替换
-- `composables/useI18n.ts`: 国际化composable预留接口
-- `components/i18n/LanguageSwitcher.vue`: 语言切换组件预留
-- 组件中统一通过 `$t('key')` 访问文案（当前直接返回中文）
-
-```typescript
-// 当前简化实现，海外版时扩展为完整i18n
-const useI18n = () => ({
-  t: (key: string) => zhCN[key] || key // V1.0直接返回中文
-})
-```
-
-## 分析和跟踪
+## Analytics & Tracking
 
 ### 国内版统一策略
 - **分析工具**: 仅使用百度统计 (避免国际工具的网络问题)
@@ -397,34 +352,19 @@ export const useAnalytics = () => {
 }
 ```
 
-### 事件跟踪标准
-- **命名约定**: `module.action.state` (如: `video.play.start`)
-- **数据属性**: 为可跟踪元素添加 `data-track` 属性
+### Event Tracking Standards
+- **Naming Convention**: `module.action.state` (e.g., `video.play.start`)
+- **Data Attributes**: Add `data-track` attributes to trackable elements
+- **Core Events**:
+  - User journey: `user.register`, `user.login`, `user.logout`, `user.wechat_bind`
+  - Learning: `video.play.start/pause/end`, `course.progress.update`, `course.trial.start`
+  - Commerce: `cart.add`, `payment.success`, `membership.subscribe`, `coupon.apply`
+  - Course stages: `stage.tiyan.enter`, `stage.rumen.unlock`, `stage.member.access`
+  - SEO优化: `search.from.baidu`, `faq.click`, `course.view`
 
-### 埋点分阶段实施计划
-**阶段一：注册与登录转化路径**
-- `user.register`, `user.login`, `user.logout`, `user.wechat_bind`
-- 目标：优化注册转化率
+## API Integration
 
-**阶段二：试听与课程探索路径** 
-- `course.trial.start`, `course.view`, `stage.tiyan.enter`, `faq.click`
-- 目标：提升免费用户到付费的转化
-
-**阶段三：购买与会员转化路径**
-- `cart.add`, `payment.success`, `membership.subscribe`, `coupon.apply` 
-- 目标：优化付费转化和会员订阅
-
-**阶段四：学习行为深度分析**
-- `video.play.start/pause/end`, `course.progress.update`, `learning.complete`
-- 目标：提升课程完成率和用户留存
-
-**阶段五：SEO/AEO效果跟踪**
-- `search.from.baidu`, `course.view.from.seo`, `content.share`
-- 目标：评估SEO流量质量和内容传播效果
-
-## API集成
-
-### Axios配置
+### Axios Configuration
 ```typescript
 // api/index.ts
 import axios from 'axios'
@@ -435,7 +375,7 @@ const request = axios.create({
   timeout: 10000
 })
 
-// 请求拦截器 - 自动附加JWT
+// Request interceptor - Auto-attach JWT
 request.interceptors.request.use(config => {
   const authStore = useAuthStore()
   if (authStore.token) {
@@ -444,56 +384,49 @@ request.interceptors.request.use(config => {
   return config
 })
 
-// 响应拦截器 - 处理统一响应格式 + JWT失效处理
+// Response interceptor - Handle unified response format
 request.interceptors.response.use(
-  response => response.data, // 提取 { status, data, msg }
+  response => response.data, // Extract { status, data, msg }
   error => {
-    // 401错误全局处理：JWT失效自动登出
-    if (error.response?.status === 401) {
-      const authStore = useAuthStore()
-      authStore.logout()
-      router.push('/login')
-      // 可选：显示友好提示
-    }
-    console.error('API错误:', error)
+    console.error('API Error:', error)
     return Promise.reject(error)
   }
 )
 ```
 
-### API服务模式
+### API Service Pattern
 ```typescript
 // api/courses.ts
 import request from './index'
 import type { Course, CourseListResponse } from '@/types'
 
 export const courseAPI = {
-  // 获取课程列表
+  // Get course list
   getCourses: (stage?: string): Promise<CourseListResponse> => {
     return request.get('/courses/', { params: { stage } })
   },
 
-  // 获取课程详情
+  // Get course details
   getCourseDetail: (id: number): Promise<Course> => {
     return request.get(`/courses/${id}/`)
   },
 
-  // 搜索课程
+  // Search courses
   searchCourses: (query: string): Promise<CourseListResponse> => {
     return request.get('/courses/search/', { params: { q: query } })
   }
 }
 ```
 
-## 常见开发任务
+## Common Development Tasks
 
-### 添加新功能
-1. 在 `src/api/` 中**创建API服务**，遵循nREST约定
-2. 在 `src/types/` 中**定义TypeScript类型**用于数据结构
-3. 在 `src/store/` 中**实现Pinia存储**用于状态管理
-4. 在 `src/components/` 中**构建可复用组件**，使用正确命名
-5. 在 `src/views/` 中**创建页面组件**，使用现有模式
-6. 在 `src/router/index.ts` 中**更新路由配置**以支持新路由
+### Adding New Features
+1. **Create API service** in `src/api/` following REST conventions
+2. **Define TypeScript types** in `src/types/` for data structures
+3. **Implement Pinia store** in `src/store/` for state management
+4. **Build reusable components** in `src/components/` with proper naming
+5. **Create page components** in `src/views/` using existing patterns
+6. **Update router configuration** in `src/router/index.ts` for new routes
 
 ### 核心业务功能开发重点
 
@@ -553,57 +486,26 @@ export const useMembershipStore = defineStore('membership', () => {
 })
 ```
 
-#### RBAC权限系统集成
+### Component Development Workflow
+1. **Study existing patterns** - Find 3 similar components for reference
+2. **Design component props** - Use TypeScript interfaces
+3. **Implement Composition API** - Use `<script setup lang="ts">`
+4. **Apply Bootstrap classes** - Minimize custom CSS
+5. **Test responsiveness** - Verify on mobile, tablet, desktop
+6. **Add accessibility** - Include proper ARIA attributes and alt texts
+
+### State Management Best Practices
+- **Single responsibility** - Each store handles one domain (auth, courses, etc.)
+- **Composition API style** - Use `defineStore()` with setup function
+- **Computed properties** - Use Vue's `computed()` for derived state
+- **Persistence** - Use `localStorage`/`sessionStorage` for critical data
+- **Error handling** - Include loading states and error management
+
+## Performance Optimization
+
+### Code Splitting & Lazy Loading
 ```typescript
-// composables/useRBAC.ts - 简化权限检查
-export const useRBAC = () => {
-  const rbacStore = useRBACStore()
-  
-  const hasRole = (role: string) => rbacStore.userRoles.includes(role)
-  const hasPermission = (permission: string) => rbacStore.permissions.includes(permission)
-  const canAccessCourse = (courseStage: string) => {
-    // 基于6角色体系的课程访问控制
-    if (courseStage === 'tiyan') return true
-    if (hasRole('Premium Member')) return courseStage !== 'employment'
-    return hasRole('Staff Admin') || hasRole('Super Admin')
-  }
-  
-  return { hasRole, hasPermission, canAccessCourse }
-}
-```
-
-```vue
-<!-- 权限控制使用示例 -->
-<template>
-  <PermissionGate permission="course.edit">
-    <button @click="editCourse">编辑课程</button>
-  </PermissionGate>
-  
-  <!-- 或使用指令 -->
-  <div v-permission="'member.access'">会员专属内容</div>
-</template>
-```
-
-### 组件开发工作流
-1. **研究现有模式** - 找到3个类似组件作为参考
-2. **设计组件props** - 使用TypeScript接口
-3. **实现Composition API** - 使用 `<script setup lang="ts">`
-4. **应用Bootstrap类** - 最小化自定义CSS
-5. **测试响应式** - 在手机、平板、桌面上验证
-6. **添加可访问性** - 包含适当的ARIA属性和alt文本
-
-### 状态管理最佳实践
-- **单一责任** - 每个存储处理一个域(身份验证、课程等)
-- **Composition API风格** - 使用 `defineStore()` 配合setup函数
-- **计算属性** - 使用Vue的 `computed()` 处理派生状态
-- **持久化** - 对关键数据使用 `localStorage`/`sessionStorage`
-- **错误处理** - 包含加载状态和错误管理
-
-## 性能优化
-
-### 代码分割和懒加载
-```typescript
-// router/index.ts - 懒加载页面组件
+// router/index.ts - Lazy load page components
 const routes = [
   {
     path: '/',
@@ -618,13 +520,13 @@ const routes = [
 ]
 ```
 
-### 图片优化
-- **格式选择**: 使用WebP带回退，PNG用于图标
-- **导入策略**: 始终将图片作为模块导入以进行Vite优化
-- **响应式图片**: 为不同屏幕密度使用 `srcset`
-- **懒加载**: 为课程图片实现懒加载
+### Image Optimization
+- **Format Selection**: Use WebP with fallbacks, PNG for icons
+- **Import Strategy**: Always import images as modules for Vite optimization
+- **Responsive Images**: Use `srcset` for different screen densities
+- **Lazy Loading**: Implement lazy loading for course images
 
-### 打包优化
+### Bundle Optimization
 ```typescript
 // vite.config.ts - 国内版优化构建配置
 export default defineConfig({
@@ -641,15 +543,15 @@ export default defineConfig({
 })
 ```
 
-## 安全考虑
+## Security Considerations
 
-### 前端安全
-- **环境变量**: 使用 `.env` 文件，永远不要硬编码API密钥
-- **XSS防护**: 清洗用户输入，使用 `v-text` 而非 `v-html`
-- **CSRF保护**: Axios自动处理CSRF令牌
-- **JWT存储**: 在localStorage中安全存储令牌并设置过期时间
+### Frontend Security
+- **Environment Variables**: Use `.env` files, never hardcode API keys
+- **XSS Prevention**: Sanitize user input, use `v-text` over `v-html`
+- **CSRF Protection**: Axios automatically handles CSRF tokens
+- **JWT Storage**: Store tokens securely in localStorage with expiration
 
-### 内容安全策略
+### Content Security Policy
 ```html
 <!-- 国内版CSP配置 - 仅允许百度统计 -->
 <meta http-equiv="Content-Security-Policy" 
@@ -659,9 +561,9 @@ export default defineConfig({
                img-src 'self' data: https:;">
 ```
 
-## 部署配置
+## Deployment Configuration
 
-### 环境变量
+### Environment Variables
 ```bash
 # .env.production - 国内版简化配置
 VITE_API_BASE_URL=https://your-railway-backend.up.railway.app/api
@@ -670,55 +572,52 @@ VITE_ANALYTICS_TIMEOUT=3000
 VITE_SEO_DEBUG=false
 ```
 
-### Vercel部署
-- **框架预设**: Vite
-- **构建命令**: `npm run build`
-- **输出目录**: `dist`
-- **安装命令**: `npm install`
+### Vercel Deployment
+- **Framework Preset**: Vite
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Install Command**: `npm install`
 
-## 开发理念
+## Development Philosophy
 
-### 核心原则
-- **渐进式开发**: 小的、可测试的变更优于大重写
-- **组件可复用性**: 一次构建，处处使用
-- **性能优先**: 为用户体验进行优化
-- **类型安全**: 利用TypeScript减少运行时错误
+### Core Principles
+- **Incremental Development**: Small, testable changes over big rewrites
+- **Component Reusability**: Build once, use everywhere
+- **Performance First**: Optimize for user experience
+- **Type Safety**: Leverage TypeScript for fewer runtime errors
 
-### 决策框架
-在多个方法之间选择时：
-1. **可测试性** - 这能轻松进行单元测试吗？
-2. **可维护性** - 6个月后这会被理解吗？
-3. **性能** - 这会影响用户体验吗？
-4. **一致性** - 这符合现有模式吗？
-5. **简单性** - 这是可行的最简单解决方案吗？
+### Decision Framework
+When choosing between multiple approaches:
+1. **Testability** - Can this be easily unit tested?
+2. **Maintainability** - Will this be understandable in 6 months?
+3. **Performance** - Does this impact user experience?
+4. **Consistency** - Does this match existing patterns?
+5. **Simplicity** - Is this the simplest solution that works?
 
-### 质量门禁
-- [ ] TypeScript编译无错误通过
-- [ ] 所有组件都是响应式的(手机、平板、桌面)
-- [ ] 图片使用适当的import语句
-- [ ] 组件遵循PascalCase命名
-- [ ] 优先使用Bootstrap工具类而非自定义CSS
-- [ ] Props和emits使用TypeScript接口
-- [ ] Pinia存储遵循Composition API模式
-- [ ] 涉及权限的组件正确使用RBAC权限控制
-- [ ] 埋点事件遵循命名约定和分阶段计划
-- [ ] SEO组件正确集成结构化数据
+### Quality Gates
+- [ ] TypeScript compilation passes with no errors
+- [ ] All components are responsive (mobile, tablet, desktop)
+- [ ] Images use proper import statements
+- [ ] Components follow PascalCase naming
+- [ ] Bootstrap utility classes are preferred over custom CSS
+- [ ] Props and emits use TypeScript interfaces
+- [ ] Pinia stores follow composition API pattern
 
-## 重要提醒
+## Important Reminders
 
-**始终:**
-- 将图片作为模块导入，永远不用字符串路径
-- 使用Composition API配合 `<script setup lang="ts">`
-- 优先使用Bootstrap工具类而非自定义CSS
-- 在多个屏幕尺寸上测试组件
-- 所有Vue组件遵循PascalCase命名
+**ALWAYS:**
+- Import images as modules, never use string paths
+- Use Composition API with `<script setup lang="ts">`
+- Prefer Bootstrap utility classes over custom CSS
+- Test components on multiple screen sizes
+- Follow PascalCase naming for all Vue components
 
-**永远不要:**
-- 使用Options API(项目中禁止)
-- 硬编码API URL或敏感数据
-- 在组件/文件名中混合中英文
-- 使用字符串路径导入图片
-- 跳过TypeScript类型定义
+**NEVER:**
+- Use Options API (forbidden in this project)
+- Hardcode API URLs or sensitive data
+- Mix Chinese and English in component/file names
+- Import images with string paths
+- Skip TypeScript type definitions
 
 ## Development Philosophy
 
@@ -730,157 +629,157 @@ VITE_SEO_DEBUG=false
 
 > **决策框架**: 当有多种方案时，按可测试性 > 可读性 > 一致性 > 简单性的顺序选择。
 
-# 开发指南
+# Development Guidelines
 
-## 理念
+## Philosophy
 
-### 核心信念
+### Core Beliefs
 
-- **渐进式进展优于大爬轰** - 能编译和通过测试的小变更
-- **从现有代码中学习** - 先研究再计划后实现
-- **实用主义优于教条主义** - 适应项目现实
-- **意图清晰优于巧妙代码** - 做无聊和明显的事
+- **Incremental progress over big bangs** - Small changes that compile and pass tests
+- **Learning from existing code** - Study and plan before implementing
+- **Pragmatic over dogmatic** - Adapt to project reality
+- **Clear intent over clever code** - Be boring and obvious
 
-### 简单意味着
+### Simplicity Means
 
-- 每个函数/类单一责任
-- 避免过早抽象
-- 不做巧妙的技巧 - 选择无聊的解决方案
-- 如果你需要解释它，那就太复杂了
+- Single responsibility per function/class
+- Avoid premature abstractions
+- No clever tricks - choose the boring solution
+- If you need to explain it, it's too complex
 
-## 流程
+## Process
 
-### 1. 计划和分阶段
+### 1. Planning & Staging
 
-将复杂工作分解3-5个阶段。在 `IMPLEMENTATION_PLAN.md` 中文档化：
+Break complex work into 3-5 stages. Document in `IMPLEMENTATION_PLAN.md`:
 
 ```markdown
-## 阶段 N: [名称]
-**目标**: [具体交付物]
-**成功标准**: [可测试结果]
-**测试**: [具体测试用例]
-**状态**: [未开始|进行中|完成]
+## Stage N: [Name]
+**Goal**: [Specific deliverable]
+**Success Criteria**: [Testable outcomes]
+**Tests**: [Specific test cases]
+**Status**: [Not Started|In Progress|Complete]
 ```
-- 进展时更新状态
-- 所有阶段完成时删除文件
+- Update status as you progress
+- Remove file when all stages are done
 
-### 2. 实现流程
+### 2. Implementation Flow
 
-1. **理解** - 研究代码库中的现有模式
-2. **测试** - 先写测试(红)
-3. **实现** - 最少代码使测试通过(绿)
-4. **重构** - 在测试通过的情况下清理代码
-5. **提交** - 带有清晰的消息链接到计划
+1. **Understand** - Study existing patterns in codebase
+2. **Test** - Write test first (red)
+3. **Implement** - Minimal code to pass (green)
+4. **Refactor** - Clean up with tests passing
+5. **Commit** - With clear message linking to plan
 
-### 3. 遇到困难时(尝试3次后)
+### 3. When Stuck (After 3 Attempts)
 
-**关键**: 每个问题最多尝试3次，然后停下。
+**CRITICAL**: Maximum 3 attempts per issue, then STOP.
 
-1. **记录失败原因**:
-   - 你尝试了什么
-   - 具体的错误消息
-   - 你认为失败的原因
+1. **Document what failed**:
+   - What you tried
+   - Specific error messages
+   - Why you think it failed
 
-2. **研究替代方案**:
-   - 找到2-3个类似的实现
-   - 注意使用的不同方法
+2. **Research alternatives**:
+   - Find 2-3 similar implementations
+   - Note different approaches used
 
-3. **质疑基础**:
-   - 这是正确的抽象层级吗？
-   - 这能分解为更小的问题吗？
-   - 有更简单的方法吗？
+3. **Question fundamentals**:
+   - Is this the right abstraction level?
+   - Can this be split into smaller problems?
+   - Is there a simpler approach entirely?
 
-4. **尝试不同角度**:
-   - 不同的库/框架特性？
-   - 不同的架构模式？
-   - 移除抽象而不是添加？
+4. **Try different angle**:
+   - Different library/framework feature?
+   - Different architectural pattern?
+   - Remove abstraction instead of adding?
 
-## 技术标准
+## Technical Standards
 
-### 架构原则
+### Architecture Principles
 
-- **组合优于继承** - 使用依赖注入
-- **接口优于单例** - 启用测试和灵活性
-- **明确优于隐式** - 清晰的数据流和依赖
-- **尽可能测试驱动** - 不要禁用测试，修复它们
+- **Composition over inheritance** - Use dependency injection
+- **Interfaces over singletons** - Enable testing and flexibility
+- **Explicit over implicit** - Clear data flow and dependencies
+- **Test-driven when possible** - Never disable tests, fix them
 
-### 代码质量
+### Code Quality
 
-- **每次提交必须**:
-  - 编译成功
-  - 通过所有现有测试
-  - 包含新功能的测试
-  - 遵循项目格式化/代码检查
+- **Every commit must**:
+  - Compile successfully
+  - Pass all existing tests
+  - Include tests for new functionality
+  - Follow project formatting/linting
 
-- **提交之前**:
-  - 运行格式化程序/代码检查器
-  - 自审查变更
-  - 确保提交消息解释“为什么”
+- **Before committing**:
+  - Run formatters/linters
+  - Self-review changes
+  - Ensure commit message explains "why"
 
-### 错误处理
+### Error Handling
 
-- 使用描述性消息快速失败
-- 包含调试上下文
-- 在适当的层级处理错误
-- 永远不要静默吞没异常
+- Fail fast with descriptive messages
+- Include context for debugging
+- Handle errors at appropriate level
+- Never silently swallow exceptions
 
-## 决策框架
+## Decision Framework
 
-当存在多个有效方法时，按以下顺序选择：
+When multiple valid approaches exist, choose based on:
 
-1. **可测试性** - 我能轻松测试这个吗？
-2. **可读性** - 6个月后有人能理解这个吗？
-3. **一致性** - 这符合项目模式吗？
-4. **简单性** - 这是可行的最简单解决方案吗？
-5. **可逆性** - 后续变更有多难？
+1. **Testability** - Can I easily test this?
+2. **Readability** - Will someone understand this in 6 months?
+3. **Consistency** - Does this match project patterns?
+4. **Simplicity** - Is this the simplest solution that works?
+5. **Reversibility** - How hard to change later?
 
-## 项目集成
+## Project Integration
 
-### 学习代码库
+### Learning the Codebase
 
-- 找到3个类似的功能/组件
-- 识别通用模式和约定
-- 尽可能使用相同的库/工具
-- 遵循现有的测试模式
+- Find 3 similar features/components
+- Identify common patterns and conventions
+- Use same libraries/utilities when possible
+- Follow existing test patterns
 
-### 工具
+### Tooling
 
-- 使用项目现有的构建系统
-- 使用项目的测试框架
-- 使用项目的格式化/代码检查器设置
-- 没有充分理由不要引入新工具
+- Use project's existing build system
+- Use project's test framework
+- Use project's formatter/linter settings
+- Don't introduce new tools without strong justification
 
-## 质量门禁
+## Quality Gates
 
-### 完成的定义
+### Definition of Done
 
-- [ ] 已编写和通过测试
-- [ ] 代码遵循项目约定
-- [ ] 没有代码检查器/格式化器警告
-- [ ] 提交消息清晰
-- [ ] 实现与计划匹配
-- [ ] 没有无issue编号的TODO
+- [ ] Tests written and passing
+- [ ] Code follows project conventions
+- [ ] No linter/formatter warnings
+- [ ] Commit messages are clear
+- [ ] Implementation matches plan
+- [ ] No TODOs without issue numbers
 
-### 测试指南
+### Test Guidelines
 
-- 测试行为，而不是实现
-- 尽可能每个测试一个断言
-- 清晰的测试名称描述场景
-- 使用现有的测试工具/助手
-- 测试应该是确定性的
+- Test behavior, not implementation
+- One assertion per test when possible
+- Clear test names describing scenario
+- Use existing test utilities/helpers
+- Tests should be deterministic
 
-## 重要提醒
+## Important Reminders
 
-**永远不要**:
-- 使用 `--no-verify` 绕过提交钩子
-- 禁用测试而不是修复它们
-- 提交不能编译的代码
-- 做假设 - 用现有代码验证
+**NEVER**:
+- Use `--no-verify` to bypass commit hooks
+- Disable tests instead of fixing them
+- Commit code that doesn't compile
+- Make assumptions - verify with existing code
 
-**总是**:
-- 增量式提交可工作的代码
-- 进展时更新计划文档
-- 从现有实现中学习
-- 3次失败尝试后停下来重新评估
+**ALWAYS**:
+- Commit working code incrementally
+- Update plan documentation as you go
+- Learn from existing implementations
+- Stop after 3 failed attempts and reassess
 
-本前端特定的CLAUDE.md为UAI教育平台中Vue 3开发提供全面指导，重点关注组件架构、响应式设计和现代JavaScript最佳实践。
+This frontend-specific CLAUDE.md provides comprehensive guidance for Vue 3 development in the UAI Education Platform, focusing on component architecture, responsive design, and modern JavaScript best practices.
