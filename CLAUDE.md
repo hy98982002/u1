@@ -706,6 +706,79 @@ pip install whitenoise       # 静态文件服务
 - "自动化规则：每次前端改动后，使用 Playwright 自动打开浏览器、截图、检查错误，并根据提示中的验收标准调整。"
 
 
+## 企业扩展Feature Flag统一管理
+
+**重要说明**: 为确保前后端一致性，所有企业相关功能必须使用统一的Feature Flag控制。
+
+### Feature Flag命名规范
+
+```python
+# 后端Django Settings (settings.py)
+ENTERPRISE_FLAGS = {
+    'ENTERPRISE_SUBSCRIPTION_ENABLED': False,      # 企业订阅功能
+    'ENTERPRISE_ADMIN_PANEL_ENABLED': False,       # 企业管理后台
+    'ENTERPRISE_SEAT_MANAGEMENT_ENABLED': False,   # 席位管理功能
+    'ENTERPRISE_BULK_PURCHASE_ENABLED': False,     # 批量购买功能
+    'ENTERPRISE_REPORTING_ENABLED': False,         # 企业报表统计
+    'ENTERPRISE_DATA_ISOLATION_ENABLED': False,    # 企业数据隔离
+    'ENTERPRISE_RBAC_ROLE_ENABLED': False,         # Enterprise Admin角色
+}
+```
+
+```typescript
+// 前端配置 (frontend/src/config/featureFlags.ts)
+export const ENTERPRISE_FLAGS = {
+  ENTERPRISE_SUBSCRIPTION_ENABLED: false,      // 企业订阅UI
+  ENTERPRISE_ADMIN_PANEL_ENABLED: false,       // 企业管理面板
+  ENTERPRISE_SEAT_MANAGEMENT_ENABLED: false,   // 席位管理界面
+  ENTERPRISE_BULK_PURCHASE_ENABLED: false,     // 批量购买界面
+  ENTERPRISE_REPORTING_ENABLED: false,         // 企业统计报表
+  ENTERPRISE_DATA_ISOLATION_ENABLED: false,    // 数据隔离逻辑
+  ENTERPRISE_RBAC_ROLE_ENABLED: false,         // 企业角色权限
+} as const;
+```
+
+### 企业版触发条件统一标准
+
+**市场验证阶段触发条件**:
+- 月付费用户数 > 500人
+- 企业主动咨询数 >= 3家
+- 个人会员续费率 > 60%
+
+**满足条件后的行动**:
+1. 启用基础企业功能Flag (ENTERPRISE_SUBSCRIPTION_ENABLED)
+2. 开展2-3家试点企业验证
+3. 收集反馈后决定完整企业版上线
+
+### 使用方式
+
+```python
+# 后端使用示例
+from django.conf import settings
+
+if settings.ENTERPRISE_FLAGS['ENTERPRISE_SUBSCRIPTION_ENABLED']:
+    # 企业订阅逻辑
+    process_enterprise_subscription(user)
+```
+
+```typescript
+// 前端使用示例
+import { ENTERPRISE_FLAGS } from '@/config/featureFlags';
+
+if (ENTERPRISE_FLAGS.ENTERPRISE_ADMIN_PANEL_ENABLED) {
+  // 显示企业管理面板
+  showEnterpriseAdminPanel();
+}
+```
+
+### MVP阶段配置
+
+当前所有企业Flag设置为`false`，确保：
+- 个人用户功能100%不受影响
+- 企业相关UI完全隐藏
+- 企业逻辑预留但不执行
+- 数据库字段预留但不启用
+
 # 文件读取规则
   
   - 只有在读取项目外部文件时才考虑使用MCP filesystem工具
