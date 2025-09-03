@@ -321,6 +321,8 @@ src/assets/
     ├── jingjin-*-cover.jpg   # 进阶课程
     ├── shizhan-*-cover.jpg   # 项目课程
     └── xiangmuluodi-*-cover.png # 企业课程
+    └── employment-logo-cover.png # 就业logo设计课程
+
 ```
 
 ### 图片导入标准
