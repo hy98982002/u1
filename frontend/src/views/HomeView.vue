@@ -7,12 +7,13 @@
     </div>
 
     <!-- 课程专区 -->
-    <!-- 整体移动，让‘精品课程’距离轮播图只有6px -->
+    <!-- 整体移动，让'精品课程'距离轮播图只有6px -->
     <div style="padding-top: 6px">
       <CampSection :show-popular-tags="true" :initial-display-count="8" />
     </div>
 
-
+    <!-- 就业模块 -->
+    <EmploymentSection />
 
 
     <!-- 页脚 -->
@@ -105,6 +106,7 @@
 import { onMounted } from 'vue'
 import HeroCarousel from '../components/HeroCarousel.vue'
 import CampSection from '../components/CampSection.vue'
+import EmploymentSection from '../components/EmploymentSection.vue'
 import { useUIStore } from '../store/uiStore'
 
 // 导入图片资源
