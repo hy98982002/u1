@@ -77,6 +77,12 @@ src/
 │   ├── rbac/                     # RBAC权限控制组件
 │   │   ├── PermissionGate.vue   # 权限门控组件
 │   │   └── RoleGuard.vue        # 角色守卫组件
+│   ├── enterprise/              # 企业功能组件 (Feature Flag控制)
+│   │   ├── EnterpriseAdminPanel.vue # 企业管理面板
+│   │   ├── SeatManagement.vue   # 席位管理组件
+│   │   ├── TeamProgress.vue     # 团队学习进度
+│   │   ├── BulkPurchase.vue     # 批量购买界面
+│   │   └── EnterpriseReports.vue # 企业统计报表
 │   ├── cart/                     # Shopping cart components
 │   ├── order/                    # Order processing components
 │   ├── personCenter/             # Personal dashboard components
@@ -98,6 +104,7 @@ src/
 │   ├── rbacStore.ts             # RBAC权限状态管理
 │   ├── couponStore.ts           # 优惠券状态管理
 │   ├── projectStore.ts          # 项目实战状态管理
+│   ├── enterpriseStore.ts       # 企业功能状态管理 (Feature Flag控制)
 │   ├── uiStore.ts               # UI/UX state
 │   └── seoStore.ts              # SEO状态管理
 ├── api/                          # Axios API wrappers
@@ -109,6 +116,7 @@ src/
 │   ├── rbac.ts                  # RBAC权限管理API
 │   ├── coupon.ts                # 优惠券管理API
 │   ├── project.ts               # 项目实战API
+│   ├── enterprise.ts            # 企业管理API (Feature Flag控制)
 │   └── orders.ts                # Order processing API
 ├── router/                       # Vue Router configuration
 │   └── index.ts                 # Route definitions
@@ -122,6 +130,7 @@ src/
 │   ├── rbac.ts                  # RBAC权限系统类型定义
 │   ├── coupon.ts                # 优惠券系统类型定义
 │   ├── project.ts               # 项目实战类型定义
+│   ├── enterprise.ts            # 企业功能类型定义 (Feature Flag控制)
 │   ├── cart.ts                  # Shopping cart types
 │   ├── order.ts                 # Order types
 │   └── seo.ts                   # SEO类型定义
@@ -132,6 +141,7 @@ src/
 ├── composables/                  # Vue 3 composables
 │   ├── useAnalytics.ts          # 分析统计composable
 │   ├── useRBAC.ts               # RBAC权限检查composable
+│   ├── useEnterprise.ts         # 企业功能composable (Feature Flag控制)
 │   └── useI18n.ts               # 国际化composable (海外版预留)
 ├── assets/                       # Static resources
 │   ├── icons/                   # Logo and icon resources
@@ -141,6 +151,7 @@ src/
 ├── directives/                   # Vue指令
 │   └── rbac.ts                  # 权限控制指令 (v-permission, v-role)
 └── config/                       # Configuration files
+    ├── featureFlags.ts          # Feature Flag统一配置
     ├── baidu.json               # 百度统计配置
     └── i18n/                    # 国际化配置预留 (V1不启用)
         └── zh-CN.json           # 简体中文文案 (结构化管理)
@@ -310,6 +321,8 @@ src/assets/
     ├── jingjin-*-cover.jpg   # 进阶课程
     ├── shizhan-*-cover.jpg   # 项目课程
     └── xiangmuluodi-*-cover.png # 企业课程
+    └── employment-logo-cover.png # 就业logo设计课程
+
 ```
 
 ### 图片导入标准
@@ -572,16 +585,66 @@ export const useRBAC = () => {
 }
 ```
 
+#### 企业功能Feature Flag集成
+```typescript
+// config/featureFlags.ts - 前端Feature Flag配置
+export const ENTERPRISE_FLAGS = {
+  ENTERPRISE_SUBSCRIPTION_ENABLED: false,      // 企业订阅UI
+  ENTERPRISE_ADMIN_PANEL_ENABLED: false,       // 企业管理面板
+  ENTERPRISE_SEAT_MANAGEMENT_ENABLED: false,   // 席位管理界面
+  ENTERPRISE_BULK_PURCHASE_ENABLED: false,     // 批量购买界面
+  ENTERPRISE_REPORTING_ENABLED: false,         // 企业统计报表
+  ENTERPRISE_DATA_ISOLATION_ENABLED: false,    // 数据隔离逻辑
+  ENTERPRISE_RBAC_ROLE_ENABLED: false,         // 企业角色权限
+} as const;
+
+// composables/useEnterprise.ts - 企业功能composable
+import { ENTERPRISE_FLAGS } from '@/config/featureFlags'
+
+export const useEnterprise = () => {
+  const isEnterpriseEnabled = (feature: keyof typeof ENTERPRISE_FLAGS) => {
+    return ENTERPRISE_FLAGS[feature]
+  }
+  
+  const shouldShowEnterpriseUI = () => {
+    return Object.values(ENTERPRISE_FLAGS).some(flag => flag)
+  }
+  
+  return { isEnterpriseEnabled, shouldShowEnterpriseUI }
+}
+```
+
 ```vue
-<!-- 权限控制使用示例 -->
+<!-- 权限控制和企业功能使用示例 -->
 <template>
+  <!-- RBAC权限控制 -->
   <PermissionGate permission="course.edit">
     <button @click="editCourse">编辑课程</button>
   </PermissionGate>
   
+  <!-- 企业功能Feature Flag控制 -->
+  <div v-if="isEnterpriseEnabled('ENTERPRISE_ADMIN_PANEL_ENABLED')">
+    <EnterpriseAdminPanel />
+  </div>
+  
+  <!-- 企业订阅UI控制 -->
+  <div v-if="isEnterpriseEnabled('ENTERPRISE_SUBSCRIPTION_ENABLED')" 
+       class="enterprise-subscription">
+    <h3>企业订阅方案</h3>
+    <BulkPurchase />
+  </div>
+  
   <!-- 或使用指令 -->
   <div v-permission="'member.access'">会员专属内容</div>
 </template>
+
+<script setup lang="ts">
+import { useEnterprise } from '@/composables/useEnterprise'
+import { useRBAC } from '@/composables/useRBAC'
+
+const { isEnterpriseEnabled } = useEnterprise()
+const { hasRole, hasPermission } = useRBAC()
+</script>
 ```
 
 ### 组件开发工作流
@@ -668,6 +731,15 @@ VITE_API_BASE_URL=https://your-railway-backend.up.railway.app/api
 VITE_BAIDU_SITE_ID=xxxxxxxxxx
 VITE_ANALYTICS_TIMEOUT=3000
 VITE_SEO_DEBUG=false
+
+# 企业功能Feature Flag环境变量 (MVP阶段全部为false)
+VITE_ENTERPRISE_SUBSCRIPTION_ENABLED=false
+VITE_ENTERPRISE_ADMIN_PANEL_ENABLED=false
+VITE_ENTERPRISE_SEAT_MANAGEMENT_ENABLED=false
+VITE_ENTERPRISE_BULK_PURCHASE_ENABLED=false
+VITE_ENTERPRISE_REPORTING_ENABLED=false
+VITE_ENTERPRISE_DATA_ISOLATION_ENABLED=false
+VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 ```
 
 ### Vercel部署
@@ -701,6 +773,8 @@ VITE_SEO_DEBUG=false
 - [ ] Props和emits使用TypeScript接口
 - [ ] Pinia存储遵循Composition API模式
 - [ ] 涉及权限的组件正确使用RBAC权限控制
+- [ ] 企业功能组件正确使用Feature Flag控制
+- [ ] 企业相关UI在MVP阶段完全隐藏
 - [ ] 埋点事件遵循命名约定和分阶段计划
 - [ ] SEO组件正确集成结构化数据
 
