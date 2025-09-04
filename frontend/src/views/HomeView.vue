@@ -15,6 +15,8 @@
     <!-- 就业模块 -->
     <EmploymentSection />
 
+    <!-- 作品展示模块 -->
+    <WorksShowSection />
 
     <!-- 页脚 -->
     <footer class="footer py-5">
@@ -107,6 +109,7 @@ import { onMounted } from 'vue'
 import HeroCarousel from '../components/HeroCarousel.vue'
 import CampSection from '../components/CampSection.vue'
 import EmploymentSection from '../components/EmploymentSection.vue'
+import WorksShowSection from '../components/WorksShowSection.vue'
 import { useUIStore } from '../store/uiStore'
 
 // 导入图片资源
