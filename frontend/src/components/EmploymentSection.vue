@@ -10,48 +10,44 @@
           </h2>
         </div>
       </div>
-      
+
       <!-- 就业课程卡片 -->
       <div class="row g-4">
         <!-- AI+logo设计 -->
         <div class="col-lg-6 col-md-6">
           <div class="employment-card">
             <div class="card-image-container">
-              <img 
-                :src="employmentLogoCover" 
-                alt="AI+logo设计课程" 
+              <img
+                :src="employmentLogoCover"
+                alt="AI+logo设计课程"
                 class="img-fluid employment-image"
-              >
+              />
               <!-- 课程信息覆盖层 -->
               <div class="course-overlay">
                 <h3 class="course-title">AI+logo设计</h3>
                 <p class="course-description">上手最快的职业技能，业余时间也赚钱</p>
                 <a href="#" class="course-detail-link">课程详情 ></a>
-                <button class="btn employment-btn" @click="startLearning('logo')">
-                  开始学习
-                </button>
+                <button class="btn employment-btn" @click="startLearning('logo')">开始学习</button>
               </div>
             </div>
           </div>
         </div>
-        
+
         <!-- AI+平面设计 -->
         <div class="col-lg-6 col-md-6">
           <div class="employment-card">
             <div class="card-image-container">
-              <img 
-                :src="employmentUiCover" 
-                alt="AI+平面设计课程" 
+              <img
+                :src="employmentUiCover"
+                alt="AI+平面设计课程"
                 class="img-fluid employment-image"
-              >
+              />
               <!-- 课程信息覆盖层 -->
               <div class="course-overlay">
                 <h3 class="course-title">AI+平面设计</h3>
                 <p class="course-description">用AI智能辅助设计，加速你的职业成长</p>
                 <a href="#" class="course-detail-link">课程详情 ></a>
-                <button class="btn employment-btn" @click="startLearning('ui')">
-                  开始学习
-                </button>
+                <button class="btn employment-btn" @click="startLearning('ui')">开始学习</button>
               </div>
             </div>
           </div>
@@ -128,7 +124,7 @@ const startLearning = (courseType: string) => {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 380px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -143,14 +139,14 @@ const startLearning = (courseType: string) => {
   font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: white;
+  color: #000000;
 }
 
 /* 课程描述样式 */
 .course-description {
   font-size: 1rem;
   margin-bottom: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #5c5b5b;
   line-height: 1.4;
 }
 
@@ -178,10 +174,11 @@ const startLearning = (courseType: string) => {
   font-weight: 500;
   transition: all 0.3s ease;
   position: absolute;
-  bottom: 64px;
+  --button-bottom-offset: -330px; /* 按钮底部偏移量变量，可手动调整 */
+  bottom: var(--button-bottom-offset);
   left: 50%;
   transform: translateX(-50%);
-  min-width: 140px;
+  min-width: 270px;
 }
 
 .employment-btn:hover {
@@ -196,25 +193,25 @@ const startLearning = (courseType: string) => {
   .employment-title {
     font-size: 1.5rem;
   }
-  
+
   .title-sub {
     display: block;
     margin-left: 0 !important;
     margin-top: 0.5rem;
   }
-  
+
   .employment-card {
     margin-bottom: 1rem;
   }
-  
+
   .course-title {
     font-size: 1.5rem;
   }
-  
+
   .course-description {
     font-size: 0.9rem;
   }
-  
+
   .employment-btn {
     bottom: 40px;
     padding: 10px 32px;
@@ -226,15 +223,15 @@ const startLearning = (courseType: string) => {
   .employment-title {
     font-size: 1.25rem;
   }
-  
+
   .course-overlay {
     padding: 1.5rem;
   }
-  
+
   .course-title {
     font-size: 1.3rem;
   }
-  
+
   .employment-btn {
     bottom: 32px;
     padding: 8px 24px;
