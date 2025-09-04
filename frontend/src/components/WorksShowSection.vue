@@ -1,18 +1,18 @@
 <template>
-  <section class="works-show-section py-5" style="margin-top: 57px;">
+  <section class="works-show-section py-5" style="margin-top: 40px">
     <div class="container">
       <!-- 标题 -->
       <div class="row mb-4">
         <div class="col-12">
-          <h2 class="works-title mb-0" style="margin-bottom: 64px !important;">
+          <h2 class="works-title mb-0" style="margin-bottom: 10px !important">
             <span class="title-main">学员作品墙</span>
             <span class="title-sub ms-3">求职面试的敲门砖</span>
           </h2>
         </div>
       </div>
-      
+
       <!-- 作品展示轮播图 -->
-      <div class="works-carousel-wrapper">
+      <div class="works-carousel-wrapper" style="margin-top: 25px">
         <div id="worksCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
           <!-- 轮播指示器 -->
           <div class="carousel-indicators">
@@ -125,13 +125,13 @@ onMounted(() => {
 /* 轮播图容器样式 */
 .works-carousel-wrapper {
   position: relative;
-  height: 725px;
+  height: 525px;
   max-width: 1609px;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  
+
   /* 边缘清晰处理 */
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
@@ -181,7 +181,7 @@ onMounted(() => {
   height: 100%;
   object-fit: cover;
   display: block;
-  
+
   /* 图片边缘锐化 */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
@@ -274,13 +274,13 @@ onMounted(() => {
   .works-title {
     font-size: 1.5rem;
   }
-  
+
   .title-sub {
     display: block;
     margin-left: 0 !important;
     margin-top: 0.5rem;
   }
-  
+
   .works-carousel-wrapper {
     height: 450px;
     margin: 0 15px;
@@ -296,7 +296,7 @@ onMounted(() => {
   .works-title {
     font-size: 1.25rem;
   }
-  
+
   .works-carousel-wrapper {
     height: 350px;
     margin: 0 10px;
