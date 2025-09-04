@@ -22,6 +22,15 @@
                 alt="AI+logo设计课程" 
                 class="img-fluid employment-image"
               >
+              <!-- 课程信息覆盖层 -->
+              <div class="course-overlay">
+                <h3 class="course-title">AI+logo设计</h3>
+                <p class="course-description">上手最快的职业技能，业余时间也赚钱</p>
+                <a href="#" class="course-detail-link">课程详情 ></a>
+                <button class="btn employment-btn" @click="startLearning('logo')">
+                  开始学习
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -35,6 +44,15 @@
                 alt="AI+平面设计课程" 
                 class="img-fluid employment-image"
               >
+              <!-- 课程信息覆盖层 -->
+              <div class="course-overlay">
+                <h3 class="course-title">AI+平面设计</h3>
+                <p class="course-description">用AI智能辅助设计，加速你的职业成长</p>
+                <a href="#" class="course-detail-link">课程详情 ></a>
+                <button class="btn employment-btn" @click="startLearning('ui')">
+                  开始学习
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -47,6 +65,13 @@
 // 导入图片资源
 import employmentLogoCover from '@/assets/images/employment-logo-cover.png'
 import employmentUiCover from '@/assets/images/employment-ui-cover.png'
+
+// 处理开始学习点击事件
+const startLearning = (courseType: string) => {
+  console.log(`开始学习 ${courseType} 课程`)
+  // 这里可以添加导航到具体课程页面的逻辑
+  // 例如: router.push(`/course/employment-${courseType}`)
+}
 </script>
 
 <style scoped>
@@ -97,6 +122,75 @@ import employmentUiCover from '@/assets/images/employment-ui-cover.png'
   border-radius: 12px;
 }
 
+/* 课程信息覆盖层样式 */
+.course-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: white;
+}
+
+/* 课程标题样式 */
+.course-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+/* 课程描述样式 */
+.course-description {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+}
+
+/* 课程详情链接样式 */
+.course-detail-link {
+  color: #4a9eff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  transition: color 0.3s ease;
+}
+
+.course-detail-link:hover {
+  color: #6bb6ff;
+}
+
+/* 就业按钮样式 */
+.employment-btn {
+  background-color: #2b7fd3;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 40px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: absolute;
+  bottom: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 140px;
+}
+
+.employment-btn:hover {
+  background-color: #1a6bb8;
+  color: white;
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 5px 15px rgba(43, 127, 211, 0.4);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .employment-title {
@@ -112,11 +206,40 @@ import employmentUiCover from '@/assets/images/employment-ui-cover.png'
   .employment-card {
     margin-bottom: 1rem;
   }
+  
+  .course-title {
+    font-size: 1.5rem;
+  }
+  
+  .course-description {
+    font-size: 0.9rem;
+  }
+  
+  .employment-btn {
+    bottom: 40px;
+    padding: 10px 32px;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 576px) {
   .employment-title {
     font-size: 1.25rem;
+  }
+  
+  .course-overlay {
+    padding: 1.5rem;
+  }
+  
+  .course-title {
+    font-size: 1.3rem;
+  }
+  
+  .employment-btn {
+    bottom: 32px;
+    padding: 8px 24px;
+    font-size: 0.95rem;
+    min-width: 120px;
   }
 }
 </style>
