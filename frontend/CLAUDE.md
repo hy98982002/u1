@@ -1,22 +1,24 @@
 # CLAUDE.md - 前端开发指南
 
-本文件为Claude Code在UAI教育平台的 `/frontend` 目录中工作时提供前端特定指导。
+本文件为 Claude Code 在多维 AI 课堂的 `/frontend` 目录中工作时提供前端特定指导。
 
 ## 项目概述
 
-UAI教育平台前端 - Vue 3 + TypeScript + Vite构建的在线教育服务应用。仅前端开发上下文，专注于响应式设计、组件架构和现代JavaScript实践。
+多维 AI 课堂前端 - Vue 3 + TypeScript + Vite 构建的在线教育服务应用。仅前端开发上下文，专注于响应式设计、组件架构和现代 JavaScript 实践。
 
 ## 前端技术栈
 
 **核心框架：**
+
 - Vue 3 配合 Composition API + TypeScript
 - Vite 构建工具和开发服务器
-- Bootstrap 5.3.6 UI框架 (禁止使用其他UI框架)
+- Bootstrap 5.3.6 UI 框架 (禁止使用其他 UI 框架)
 - Pinia 状态管理
 - Vue Router 客户端路由
-- Axios API请求
+- Axios API 请求
 
 **开发工具：**
+
 - TypeScript 类型安全
 - ESLint + Prettier 代码质量
 - Vite 快速开发和优化构建
@@ -43,6 +45,7 @@ npm install @types/gtag       # 分析的TypeScript定义
 ## 前端架构
 
 ### 目录结构 (`/frontend/src/`)
+
 ```
 src/
 ├── views/                         # Page-level components (PascalCase)
@@ -56,7 +59,7 @@ src/
 │   │   ├── LoginModal.vue       # Login modal (手机验证码/密码/微信)
 │   │   ├── RegisterForm.vue     # Registration form
 │   │   └── WeChatLogin.vue      # WeChat OAuth component
-│   ├── course/                   # Course-related components  
+│   ├── course/                   # Course-related components
 │   │   ├── CourseCard.vue       # Course display card
 │   │   ├── CourseStage.vue      # 分层课程展示组件
 │   │   ├── LearningProgress.vue # Learning progress tracker
@@ -157,21 +160,24 @@ src/
         └── zh-CN.json           # 简体中文文案 (结构化管理)
 ```
 
-### 后端API集成
-- **基础URL**: `http://localhost:8000/api/` (开发环境)
-- **生产URL**: Railway后端URL (通过环境变量配置)
-- **身份验证**: JWT令牌通过Axios拦截器自动附加
-- **响应格式**: 所有API返回 `{ status, data, msg }` 结构
+### 后端 API 集成
+
+- **基础 URL**: `http://localhost:8000/api/` (开发环境)
+- **生产 URL**: Railway 后端 URL (通过环境变量配置)
+- **身份验证**: JWT 令牌通过 Axios 拦截器自动附加
+- **响应格式**: 所有 API 返回 `{ status, data, msg }` 结构
 
 ## 开发约定
 
 ### Vue 3 编码标准
-- **仅Composition API**: 严格禁止使用Options API
-- **TypeScript必需**: 所有 `.vue` 文件必须使用 `<script setup lang="ts">`
-- **组件命名**: 所有组件使用PascalCase (如：`UserProfile.vue`)
-- **Props/Emits**: 使用TypeScript接口定义props
+
+- **仅 Composition API**: 严格禁止使用 Options API
+- **TypeScript 必需**: 所有 `.vue` 文件必须使用 `<script setup lang="ts">`
+- **组件命名**: 所有组件使用 PascalCase (如：`UserProfile.vue`)
+- **Props/Emits**: 使用 TypeScript 接口定义 props
 
 **推荐的组件结构：**
+
 ```vue
 <template>
   <!-- 优先使用Bootstrap工具类 -->
@@ -204,9 +210,7 @@ const loading = ref(false)
 const authStore = useAuthStore()
 
 // 计算属性
-const displayTitle = computed(() => 
-  props.title.toUpperCase()
-)
+const displayTitle = computed(() => props.title.toUpperCase())
 
 // 生命周期
 onMounted(() => {
@@ -219,7 +223,8 @@ onMounted(() => {
 </style>
 ```
 
-### 使用Pinia进行状态管理
+### 使用 Pinia 进行状态管理
+
 ```typescript
 // store/authStore.ts
 import { defineStore } from 'pinia'
@@ -254,16 +259,18 @@ export const useAuthStore = defineStore('auth', () => {
 })
 ```
 
-## UI/UX指南
+## UI/UX 指南
 
 ### Bootstrap 5.3.6 使用
-- **工具类优先**: 优先使用Bootstrap工具类而非自定义CSS
+
+- **工具类优先**: 优先使用 Bootstrap 工具类而非自定义 CSS
 - **网格系统**: 使用 `row` 和 `col-*` 类进行响应式布局
-- **组件**: 利用Bootstrap组件(按钮、卡片、模态框)
-- **自定义样式**: 仅在Bootstrap无法实现设计时才添加自定义CSS
+- **组件**: 利用 Bootstrap 组件(按钮、卡片、模态框)
+- **自定义样式**: 仅在 Bootstrap 无法实现设计时才添加自定义 CSS
 
 ### 响应式设计标准
-- **移动端优先**: 所有组件必须在≤768px屏幕上正常工作
+
+- **移动端优先**: 所有组件必须在 ≤768px 屏幕上正常工作
 - **断点**:
   - `xs`: <576px (手机)
   - `sm`: ≥576px (手机横屏)
@@ -272,7 +279,8 @@ export const useAuthStore = defineStore('auth', () => {
   - `xl`: ≥1200px (大桌面)
   - `xxl`: ≥1400px (超大屏幕)
 
-### Mac设备优化
+### Mac 设备优化
+
 ```css
 /* Mac特定响应式处理 */
 @media (min-width: 1440px) and (-webkit-min-device-pixel-ratio: 2) {
@@ -285,6 +293,7 @@ export const useAuthStore = defineStore('auth', () => {
 ```
 
 ### 字体清晰度系统
+
 **核心原则**: 层分离架构确保文本内容保持在清晰层，而毛玻璃效果仅应用于背景层。
 
 ```css
@@ -310,6 +319,7 @@ body {
 ## 图片资源管理
 
 ### 资源目录结构
+
 ```
 src/assets/
 ├── icons/                    # Logo和图标资源
@@ -326,7 +336,8 @@ src/assets/
 ```
 
 ### 图片导入标准
-**始终使用import语句，永远不用字符串路径：**
+
+**始终使用 import 语句，永远不用字符串路径：**
 
 ```vue
 <script setup lang="ts">
@@ -337,15 +348,16 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 
 <template>
   <!-- ✅ 使用导入的变量 -->
-  <img :src="logoImg" alt="UAI Logo" />
+  <img :src="logoImg" alt="doviai Logo" />
   <img :src="courseCover" alt="Python Course" />
-  
+
   <!-- ❌ 避免字符串路径 -->
   <!-- <img src="@/assets/icons/logo.png" alt="Logo" /> -->
 </template>
 ```
 
 ### 课程图片命名约定
+
 - **文件前缀必须与课程阶段匹配**:
   - `tiyan-` → `stage: 'free'` (免费体验)
   - `rumen-` → `stage: 'basic'` (基础级别)
@@ -356,9 +368,10 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 ## 国内版语言策略
 
 ### V1.0 简化策略
+
 - **目标市场**: 专注中国大陆用户
 - **语言支持**: 仅简体中文，无繁简转换
-- **性能优势**: 移除转换开销，提升页面加载速度15-20%
+- **性能优势**: 移除转换开销，提升页面加载速度 15-20%
 - **未来规划**: 海外版将独立开发，支持完整国际化
 
 ```javascript
@@ -367,9 +380,11 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 ```
 
 ### 国际化预留架构
-虽然V1.0专注国内版，但为未来海外版预留基础结构：
+
+虽然 V1.0 专注国内版，但为未来海外版预留基础结构：
+
 - `config/i18n/zh-CN.json`: 结构化文案管理，利于后期替换
-- `composables/useI18n.ts`: 国际化composable预留接口
+- `composables/useI18n.ts`: 国际化 composable 预留接口
 - `components/i18n/LanguageSwitcher.vue`: 语言切换组件预留
 - 组件中统一通过 `$t('key')` 访问文案（当前直接返回中文）
 
@@ -383,6 +398,7 @@ const useI18n = () => ({
 ## 分析和跟踪
 
 ### 国内版统一策略
+
 - **分析工具**: 仅使用百度统计 (避免国际工具的网络问题)
 - **目标用户**: 中国大陆用户，无需复杂的地区判断
 - **性能优化**: 单一分析服务，减少加载时间和复杂度
@@ -394,50 +410,58 @@ export const useAnalytics = () => {
   const trackEvent = (eventName: string, eventData?: Record<string, any>) => {
     // 仅使用百度统计，简化实现
     window._hmt?.push(['_trackEvent', eventName, eventData])
-    
+
     // 添加自定义事件到本地存储供后续分析
     const customEvent = {
       event: eventName,
       data: eventData,
       timestamp: Date.now()
     }
-    
+
     // 可选：发送到后端进行业务分析
     // api.trackEvent(customEvent)
   }
-  
+
   return { trackEvent }
 }
 ```
 
 ### 事件跟踪标准
+
 - **命名约定**: `module.action.state` (如: `video.play.start`)
 - **数据属性**: 为可跟踪元素添加 `data-track` 属性
 
 ### 埋点分阶段实施计划
+
 **阶段一：注册与登录转化路径**
+
 - `user.register`, `user.login`, `user.logout`, `user.wechat_bind`
 - 目标：优化注册转化率
 
-**阶段二：试听与课程探索路径** 
+**阶段二：试听与课程探索路径**
+
 - `course.trial.start`, `course.view`, `stage.tiyan.enter`, `faq.click`
 - 目标：提升免费用户到付费的转化
 
 **阶段三：购买与会员转化路径**
-- `cart.add`, `payment.success`, `membership.subscribe`, `coupon.apply` 
+
+- `cart.add`, `payment.success`, `membership.subscribe`, `coupon.apply`
 - 目标：优化付费转化和会员订阅
 
 **阶段四：学习行为深度分析**
+
 - `video.play.start/pause/end`, `course.progress.update`, `learning.complete`
 - 目标：提升课程完成率和用户留存
 
-**阶段五：SEO/AEO效果跟踪**
+**阶段五：SEO/AEO 效果跟踪**
+
 - `search.from.baidu`, `course.view.from.seo`, `content.share`
-- 目标：评估SEO流量质量和内容传播效果
+- 目标：评估 SEO 流量质量和内容传播效果
 
-## API集成
+## API 集成
 
-### Axios配置
+### Axios 配置
+
 ```typescript
 // api/index.ts
 import axios from 'axios'
@@ -474,7 +498,8 @@ request.interceptors.response.use(
 )
 ```
 
-### API服务模式
+### API 服务模式
+
 ```typescript
 // api/courses.ts
 import request from './index'
@@ -501,9 +526,10 @@ export const courseAPI = {
 ## 常见开发任务
 
 ### 添加新功能
-1. 在 `src/api/` 中**创建API服务**，遵循nREST约定
-2. 在 `src/types/` 中**定义TypeScript类型**用于数据结构
-3. 在 `src/store/` 中**实现Pinia存储**用于状态管理
+
+1. 在 `src/api/` 中**创建 API 服务**，遵循 nREST 约定
+2. 在 `src/types/` 中**定义 TypeScript 类型**用于数据结构
+3. 在 `src/store/` 中**实现 Pinia 存储**用于状态管理
 4. 在 `src/components/` 中**构建可复用组件**，使用正确命名
 5. 在 `src/views/` 中**创建页面组件**，使用现有模式
 6. 在 `src/router/index.ts` 中**更新路由配置**以支持新路由
@@ -511,20 +537,17 @@ export const courseAPI = {
 ### 核心业务功能开发重点
 
 #### 多登录方式实现
+
 ```vue
 <!-- components/auth/LoginModal.vue -->
 <template>
   <div class="login-options">
     <!-- 手机验证码登录 -->
-    <button @click="loginWithSMS" class="btn btn-primary">
-      手机验证码登录
-    </button>
-    
+    <button @click="loginWithSMS" class="btn btn-primary">手机验证码登录</button>
+
     <!-- 手机密码登录 -->
-    <button @click="loginWithPassword" class="btn btn-outline-primary">
-      密码登录
-    </button>
-    
+    <button @click="loginWithPassword" class="btn btn-outline-primary">密码登录</button>
+
     <!-- 微信登录 -->
     <WeChatLogin @success="handleWeChatLogin" />
   </div>
@@ -532,17 +555,20 @@ export const courseAPI = {
 ```
 
 #### 分层课程体系展示
+
 ```vue
 <!-- components/course/CourseStage.vue -->
 <template>
   <div class="course-stages">
     <!-- 7层课程展示 -->
-    <div v-for="stage in courseStages" :key="stage.id" 
-         :class="['stage-card', { 'locked': !stage.unlocked }]">
+    <div
+      v-for="stage in courseStages"
+      :key="stage.id"
+      :class="['stage-card', { locked: !stage.unlocked }]"
+    >
       <h3>{{ stage.name }}</h3>
       <div class="courses">
-        <CourseCard v-for="course in stage.courses" 
-                    :key="course.id" :course="course" />
+        <CourseCard v-for="course in stage.courses" :key="course.id" :course="course" />
       </div>
     </div>
   </div>
@@ -550,28 +576,30 @@ export const courseAPI = {
 ```
 
 #### 会员系统集成
+
 ```typescript
 // store/membershipStore.ts
 export const useMembershipStore = defineStore('membership', () => {
   const membershipStatus = ref<'none' | 'monthly' | 'yearly'>('none')
   const membershipExpiry = ref<Date | null>(null)
-  
+
   const isMember = computed(() => membershipStatus.value !== 'none')
   const canAccessCourse = computed(() => (courseStage: string) => {
     if (courseStage === 'tiyan') return true // 体验区免费
     return isMember.value // 其他区域需要会员
   })
-  
+
   return { membershipStatus, isMember, canAccessCourse }
 })
 ```
 
-#### RBAC权限系统集成
+#### RBAC 权限系统集成
+
 ```typescript
 // composables/useRBAC.ts - 简化权限检查
 export const useRBAC = () => {
   const rbacStore = useRBACStore()
-  
+
   const hasRole = (role: string) => rbacStore.userRoles.includes(role)
   const hasPermission = (permission: string) => rbacStore.permissions.includes(permission)
   const canAccessCourse = (courseStage: string) => {
@@ -580,23 +608,24 @@ export const useRBAC = () => {
     if (hasRole('Premium Member')) return courseStage !== 'employment'
     return hasRole('Staff Admin') || hasRole('Super Admin')
   }
-  
+
   return { hasRole, hasPermission, canAccessCourse }
 }
 ```
 
-#### 企业功能Feature Flag集成
+#### 企业功能 Feature Flag 集成
+
 ```typescript
 // config/featureFlags.ts - 前端Feature Flag配置
 export const ENTERPRISE_FLAGS = {
-  ENTERPRISE_SUBSCRIPTION_ENABLED: false,      // 企业订阅UI
-  ENTERPRISE_ADMIN_PANEL_ENABLED: false,       // 企业管理面板
-  ENTERPRISE_SEAT_MANAGEMENT_ENABLED: false,   // 席位管理界面
-  ENTERPRISE_BULK_PURCHASE_ENABLED: false,     // 批量购买界面
-  ENTERPRISE_REPORTING_ENABLED: false,         // 企业统计报表
-  ENTERPRISE_DATA_ISOLATION_ENABLED: false,    // 数据隔离逻辑
-  ENTERPRISE_RBAC_ROLE_ENABLED: false,         // 企业角色权限
-} as const;
+  ENTERPRISE_SUBSCRIPTION_ENABLED: false, // 企业订阅UI
+  ENTERPRISE_ADMIN_PANEL_ENABLED: false, // 企业管理面板
+  ENTERPRISE_SEAT_MANAGEMENT_ENABLED: false, // 席位管理界面
+  ENTERPRISE_BULK_PURCHASE_ENABLED: false, // 批量购买界面
+  ENTERPRISE_REPORTING_ENABLED: false, // 企业统计报表
+  ENTERPRISE_DATA_ISOLATION_ENABLED: false, // 数据隔离逻辑
+  ENTERPRISE_RBAC_ROLE_ENABLED: false // 企业角色权限
+} as const
 
 // composables/useEnterprise.ts - 企业功能composable
 import { ENTERPRISE_FLAGS } from '@/config/featureFlags'
@@ -605,11 +634,11 @@ export const useEnterprise = () => {
   const isEnterpriseEnabled = (feature: keyof typeof ENTERPRISE_FLAGS) => {
     return ENTERPRISE_FLAGS[feature]
   }
-  
+
   const shouldShowEnterpriseUI = () => {
     return Object.values(ENTERPRISE_FLAGS).some(flag => flag)
   }
-  
+
   return { isEnterpriseEnabled, shouldShowEnterpriseUI }
 }
 ```
@@ -621,19 +650,21 @@ export const useEnterprise = () => {
   <PermissionGate permission="course.edit">
     <button @click="editCourse">编辑课程</button>
   </PermissionGate>
-  
+
   <!-- 企业功能Feature Flag控制 -->
   <div v-if="isEnterpriseEnabled('ENTERPRISE_ADMIN_PANEL_ENABLED')">
     <EnterpriseAdminPanel />
   </div>
-  
+
   <!-- 企业订阅UI控制 -->
-  <div v-if="isEnterpriseEnabled('ENTERPRISE_SUBSCRIPTION_ENABLED')" 
-       class="enterprise-subscription">
+  <div
+    v-if="isEnterpriseEnabled('ENTERPRISE_SUBSCRIPTION_ENABLED')"
+    class="enterprise-subscription"
+  >
     <h3>企业订阅方案</h3>
     <BulkPurchase />
   </div>
-  
+
   <!-- 或使用指令 -->
   <div v-permission="'member.access'">会员专属内容</div>
 </template>
@@ -648,23 +679,26 @@ const { hasRole, hasPermission } = useRBAC()
 ```
 
 ### 组件开发工作流
-1. **研究现有模式** - 找到3个类似组件作为参考
-2. **设计组件props** - 使用TypeScript接口
-3. **实现Composition API** - 使用 `<script setup lang="ts">`
-4. **应用Bootstrap类** - 最小化自定义CSS
+
+1. **研究现有模式** - 找到 3 个类似组件作为参考
+2. **设计组件 props** - 使用 TypeScript 接口
+3. **实现 Composition API** - 使用 `<script setup lang="ts">`
+4. **应用 Bootstrap 类** - 最小化自定义 CSS
 5. **测试响应式** - 在手机、平板、桌面上验证
-6. **添加可访问性** - 包含适当的ARIA属性和alt文本
+6. **添加可访问性** - 包含适当的 ARIA 属性和 alt 文本
 
 ### 状态管理最佳实践
+
 - **单一责任** - 每个存储处理一个域(身份验证、课程等)
-- **Composition API风格** - 使用 `defineStore()` 配合setup函数
-- **计算属性** - 使用Vue的 `computed()` 处理派生状态
+- **Composition API 风格** - 使用 `defineStore()` 配合 setup 函数
+- **计算属性** - 使用 Vue 的 `computed()` 处理派生状态
 - **持久化** - 对关键数据使用 `localStorage`/`sessionStorage`
 - **错误处理** - 包含加载状态和错误管理
 
 ## 性能优化
 
 ### 代码分割和懒加载
+
 ```typescript
 // router/index.ts - 懒加载页面组件
 const routes = [
@@ -682,12 +716,14 @@ const routes = [
 ```
 
 ### 图片优化
-- **格式选择**: 使用WebP带回退，PNG用于图标
-- **导入策略**: 始终将图片作为模块导入以进行Vite优化
+
+- **格式选择**: 使用 WebP 带回退，PNG 用于图标
+- **导入策略**: 始终将图片作为模块导入以进行 Vite 优化
 - **响应式图片**: 为不同屏幕密度使用 `srcset`
 - **懒加载**: 为课程图片实现懒加载
 
 ### 打包优化
+
 ```typescript
 // vite.config.ts - 国内版优化构建配置
 export default defineConfig({
@@ -696,7 +732,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['vue', 'vue-router', 'pinia'],
-          utils: ['axios']  // 简化依赖，提升加载速度
+          utils: ['axios'] // 简化依赖，提升加载速度
         }
       }
     }
@@ -707,24 +743,29 @@ export default defineConfig({
 ## 安全考虑
 
 ### 前端安全
-- **环境变量**: 使用 `.env` 文件，永远不要硬编码API密钥
-- **XSS防护**: 清洗用户输入，使用 `v-text` 而非 `v-html`
-- **CSRF保护**: Axios自动处理CSRF令牌
-- **JWT存储**: 在localStorage中安全存储令牌并设置过期时间
+
+- **环境变量**: 使用 `.env` 文件，永远不要硬编码 API 密钥
+- **XSS 防护**: 清洗用户输入，使用 `v-text` 而非 `v-html`
+- **CSRF 保护**: Axios 自动处理 CSRF 令牌
+- **JWT 存储**: 在 localStorage 中安全存储令牌并设置过期时间
 
 ### 内容安全策略
+
 ```html
 <!-- 国内版CSP配置 - 仅允许百度统计 -->
-<meta http-equiv="Content-Security-Policy" 
-      content="default-src 'self'; 
+<meta
+  http-equiv="Content-Security-Policy"
+  content="default-src 'self'; 
                script-src 'self' 'unsafe-inline' *.baidu.com hm.baidu.com;
                style-src 'self' 'unsafe-inline';
-               img-src 'self' data: https:;">
+               img-src 'self' data: https:;"
+/>
 ```
 
 ## 部署配置
 
 ### 环境变量
+
 ```bash
 # .env.production - 国内版简化配置
 VITE_API_BASE_URL=https://your-railway-backend.up.railway.app/api
@@ -742,7 +783,8 @@ VITE_ENTERPRISE_DATA_ISOLATION_ENABLED=false
 VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 ```
 
-### Vercel部署
+### Vercel 部署
+
 - **框架预设**: Vite
 - **构建命令**: `npm run build`
 - **输出目录**: `dist`
@@ -751,48 +793,54 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 ## 开发理念
 
 ### 核心原则
+
 - **渐进式开发**: 小的、可测试的变更优于大重写
 - **组件可复用性**: 一次构建，处处使用
 - **性能优先**: 为用户体验进行优化
-- **类型安全**: 利用TypeScript减少运行时错误
+- **类型安全**: 利用 TypeScript 减少运行时错误
 
 ### 决策框架
+
 在多个方法之间选择时：
+
 1. **可测试性** - 这能轻松进行单元测试吗？
-2. **可维护性** - 6个月后这会被理解吗？
+2. **可维护性** - 6 个月后这会被理解吗？
 3. **性能** - 这会影响用户体验吗？
 4. **一致性** - 这符合现有模式吗？
 5. **简单性** - 这是可行的最简单解决方案吗？
 
 ### 质量门禁
-- [ ] TypeScript编译无错误通过
+
+- [ ] TypeScript 编译无错误通过
 - [ ] 所有组件都是响应式的(手机、平板、桌面)
-- [ ] 图片使用适当的import语句
-- [ ] 组件遵循PascalCase命名
-- [ ] 优先使用Bootstrap工具类而非自定义CSS
-- [ ] Props和emits使用TypeScript接口
-- [ ] Pinia存储遵循Composition API模式
-- [ ] 涉及权限的组件正确使用RBAC权限控制
-- [ ] 企业功能组件正确使用Feature Flag控制
-- [ ] 企业相关UI在MVP阶段完全隐藏
+- [ ] 图片使用适当的 import 语句
+- [ ] 组件遵循 PascalCase 命名
+- [ ] 优先使用 Bootstrap 工具类而非自定义 CSS
+- [ ] Props 和 emits 使用 TypeScript 接口
+- [ ] Pinia 存储遵循 Composition API 模式
+- [ ] 涉及权限的组件正确使用 RBAC 权限控制
+- [ ] 企业功能组件正确使用 Feature Flag 控制
+- [ ] 企业相关 UI 在 MVP 阶段完全隐藏
 - [ ] 埋点事件遵循命名约定和分阶段计划
-- [ ] SEO组件正确集成结构化数据
+- [ ] SEO 组件正确集成结构化数据
 
 ## 重要提醒
 
 **始终:**
+
 - 将图片作为模块导入，永远不用字符串路径
-- 使用Composition API配合 `<script setup lang="ts">`
-- 优先使用Bootstrap工具类而非自定义CSS
+- 使用 Composition API 配合 `<script setup lang="ts">`
+- 优先使用 Bootstrap 工具类而非自定义 CSS
 - 在多个屏幕尺寸上测试组件
-- 所有Vue组件遵循PascalCase命名
+- 所有 Vue 组件遵循 PascalCase 命名
 
 **永远不要:**
-- 使用Options API(项目中禁止)
-- 硬编码API URL或敏感数据
+
+- 使用 Options API(项目中禁止)
+- 硬编码 API URL 或敏感数据
 - 在组件/文件名中混合中英文
 - 使用字符串路径导入图片
-- 跳过TypeScript类型定义
+- 跳过 TypeScript 类型定义
 
 ## Development Philosophy
 
@@ -800,7 +848,7 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 
 > **标准工作流**: 规划 -> 写测试 -> 实现 -> 重构 -> 提交。
 
-> **"卡住怎么办"预案**: 尝试3次失败后，必须停下来，记录失败、研究替代方案、反思根本问题。
+> **"卡住怎么办"预案**: 尝试 3 次失败后，必须停下来，记录失败、研究替代方案、反思根本问题。
 
 > **决策框架**: 当有多种方案时，按可测试性 > 可读性 > 一致性 > 简单性的顺序选择。
 
@@ -826,15 +874,17 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 
 ### 1. 计划和分阶段
 
-将复杂工作分解3-5个阶段。在 `IMPLEMENTATION_PLAN.md` 中文档化：
+将复杂工作分解 3-5 个阶段。在 `IMPLEMENTATION_PLAN.md` 中文档化：
 
 ```markdown
 ## 阶段 N: [名称]
+
 **目标**: [具体交付物]
 **成功标准**: [可测试结果]
 **测试**: [具体测试用例]
 **状态**: [未开始|进行中|完成]
 ```
+
 - 进展时更新状态
 - 所有阶段完成时删除文件
 
@@ -846,20 +896,23 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 4. **重构** - 在测试通过的情况下清理代码
 5. **提交** - 带有清晰的消息链接到计划
 
-### 3. 遇到困难时(尝试3次后)
+### 3. 遇到困难时(尝试 3 次后)
 
-**关键**: 每个问题最多尝试3次，然后停下。
+**关键**: 每个问题最多尝试 3 次，然后停下。
 
 1. **记录失败原因**:
+
    - 你尝试了什么
    - 具体的错误消息
    - 你认为失败的原因
 
 2. **研究替代方案**:
-   - 找到2-3个类似的实现
+
+   - 找到 2-3 个类似的实现
    - 注意使用的不同方法
 
 3. **质疑基础**:
+
    - 这是正确的抽象层级吗？
    - 这能分解为更小的问题吗？
    - 有更简单的方法吗？
@@ -881,6 +934,7 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 ### 代码质量
 
 - **每次提交必须**:
+
   - 编译成功
   - 通过所有现有测试
   - 包含新功能的测试
@@ -903,7 +957,7 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 当存在多个有效方法时，按以下顺序选择：
 
 1. **可测试性** - 我能轻松测试这个吗？
-2. **可读性** - 6个月后有人能理解这个吗？
+2. **可读性** - 6 个月后有人能理解这个吗？
 3. **一致性** - 这符合项目模式吗？
 4. **简单性** - 这是可行的最简单解决方案吗？
 5. **可逆性** - 后续变更有多难？
@@ -912,7 +966,7 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 
 ### 学习代码库
 
-- 找到3个类似的功能/组件
+- 找到 3 个类似的功能/组件
 - 识别通用模式和约定
 - 尽可能使用相同的库/工具
 - 遵循现有的测试模式
@@ -933,7 +987,7 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 - [ ] 没有代码检查器/格式化器警告
 - [ ] 提交消息清晰
 - [ ] 实现与计划匹配
-- [ ] 没有无issue编号的TODO
+- [ ] 没有无 issue 编号的 TODO
 
 ### 测试指南
 
@@ -946,15 +1000,17 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 ## 重要提醒
 
 **永远不要**:
+
 - 使用 `--no-verify` 绕过提交钩子
 - 禁用测试而不是修复它们
 - 提交不能编译的代码
 - 做假设 - 用现有代码验证
 
 **总是**:
+
 - 增量式提交可工作的代码
 - 进展时更新计划文档
 - 从现有实现中学习
-- 3次失败尝试后停下来重新评估
+- 3 次失败尝试后停下来重新评估
 
-本前端特定的CLAUDE.md为UAI教育平台中Vue 3开发提供全面指导，重点关注组件架构、响应式设计和现代JavaScript最佳实践。
+本前端特定的 CLAUDE.md 为多维 AI 课堂中 Vue 3 开发提供全面指导，重点关注组件架构、响应式设计和现代 JavaScript 最佳实践。
