@@ -1,6 +1,6 @@
 // 课程阶段枚举 - 统一管理所有可能的阶段
 export const STAGES = {
-  free: '体验',
+  free: '免费',
   basic: '入门',
   advanced: '精进',
   project: '实战',
@@ -30,7 +30,7 @@ export type CourseCardTemplate =
 
 // 课程卡片模板配置
 export interface CourseCardConfig {
-  level: string // 等级标签 (体验、入门、精进、实战等)
+  level: string // 等级标签 (免费、入门、精进、实战等)
   priceRange: [number, number] // 价格范围 [最小值, 最大值]
   learnerRange: [number, number] // 学员数范围
   isFree: boolean // 是否免费
@@ -41,7 +41,7 @@ export interface CourseCardConfig {
 // 课程卡片模板映射
 export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig> = {
   tiyan: {
-    level: '体验',
+    level: '免费',
     priceRange: [0, 0],
     learnerRange: [180, 280],
     isFree: true,

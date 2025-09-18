@@ -28,7 +28,7 @@
     <!-- 页脚 -->
     <footer class="mt-5 py-4 text-center text-white">
       <div class="container">
-        <p class="mb-0">&copy; 2024 UAI教育平台. 保留所有权利.</p>
+        <p class="mb-0">&copy; 2025 多维AI课堂. 保留所有权利.</p>
       </div>
     </footer>
   </div>
