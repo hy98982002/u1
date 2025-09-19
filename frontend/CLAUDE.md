@@ -326,11 +326,12 @@ src/assets/
 │   ├── logo.png
 │   └── logo.svg
 └── images/                   # 业务图片
-    ├── tiyan-*-cover.jpg     # 免费体验课程
-    ├── rumen-*-cover.jpg     # 基础课程
-    ├── jingjin-*-cover.jpg   # 进阶课程
-    ├── shizhan-*-cover.jpg   # 项目课程
-    └── xiangmuluodi-*-cover.png # 企业课程
+    ├── free-*-cover.jpg     # 免费体验课程
+    ├── beginner-*-cover.jpg     # 基础课程
+    ├── advanced-*-cover.jpg   # 进阶课程
+    ├── hands-on-*-cover.jpg   # 项目课程
+    └── project-*-cover.png # 企业课程
+    |__ vip-*-cover.png # 会员课程
     └── employment-logo-cover.png # 就业logo设计课程
 
 ```
@@ -359,11 +360,11 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 ### 课程图片命名约定
 
 - **文件前缀必须与课程阶段匹配**:
-  - `tiyan-` → `stage: 'free'` (免费体验)
-  - `rumen-` → `stage: 'basic'` (基础级别)
-  - `jingjin-` → `stage: 'advanced'` (进阶级别)
-  - `shizhan-` → `stage: 'project'` (项目级别)
-  - `xiangmuluodi-` → `stage: 'landing'` (企业级别)
+  - `free-` → `stage: 'free'` (免费体验)
+  - `beginner-` → `stage: 'basic'` (基础级别)
+  - `advanced-` → `stage: 'advanced'` (进阶级别)
+  - `hands-on-` → `stage: 'project'` (项目级别)
+  - `project-` → `stage: 'landing'` (企业级别)
 
 ## 国内版语言策略
 
