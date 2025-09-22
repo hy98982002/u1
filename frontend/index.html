@@ -2,12 +2,29 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/img/logo.png" />
+    <link rel="icon" type="image/svg+xml" href="/img/logo.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo-universal-favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/logo-universal-favicon-16.png" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UAI教育平台 - 专业的在线技术培训</title>
+
+    <!-- iOS PWA 支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- PWA 入口 -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#166d84" />
+
+    <!-- iOS 图标（可选） -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- SEO 基础信息 -->
+    <title>多维AI课堂 - 专业的在线技术培训</title>
+
     <meta
       name="description"
-      content="UAI教育平台提供Python、前端、AI等专业技术培训课程，助力你的职业发展"
+      content="doviai提供Python、前端、AI等专业技术培训课程，助力你的职业发展"
     />
     <meta
       name="keywords"
@@ -34,5 +51,17 @@
 
     <!-- Vue App -->
     <script type="module" src="/src/main.ts"></script>
+
+    <!-- 为PWA 注册 Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .then(reg => console.log('SW 注册成功: ', reg.scope))
+            .catch(err => console.warn('SW 注册失败: ', err))
+        })
+      }
+    </script>
   </body>
 </html>

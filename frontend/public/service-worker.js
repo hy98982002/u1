@@ -38,8 +38,9 @@ const isNavigationRequest = req =>
   req.mode === 'navigate' ||
   (req.method === 'GET' && req.headers.get('accept')?.includes('text/html'))
 
-// 工具：判断图片
-const isImage = req => req.destination === 'image' || /\.(png|jpg|jpeg|webp|gif|svg)$/.test(req.url)
+// 工具：判断图片（包含 ico）
+const isImage = req =>
+  req.destination === 'image' || /\.(png|jpg|jpeg|webp|gif|svg|ico)$/.test(req.url)
 
 // 工具：判断 API（示例匹配，可按你域名调整）
 const isAPI = req => /api\.doviai\.com/.test(req.url)
