@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import logoImg from '@/assets/icons/logo.png'
 
 // 定义emits
 const emit = defineEmits(['openLoginModal', 'openRegisterModal'])
@@ -112,7 +111,27 @@ onUnmounted(() => {
     <!-- 添加可调节的左右内边距容器 -->
     <div class="container-fluid custom-container">
       <a class="navbar-brand" href="javascript:void(0);">
-        <img alt="UAI Logo" class="logo-img" :src="logoImg" />
+        <picture>
+          <!-- 优先加载 WebP 格式 (只使用存在的文件) -->
+          <source
+            srcset="
+              /images/logo/logo-pc-main-2x.webp 1x,
+              /images/logo/logo-pc-main-2x.webp 2x,
+              /images/logo/logo-pc-main-3x.webp 3x
+            "
+            type="image/webp"
+          />
+
+          <!-- 兼容不支持 WebP 的浏览器 -->
+          <img
+            src="/images/logo/logo-pc-main-1x.png"
+            srcset="/images/logo/logo-pc-main-2x.png 2x, /images/logo/logo-pc-main-3x.png 3x"
+            alt="Doviai Logo"
+            width="120"
+            height="40"
+            class="logo-img"
+          />
+        </picture>
       </a>
 
       <!-- 小屏幕时显示在右侧的登录注册按钮 -->
@@ -348,7 +367,7 @@ onUnmounted(() => {
 }
 
 .logo-img {
-  height: 28px; /* 调整logo高度 */
+  height: 38px; /* 调整logo高度 */
   width: auto;
   transition: transform 0.3s ease;
   margin-top: -10px; /* 向下微调位置 */
