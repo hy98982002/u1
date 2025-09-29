@@ -2,16 +2,16 @@ import { defineStore } from 'pinia'
 import type { Course, StageKey } from '../types'
 
 // 导入图片资源
-import freeXuhuanCover from '@/assets/images/courses/free-xuhuan-cover-480.webp'
+import freeunrealCover from '@/assets/images/courses/free-unreal-cover-480.webp'
 import freePhotoshopCover from '@/assets/images/courses/free-photoshop-cover-480.webp'
 import beginnerPythonCover from '@/assets/images/courses/beginner-python-cover-480.webp'
-import beginnerXuhuanCover from '@/assets/images/courses/beginner-xuhuan-cover-480.webp'
+import beginnerunrealCover from '@/assets/images/courses/beginner-unreal-cover-480.webp'
 import beginnerPhotoshopCover from '@/assets/images/courses/beginner-photoshop-cover-480.webp'
 import advancedPythonCover from '@/assets/images/courses/advanced-python-cover-480.webp'
-import advancedXuhuanCover from '@/assets/images/courses/advanced-xuhuan-cover-480.webp'
+import advancedunrealCover from '@/assets/images/courses/advanced-unreal-cover-480.webp'
 import advancedPhotoshopCover from '@/assets/images/courses/advanced-photoshop-cover-480.webp'
 import handsOnPythonCover from '@/assets/images/courses/hands-on-python-cover-480.webp'
-import handsOnXuhuanCover from '@/assets/images/courses/hands-on-xuhuan-cover-480.webp'
+import handsOnunrealCover from '@/assets/images/courses/hands-on-unreal-cover-480.webp'
 import handsOnPhotoshopCover from '@/assets/images/courses/hands-on-photoshop-cover-480.webp'
 import vipLogoCover from '@/assets/images/courses/vip-logo-cover-480.webp'
 import vipLogo2Cover from '@/assets/images/courses/vip-logo2-cover-480.webp'
@@ -41,7 +41,7 @@ export const useCourseStore = defineStore('course', {
         description: '虚幻引擎游戏开发入门',
         price: 0,
         stage: 'free',
-        cover: freeXuhuanCover,
+        cover: freeunrealCover,
         tags: ['UE', '游戏开发', '入门', 'AI+logo'],
         rating: 4.3,
         enrolled: 800,
@@ -97,7 +97,7 @@ export const useCourseStore = defineStore('course', {
         description: '虚幻引擎基础开发',
         price: 299,
         stage: 'basic',
-        cover: beginnerXuhuanCover,
+        cover: beginnerunrealCover,
         tags: ['UE', '基础', '入门'],
         rating: 4.4,
         enrolled: 1200,
@@ -153,7 +153,7 @@ export const useCourseStore = defineStore('course', {
         description: '虚幻引擎高级开发技巧',
         price: 699,
         stage: 'advanced',
-        cover: advancedXuhuanCover,
+        cover: advancedunrealCover,
         tags: ['UE', '游戏开发', 'AIGC'],
         rating: 4.6,
         enrolled: 500,
@@ -209,7 +209,7 @@ export const useCourseStore = defineStore('course', {
         description: '虚幻引擎游戏项目开发',
         price: 1199,
         stage: 'project',
-        cover: handsOnXuhuanCover,
+        cover: handsOnunrealCover,
         tags: ['UE', '实战', '项目'],
         rating: 4.8,
         enrolled: 200,
