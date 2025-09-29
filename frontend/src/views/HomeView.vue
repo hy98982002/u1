@@ -1,14 +1,14 @@
 <template>
   <div class="home-page">
     <!-- 轮播图区域 -->
-    <div class="hero-section" style="margin-top: 60px">
+    <div class="hero-section d-none d-md-block" style="margin-top: 60px">
       <!-- 添加负margin-top抵消导航栏高度 -->
       <HeroCarousel />
     </div>
 
     <!-- 课程专区 -->
-    <!-- 整体移动，让'精品课程'距离轮播图只有6px -->
-    <div style="padding-top: 6px">
+    <!-- 桌面端：距离轮播图6px；手机端：从导航栏下方开始 -->
+    <div class="course-section-wrapper" style="padding-top: 6px">
       <CampSection :show-popular-tags="true" :initial-display-count="8" />
     </div>
 
@@ -269,6 +269,11 @@ onMounted(() => {
     font-size: 2.2rem;
   }
 
+  /* 手机端：轮播图隐藏时，课程区域需要顶部间距 */
+  .course-section-wrapper {
+    margin-top: 60px !important; /* 导航栏高度 */
+    padding-top: 20px !important; /* 额外间距 */
+  }
 
   .footer-links-inline {
     flex-direction: column;
