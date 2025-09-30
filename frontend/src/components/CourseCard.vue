@@ -9,12 +9,32 @@
       tabindex="0"
     >
       <div class="card h-100 card-glass">
-        <div
-          class="card-img-top"
-          :style="{ backgroundImage: `url(${course.cover})` }"
-          :aria-label="`课程封面 - ${course.title}`"
-          role="img"
-        ></div>
+        <!-- 修改：从背景图改为使用picture标签和img标签 -->
+        <div class="card-img-top ratio ratio-16x9">
+          <picture>
+            <!-- WebP 格式优先 -->
+            <source
+              :srcset="srcsetWebp"
+              type="image/webp"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <!-- PNG 格式作为回退 -->
+            <source
+              :srcset="srcsetPng"
+              type="image/png"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <!-- 最终回退图片 -->
+            <img
+              :src="coverFallback"
+              :alt="`课程封面 - ${course.title}`"
+              class="w-100 h-100 object-fit-cover"
+              loading="lazy"
+              decoding="async"
+              :fetchpriority="index < 4 ? 'high' : 'low'"
+            />
+          </picture>
+        </div>
 
         <div class="card-body">
           <!-- 文字区域磨玻璃背景 - 不覆盖图片 -->
@@ -94,14 +114,16 @@ import {
 interface Props {
   course: Course
   stage?: StageKey
+  index?: number // 添加index属性，用于确定首屏图片优先级
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  stage: undefined
+  stage: undefined,
+  index: 0
 })
 
 // 解构props以便在模板中使用
-const { course } = toRefs(props)
+const { course, index } = toRefs(props)
 // const { course, stage } = toRefs(props)  // stage暂时未使用
 
 // Emits定义
@@ -112,6 +134,28 @@ const emit = defineEmits<{
 }>()
 
 // 响应式数据（无需额外状态）
+
+// 添加图片源生成逻辑
+const baseImageUrl = computed(() => {
+  // 移除分辨率后缀和文件扩展名，获取基础文件名
+  // 例如: free-python-cover-1280.png -> free-python-cover
+  return course.value.cover.replace(/-\d+\.(png|webp|jpg|jpeg)$/, '')
+})
+
+// 生成WebP格式的srcset
+const srcsetWebp = computed(() => {
+  return `${baseImageUrl.value}-480.webp 480w, ${baseImageUrl.value}-1280.webp 1280w, ${baseImageUrl.value}-1920.webp 1920w`
+})
+
+// 生成PNG格式的srcset
+const srcsetPng = computed(() => {
+  return `${baseImageUrl.value}-480.png 480w, ${baseImageUrl.value}-1280.png 1280w, ${baseImageUrl.value}-1920.png 1920w`
+})
+
+// 回退图片URL（使用1280px尺寸作为平衡选择）
+const coverFallback = computed(() => {
+  return `${baseImageUrl.value}-1280.png`
+})
 
 // 计算属性
 // 暂时注释未使用的计算属性
@@ -270,6 +314,11 @@ const handleWatchNow = () => {
   /* 确保字体边缘锐利 */
   font-feature-settings: normal !important;
   font-variant-ligatures: none !important;
+}
+
+/* object-fit-cover类以保持图片比例 */
+.object-fit-cover {
+  object-fit: cover;
 }
 
 /* 卡片容器 - 文字层清晰 */
