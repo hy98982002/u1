@@ -15,9 +15,10 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/course/:id',
+      path: '/course/:slug',
       name: 'CourseDetails',
-      component: () => import('../views/CourseDetails.vue')
+      component: () => import('../views/CourseDetails.vue'),
+      props: true // 将slug作为prop传递给组件
     },
     {
       path: '/cart',

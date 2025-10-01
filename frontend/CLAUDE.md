@@ -140,7 +140,9 @@ src/
 ├── utils/                        # Utility functions
 │   ├── toast.ts                 # Toast notifications
 │   ├── seo.ts                   # SEO工具函数
-│   └── tracking.ts              # Analytics utilities
+│   ├── tracking.ts              # Analytics utilities
+│   ├── stageMap.ts              # 课程阶段映射（拼音⟷英文⟷中文）
+│   └── slug.ts                  # SEO友好的URL slug生成工具
 ├── composables/                  # Vue 3 composables
 │   ├── useAnalytics.ts          # 分析统计composable
 │   ├── useRBAC.ts               # RBAC权限检查composable
@@ -344,7 +346,7 @@ src/assets/
 <script setup lang="ts">
 // ✅ 正确 - 将图片作为模块导入
 import logoImg from '@/assets/icons/logo.png'
-import courseCover from '@/assets/images/tiyan-python-cover.jpg'
+import courseCover from '@/assets/images/beginner-python-cover.jpg'
 </script>
 
 <template>
@@ -360,11 +362,47 @@ import courseCover from '@/assets/images/tiyan-python-cover.jpg'
 ### 课程图片命名约定
 
 - **文件前缀必须与课程阶段匹配**:
-  - `free-` → `stage: 'free'` (免费体验)
-  - `beginner-` → `stage: 'basic'` (基础级别)
-  - `advanced-` → `stage: 'advanced'` (进阶级别)
-  - `hands-on-` → `stage: 'project'` (项目级别)
-  - `project-` → `stage: 'landing'` (企业级别)
+  * `free-` → `template: 'free'` (免费体验)
+  * `beginner-` → `template: 'beginner'` (入门级别)
+  * `advanced-` → `template: 'advanced'` (进阶级别)
+  * `hands-on-` → `template: 'hands-on'` (实战级别)
+  * `project-` → `template: 'project'` (项目落地)
+  * `vip-` → `template: 'vip'` (会员专享)
+
+### SEO/AEO优化：语义化URL规范
+
+**重要：所有暴露给搜索引擎的内容必须使用英文或中文，禁用拼音**
+
+✅ **允许使用拼音的场景：**
+- TypeScript类型定义（内部使用）
+- 组件内部变量名
+- 不会暴露给搜索引擎的代码逻辑
+
+❌ **禁止使用拼音的场景：**
+- URL路径和参数（如 `/course/:slug`）
+- HTML的class、id、data-*属性
+- Schema.org结构化数据
+- 图片文件名（已统一使用英文前缀）
+- Meta标签和alt属性（使用中文）
+
+**课程URL格式：**
+```
+✅ 正确：/course/beginner-python
+✅ 正确：/course/advanced-ai
+✅ 正确：/course/free-design
+
+❌ 错误：/course/rumen-python （拼音，AI无法理解）
+❌ 错误：/course/123 （纯ID，无语义）
+```
+
+**Slug生成规则：**
+```typescript
+import { generateCourseSlug } from '@/utils/slug'
+
+// 自动生成SEO友好的slug
+const slug = generateCourseSlug('beginner', 'Python基础课程')
+// 结果：'beginner-python'
+```
 
 ## 国内版语言策略
 
@@ -842,7 +880,5 @@ VITE_ENTERPRISE_RBAC_ROLE_ENABLED=false
 - 在组件/文件名中混合中英文
 - 使用字符串路径导入图片
 - 跳过 TypeScript 类型定义
-
-
 
 本前端特定的 CLAUDE.md 为多维 AI 课堂中 Vue 3 开发提供全面指导，重点关注组件架构、响应式设计和现代 JavaScript 最佳实践。
