@@ -98,7 +98,6 @@
             :stage="currentStage"
             :show-load-more="hasMoreCourses"
             :loading="loading"
-            @card-click="handleCourseClick"
             @add-to-cart="handleAddToCart"
             @watch-now="handleWatchNow"
             @load-more="loadMoreCourses"

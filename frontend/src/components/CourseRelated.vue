@@ -1,4 +1,10 @@
 <!-- CourseRelated.vue - 相关课程组件 -->
+<script setup lang="ts">
+// 导入相关课程图片
+import relatedCourse1 from '@/assets/images/courses/hands-on-photoshop-cover-1280.png'
+import relatedCourse2 from '@/assets/images/courses/beginner-unreal-cover-1920.png'
+</script>
+
 <template>
   <div class="bg-white rounded p-4" style="border-radius: 18px; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px);">
     <!-- 相关课程标题区 -->
@@ -15,7 +21,7 @@
       <div class="course-item mb-4" style="border: 1px solid rgba(22,109,132,0.1); border-radius: 12px; padding: 20px; transition: all 0.3s ease; background: rgba(255,255,255,0.9);">
         <div class="row align-items-center">
           <div class="col-md-2">
-            <img src="/img/k02.png" class="img-fluid rounded" alt="课程图片" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <img :src="relatedCourse1" class="img-fluid rounded" alt="课程图片" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
           </div>
           <div class="col-md-7">
             <h6 class="mb-2" style="font-weight: 600; color: #333;">前端Web开发 网站建设 网页开发</h6>
@@ -51,7 +57,7 @@
       <div class="course-item mb-4" style="border: 1px solid rgba(22,109,132,0.1); border-radius: 12px; padding: 20px; transition: all 0.3s ease; background: rgba(255,255,255,0.9);">
         <div class="row align-items-center">
           <div class="col-md-2">
-            <img src="/img/k03.png" class="img-fluid rounded" alt="课程图片" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <img :src="relatedCourse2" class="img-fluid rounded" alt="课程图片" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
           </div>
           <div class="col-md-7">
             <div class="d-flex align-items-center mb-2">
@@ -93,14 +99,6 @@
     </button>
   </div>
 </template>
-
-<script setup lang="ts">
-// 相关课程组件逻辑
-const handleCourseClick = () => {
-  console.log('相关课程点击')
-  // TODO: 跳转到课程详情页
-}
-</script>
 
 <style scoped>
 .course-item {

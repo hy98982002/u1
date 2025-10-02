@@ -101,6 +101,7 @@
 
 <script setup lang="ts">
 import { computed, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
 import type { Course, StageKey } from '../types'
 import StarRating from './StarRating.vue'
 import {
@@ -128,10 +129,12 @@ const { course, index } = toRefs(props)
 
 // Emits定义
 const emit = defineEmits<{
-  cardClick: [course: Course]
   addToCart: [course: Course]
   watchNow: [course: Course]
 }>()
+
+// 使用路由
+const router = useRouter()
 
 // 响应式数据（无需额外状态）
 
@@ -214,7 +217,13 @@ const displayReviewCount = computed(() => {
 
 // 事件处理函数
 const handleCardClick = () => {
-  emit('cardClick', course.value)
+  // 不再emit事件，直接使用router跳转到课程详情页
+  // 使用课程的slug进行路由跳转
+  if (course.value.slug) {
+    router.push({ name: 'CourseDetails', params: { slug: course.value.slug } })
+  } else {
+    console.warn('课程缺少slug属性，无法跳转', course.value)
+  }
 }
 
 const handleAddToCart = () => {
