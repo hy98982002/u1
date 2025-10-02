@@ -1,25 +1,39 @@
 {
-  "currentState": "initialized",
+  "currentState": "memory_saved",
   "stateHistory": [
     {
       "from": "initial",
-      "command": "action",
-      "timestamp": "2025-09-04T10:03:41.603Z",
+      "command": "remember",
+      "timestamp": "2025-10-02T11:41:15.052Z",
       "args": [
-        "frontend-developer-vue"
+        "assistant",
+        "## 课程详情页链接修复项目 - 当前进度记忆\n\n### 项目目标\n修复课程详情页链接功能，实现基于 SEO 友好的 slug 路由系统\n\n### 已完成工作（阶段1-2，4/11任务）\n\n#### ✅ 阶段1 - 数据层\n1. **courseStore.ts slug 属性添加**\n   - 导入 `generateCourseSlug` 工具函数\n   - 为全部 20 个课程生成 slug（格式：`{stage}-{subject}`）\n   - 示例：free-photoshop, beginner-python, advanced-unreal-engine\n\n2. **getCourseBySlug getter**\n   - 新增方法：`getCourseBySlug: state => (slug: string) => state.courses.find(c => c.slug === slug)`\n   - 支持通过 slug 快速查找课程\n\n#### ✅ 阶段2 - 视图层\n3. **CourseDetails.vue 动态加载**\n   - 从路由参数获取 slug：`const slug = route.params.slug as string`\n   - 使用 courseStore.getCourseBySlug(slug) 动态加载\n   - 三种状态：loading（spinner） / courseNotFound（警告+3秒重定向） / 正常内容\n\n4. **面包屑导航优化**\n   - 使用 STAGES 映射替代 tags[0]\n   - 结构：首页 → STAGES[course.stage] → 课程标题\n   - 更准确显示阶段（免费/入门/精进/实战/项目落地）\n\n### 待完成工作（7个任务）\n\n#### ⏳ 阶段3 - 路由层（优先级最高）\n- 创建 NotFound.vue 404 页面\n- router/index.ts 添加路由守卫（课程不存在→404）\n- 添加旧链接兼容（/course/:id 数字格式重定向）\n\n#### ⏳ 阶段4 - 链接层\n- 更新 CourseCard.vue 的 cardClick：使用 router.push({ name: 'CourseDetails', params: { slug: course.slug } })\n- HomeView.vue 处理 cardClick 事件\n\n#### ⏳ 阶段5 - 测试层\n- 手动测试：点击卡片→跳转→数据加载→面包屑正确\n- 测试 404 处理：访问无效 slug→显示404页面\n\n### 关键技术决策\n- **Slug 格式**：英文连字符（SEO/AEO 规范），禁用拼音\n- **错误处理**：课程不存在显示警告并3秒后重定向首页（后续改为404页面）\n- **面包屑逻辑**：STAGES 映射优于 tags[0]，更准确\n\n### 修改的文件\n1. `/frontend/src/store/courseStore.ts` - 添加 slug 属性和 getter\n2. `/frontend/src/views/CourseDetails.vue` - 动态加载和错误处理\n\n### 下次会话起点\n从阶段3开始：创建 NotFound.vue → 路由守卫 → CourseCard 跳转逻辑\n\n### 当前分支：ux-3-indexChange\n### 进度：11个任务中已完成4个（36%）",
+        "--tags",
+        "课程详情页 slug路由 SEO优化 待办进度"
       ]
     },
     {
-      "from": "role_activated_with_memory",
+      "from": "memory_saved",
       "command": "init",
-      "timestamp": "2025-09-04T10:03:47.652Z",
+      "timestamp": "2025-10-02T11:41:22.134Z",
       "args": [
         {
           "workingDirectory": "/Users/dongqingzhai/Desktop/UAI_project",
           "ideType": "claude"
         }
       ]
+    },
+    {
+      "from": "initialized",
+      "command": "remember",
+      "timestamp": "2025-10-02T11:41:53.848Z",
+      "args": [
+        "assistant",
+        "## 课程详情页链接修复项目 - 当前进度记忆\n\n### 项目目标\n修复课程详情页链接功能，实现基于 SEO 友好的 slug 路由系统\n\n### 已完成工作（阶段1-2，4/11任务）\n\n#### ✅ 阶段1 - 数据层\n1. **courseStore.ts slug 属性添加**\n   - 导入 `generateCourseSlug` 工具函数\n   - 为全部 20 个课程生成 slug（格式：`{stage}-{subject}`）\n   - 示例：free-photoshop, beginner-python, advanced-unreal-engine\n\n2. **getCourseBySlug getter**\n   - 新增方法：`getCourseBySlug: state => (slug: string) => state.courses.find(c => c.slug === slug)`\n   - 支持通过 slug 快速查找课程\n\n#### ✅ 阶段2 - 视图层\n3. **CourseDetails.vue 动态加载**\n   - 从路由参数获取 slug：`const slug = route.params.slug as string`\n   - 使用 courseStore.getCourseBySlug(slug) 动态加载\n   - 三种状态：loading（spinner） / courseNotFound（警告+3秒重定向） / 正常内容\n\n4. **面包屑导航优化**\n   - 使用 STAGES 映射替代 tags[0]\n   - 结构：首页 → STAGES[course.stage] → 课程标题\n   - 更准确显示阶段（免费/入门/精进/实战/项目落地）\n\n### 待完成工作（7个任务）\n\n#### ⏳ 阶段3 - 路由层（优先级最高）\n- 创建 NotFound.vue 404 页面\n- router/index.ts 添加路由守卫（课程不存在→404）\n- 添加旧链接兼容（/course/:id 数字格式重定向）\n\n#### ⏳ 阶段4 - 链接层\n- 更新 CourseCard.vue 的 cardClick：使用 router.push({ name: 'CourseDetails', params: { slug: course.slug } })\n- HomeView.vue 处理 cardClick 事件\n\n#### ⏳ 阶段5 - 测试层\n- 手动测试：点击卡片→跳转→数据加载→面包屑正确\n- 测试 404 处理：访问无效 slug→显示404页面\n\n### 关键技术决策\n- **Slug 格式**：英文连字符（SEO/AEO 规范），禁用拼音\n- **错误处理**：课程不存在显示警告并3秒后重定向首页（后续改为404页面）\n- **面包屑逻辑**：STAGES 映射优于 tags[0]，更准确\n\n### 修改的文件\n1. `/frontend/src/store/courseStore.ts` - 添加 slug 属性和 getter\n2. `/frontend/src/views/CourseDetails.vue` - 动态加载和错误处理\n\n### 下次会话起点\n从阶段3开始：创建 NotFound.vue → 路由守卫 → CourseCard 跳转逻辑\n\n### 当前分支：ux-3-indexChange\n### 进度：11个任务中已完成4个（36%）",
+        "--tags",
+        "课程详情页 slug路由 SEO优化 待办进度"
+      ]
     }
   ],
-  "lastUpdated": "2025-09-04T10:03:47.663Z"
+  "lastUpdated": "2025-10-02T11:41:53.854Z"
 }

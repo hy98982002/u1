@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { Course, StageKey } from '../types'
+import { generateCourseSlug } from '@/utils/slug'
 
 // 导入图片资源
 import freeunrealCover from '@/assets/images/courses/free-unreal-cover-480.webp'
@@ -24,6 +25,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 1,
         title: 'Photoshop体验课',
+        slug: generateCourseSlug('free', 'Photoshop'),
         description: '零基础入门Photoshop编程',
         price: 0,
         stage: 'free',
@@ -38,6 +40,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 2,
         title: '虚幻引擎体验课',
+        slug: generateCourseSlug('free', 'Unreal Engine'),
         description: '虚幻引擎游戏开发入门',
         price: 0,
         stage: 'free',
@@ -52,6 +55,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 3,
         title: 'Photoshop体验课',
+        slug: generateCourseSlug('free', 'Photoshop Advanced'),
         description: 'PS图像处理基础入门',
         price: 0,
         stage: 'free',
@@ -66,6 +70,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 4,
         title: 'Python入门课程',
+        slug: generateCourseSlug('basic', 'Python'),
         description: 'Python编程基础知识',
         price: 199,
         stage: 'basic',
@@ -80,6 +85,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 5,
         title: 'illustrator基础课程',
+        slug: generateCourseSlug('basic', 'illustrator'),
         description: 'illustrator核心概念',
         price: 299,
         stage: 'basic',
@@ -94,6 +100,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 6,
         title: '虚幻引擎入门课程',
+        slug: generateCourseSlug('basic', 'Unreal Engine'),
         description: '虚幻引擎基础开发',
         price: 299,
         stage: 'basic',
@@ -108,6 +115,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 7,
         title: 'Photoshop入门课程',
+        slug: generateCourseSlug('basic', 'Photoshop'),
         description: 'PS图像处理基础技巧',
         price: 199,
         stage: 'basic',
@@ -122,6 +130,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 8,
         title: 'Python进阶课程',
+        slug: generateCourseSlug('advanced', 'Python'),
         description: 'Python高级编程技巧',
         price: 599,
         stage: 'advanced',
@@ -136,6 +145,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 9,
         title: 'logo分析',
+        slug: generateCourseSlug('advanced', 'logo Analysis'),
         description: 'Python数据处理与分析',
         price: 699,
         stage: 'advanced',
@@ -150,6 +160,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 10,
         title: '虚幻引擎进阶课程',
+        slug: generateCourseSlug('advanced', 'Unreal Engine'),
         description: '虚幻引擎高级开发技巧',
         price: 699,
         stage: 'advanced',
@@ -164,6 +175,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 11,
         title: 'Photoshop场景环境课程',
+        slug: generateCourseSlug('advanced', 'Photoshop Scene'),
         description: 'PS高级图像处理技巧',
         price: 499,
         stage: 'advanced',
@@ -178,6 +190,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 12,
         title: 'Python Web开发',
+        slug: generateCourseSlug('advanced', 'Python Web'),
         description: 'Python Web应用开发',
         price: 799,
         stage: 'advanced',
@@ -192,6 +205,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 13,
         title: 'Python实战项目',
+        slug: generateCourseSlug('project', 'Python Project'),
         description: 'Python项目实战开发',
         price: 999,
         stage: 'project',
@@ -206,6 +220,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 14,
         title: '虚幻引擎实战项目',
+        slug: generateCourseSlug('project', 'Unreal Engine Project'),
         description: '虚幻引擎游戏项目开发',
         price: 1199,
         stage: 'project',
@@ -220,6 +235,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 15,
         title: 'Photoshop实战项目',
+        slug: generateCourseSlug('project', 'Photoshop Project'),
         description: 'PS综合项目实战',
         price: 899,
         stage: 'project',
@@ -234,6 +250,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 16,
         title: 'Python企业项目',
+        slug: generateCourseSlug('project', 'Python Enterprise'),
         description: 'Python企业级应用开发',
         price: 1299,
         stage: 'project',
@@ -248,6 +265,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 17,
         title: 'Logo设计基础',
+        slug: generateCourseSlug('basic', 'Logo Design'),
         description: '企业品牌Logo设计入门',
         price: 299,
         stage: 'basic',
@@ -262,6 +280,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 18,
         title: 'Logo设计进阶',
+        slug: generateCourseSlug('advanced', 'Logo Design'),
         description: '高级品牌Logo设计技巧',
         price: 599,
         stage: 'advanced',
@@ -276,6 +295,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 19,
         title: 'PS项目实战-电商设计',
+        slug: generateCourseSlug('project', 'PS Ecommerce Design'),
         description: '电商平台视觉设计项目',
         price: 899,
         stage: 'project',
@@ -290,6 +310,7 @@ export const useCourseStore = defineStore('course', {
       {
         id: 20,
         title: 'PS项目实战-品牌设计',
+        slug: generateCourseSlug('landing', 'PS Brand Design'),
         description: '企业品牌视觉设计项目',
         price: 999,
         stage: 'landing',
@@ -310,6 +331,7 @@ export const useCourseStore = defineStore('course', {
   }),
   getters: {
     getCoursesByStage: state => (stage: string) => state.courses.filter(c => c.stage === stage),
+    getCourseBySlug: state => (slug: string) => state.courses.find(c => c.slug === slug),
     filteredCourses: state => {
       let result = state.courses
       if (state.showVipOnly) {
