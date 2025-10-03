@@ -231,7 +231,12 @@ const handleAddToCart = () => {
 }
 
 const handleWatchNow = () => {
-  emit('watchNow', course.value)
+  // 直接跳转到课程详情页（使用相同的slug路由）
+  if (course.value.slug) {
+    router.push({ name: 'CourseDetails', params: { slug: course.value.slug } })
+  } else {
+    console.warn('课程缺少slug属性，无法跳转', course.value)
+  }
 }
 </script>
 
