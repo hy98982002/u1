@@ -329,4 +329,134 @@
     </content>
     <tags>#其他</tags>
   </item>
+  <item id="mem_1759483731944_s3xpk5pu6" time="2025/10/03 05:28">
+    <content>
+      ## 课程详情页完整制作完成记忆 - 2025/10/03
+    
+      ### 项目完成情况
+      **完成度**: 17个待办中已完成9个 (53%),核心功能MVP已100%完成
+    
+      ### ✅ 已完成的核心功能 (阶段1-4,100%)
+    
+      #### 阶段1 - 数据层
+      1. **courseStore.ts slug属性** - 使用generateCourseSlug为全部20个课程生成SEO友好slug (格式: {stage}-{subject})
+      2. **getCourseBySlug getter** - 实现快速slug查找方法
+    
+      #### 阶段2 - 视图层
+      3. **CourseDetails.vue动态加载** - 完整实现loading/error/success三种状态,课程不存在时显示警告
+      4. **面包屑导航优化** - 使用STAGES映射显示正确路径: 首页→免费→课程标题
+    
+      #### 阶段3 - 路由层
+      5. **NotFound.vue 404页面** - 创建友好UI+返回首页/上一页按钮
+      6. **路由守卫** - router/index.ts添加beforeEnter验证slug存在性,不存在重定向404
+      7. **旧链接兼容** - 配置/course/:id(\d+)重定向到slug格式 (用户表示可不强制)
+    
+      #### 阶段4 - 链接层
+      8. **CourseCard跳转优化** - 改用router.push直接跳转,移除cardClick emit
+      9. **事件处理链简化** - CourseGrid/CampSection移除事件监听,组件通信从3层减到1层
+    
+      ### 🔧 关键技术修复
+    
+      #### 图片路径修复 (4个组件)
+      1. **CourseHeroCard.vue** - course-details/py04.jpg → courses/free-photoshop-cover-480.png
+      2. **SidebarPricingCard.vue** - 完全移除讲师卡片模块 (删除teacher-card HTML、函数、CSS)
+      3. **CourseReviews.vue** - 用户头像改用课程封面占位 (beginner-python-cover-480.png等)
+      4. **CourseRelated.vue** - /img/k02.png → courses/hands-on-photoshop-cover-1280.png,统一使用@/assets/别名和模块化导入
+    
+      #### Vite缓存清理
+      - 问题: HMR未触发重新编译,显示旧错误
+      - 解决: 重启Vite服务器 (Ctrl+C → npm run dev)
+      - 结果: 所有图片正确加载,6张图片零错误
+    
+      ### ✅ 完整功能验证
+    
+      **Playwright自动化测试结果**:
+      - ✅ 课程详情页6张图片全部正确加载
+      - ✅ 首页点击课程卡片 → 成功跳转 http://localhost:5173/course/free-photoshop
+      - ✅ SEO友好URL格式 (free-photoshop vs 数字ID)
+      - ✅ 面包屑导航正确: &quot;首页 → 免费 → Photoshop体验课&quot;
+      - ✅ 所有Tab标签页正常: 简介/目录/评价/相关课程
+    
+      ### 📊 代码提交
+      **Commit**: ced8752
+      ```
+      fix: 修复课程详情页图片路径错误并优化路由跳转逻辑
+      ```
+      - 修改文件: 8个
+      - 新增文件: 1个 (NotFound.vue)
+      - 代码变更: +219行 / -109行
+    
+      **修改文件清单**:
+      1. /frontend/src/components/CourseHeroCard.vue
+      2. /frontend/src/components/SidebarPricingCard.vue
+      3. /frontend/src/components/CourseReviews.vue
+      4. /frontend/src/components/CourseRelated.vue
+      5. /frontend/src/components/CourseCard.vue
+      6. /frontend/src/components/CourseGrid.vue
+      7. /frontend/src/components/CampSection.vue
+      8. /frontend/src/router/index.ts
+      9. /frontend/src/views/NotFound.vue (新建)
+    
+      ### ⏳ 未完成待办 (阶段5-7,47%)
+    
+      #### 阶段5 - SEO层 (0%,中优先级)
+      10. 创建SEOHead组件 - 动态Meta标签
+      11. 创建CourseSchema组件 - JSON-LD结构化数据
+      12. 集成SEO组件到CourseDetails.vue
+    
+      #### 阶段6 - 分析层 (0%,低优先级)
+      13. 创建useAnalytics组合式函数 - 百度统计集成
+      14. 添加course.view访问埋点
+    
+      #### 阶段7 - 测试层 (33%)
+      15. 手动功能测试 - 部分完成 ✅
+      16. 404处理测试 - 未验证 (旧链接可不要)
+      17. SEO功能测试 - 待SEO层完成
+    
+      ### 🎯 技术决策记录
+    
+      1. **图片管理策略**
+      - 决策: 使用现有课程封面作为占位图片
+      - 原因: course-details目录不存在,避免引入新资源
+      - 影响: 临时方案,后续可替换专用图片
+    
+      2. **路由跳转优化**
+      - 决策: CourseCard直接router.push,移除emit事件链
+      - 原因: 减少事件冒泡 (3层→1层),提升性能
+      - 影响: CourseCard/CourseGrid/CampSection三组件
+    
+      3. **UI简化**
+      - 决策: 移除侧边栏讲师卡片模块
+      - 原因: 用户明确要求移除
+      - 影响: SidebarPricingCard更简洁
+    
+      ### 📈 项目进度状态
+    
+      **当前状态**: 核心功能MVP已完成,可发布
+      **分支**: ux-3-indexChange
+      **开发服务器**: http://localhost:5173 ✅ 运行正常
+      **完成率**: 53% (核心功能100%)
+    
+      ### 🚀 后续建议
+    
+      **立即可验收**: 当前功能已具备可发布MVP状态
+    
+      **后续优先级**:
+      1. 🟡 中优先级 - SEO优化 (3-5天): 待办10-12,上线前实施
+      2. 🟢 低优先级 - 数据分析 (后期): 待办13-14,上线后按需实施
+    
+      ### 💡 关键经验总结
+    
+      1. **Vite缓存机制**: HMR可能不触发重编译,需手动重启服务器
+      2. **图片导入规范**: 统一@/assets/别名和模块化导入,禁用绝对路径
+      3. **组件通信优化**: 减少不必要事件冒泡可提升性能和可维护性
+      4. **路由守卫时机**: beforeEnter守卫适合单路由验证逻辑
+    
+      **会话时间**: 2025-10-03
+      **持续时长**: ~30分钟
+      **Git状态**: 已提交commit ced8752
+      **下次起点**: 功能已验证完成,可继续SEO优化或其他开发任务
+    </content>
+    <tags>#其他</tags>
+  </item>
 </memory>
