@@ -82,8 +82,8 @@ const slug = route.params.slug as string
 const loading = ref(true)
 const courseNotFound = ref(false)
 
-// 当前激活的标签页（默认显示目录）
-const activeTab = ref('catalog')
+// 当前激活的标签页（默认显示简介）
+const activeTab = ref('intro')
 
 // 面包屑数据
 const breadcrumbItems = ref<BreadcrumbItem[]>([

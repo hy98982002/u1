@@ -102,7 +102,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  defaultTab: 'catalog'
+  defaultTab: 'intro'
 })
 
 const activeTab = ref(props.defaultTab)
