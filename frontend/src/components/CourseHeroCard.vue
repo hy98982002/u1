@@ -57,8 +57,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-// 导入默认图片
-import defaultCoverImage from '@/assets/images/course-details/py04.jpg'
+// 导入默认图片 (使用现有的课程封面作为占位符)
+import defaultCoverImage from '@/assets/images/courses/free-photoshop-cover-480.png'
 
 interface CourseInfo {
   title: string

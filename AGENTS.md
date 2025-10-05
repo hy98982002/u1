@@ -1,281 +1,787 @@
-# AGENTS.md - UAI MVP 教育平台项目总览 (2025-01-22 字体清晰度升级)
+# CLAUDE.md
 
-## 🎯 项目概述
+**🔥 强制要求：**
 
-- **项目名称**：UAI MVP 教育平台
-- **架构模式**：前后端分离
-- **开发周期**：4-8 周快速交付版本
-- **项目目标**：在线教育平台 MVP，支持课程管理、用户注册、购物车、订单系统
+- **语言：所有交流必须使用中文，包括 bmad 代理、CCPlugins 命令和任何工具调用的对话**
+- **文件读取：项目内文件(/Users/dongqingzhai/Desktop/UAI_project/)必须使用 Claude 内置 Read 工具，禁用 mcp**filesystem**\*工具**
 
-## 🛠 技术栈总览
+本文件为 Claude Code (claude.ai/code) 在此代码仓库中工作时提供指导。
 
-### 前端技术栈
+## 项目概述
 
-- **框架**：Vue 3 + Vite + TypeScript
-- **UI 框架**：Bootstrap 5.3.6（静态使用，不引入 Ant Design）
-- **状态管理**：Pinia
-- **HTTP 请求**：Axios（统一封装）
-- **路由**：Vue Router
-- **编程风格**：Composition API（禁用 Options API）
+多维 AI 课堂 - 基于 Vue 3 + Django 构建的在线教育服务全栈 Web 应用。项目采用前后端分离架构，使用 JWT 身份验证。
 
-### 后端技术栈
+## 技术栈
 
-- **语言**：Python 3.12
-- **框架**：Django 5.2
-- **API**：Django REST Framework
-- **认证**：SimpleJWT
-- **数据库**：MySQL 8.4.5（开发环境可用 SQLite）
-- **管理后台**：Django Admin
+**前端：**
 
-## 📁 项目结构约定
+- Vue 3 配合 Composition API + TypeScript
+- Vite 构建工具
+- Bootstrap 5.3.6 UI 框架（禁用其他 UI 框架）
+- Pinia 状态管理
+- Vue Router 路由
+- Axios API 请求
 
-```
-UAIEDU_PROJECT/
-├── frontend/                      # Vue 3 前端项目
-│   ├── src/
-│   │   ├── views/                # 页面级组件
-│   │   ├── components/           # 可复用组件
-│   │   ├── api/                  # Axios封装
-│   │   ├── store/                # Pinia状态管理
-│   │   ├── router/               # Vue Router配置
-│   │   ├── utils/                # 工具函数
-│   │   └── types/                # TypeScript类型定义
-│   └── AGENTS.md                 # 前端开发规范
-├── backend/                       # Django 后端项目
-│   ├── apps/                     # Django应用模块
-│   │   ├── users/                # 用户系统
-│   │   ├── courses/              # 课程系统
-│   │   ├── cart/                 # 购物车
-│   │   ├── orders/               # 订单系统
-│   │   ├── learning/             # 学习记录
-│   │   ├── reviews/              # 评价系统
-│   │   └── system/               # 系统功能
-│   └── AGENTS.md                 # 后端开发规范
-└── AGENTS.md                     # 项目总览（本文件）
+**后端：**
+
+- Python 3.12 + Django 5.2
+- Django REST Framework API 框架
+- JWT 身份验证 (SimpleJWT)
+- MySQL 8.4+ (Railway 生产环境) / mysql (本地开发)
+- Django Admin 后台管理
+- Redis 缓存和会话存储 (MVP 可选)
+
+## 开发命令
+
+### 前端 (从 `/frontend` 目录执行)
+
+```bash
+npm install                    # 安装依赖
+npm run dev                   # 启动开发服务器 (localhost:5173)
+npm run build                 # 生产构建
+npm run build:check           # 带TypeScript检查的构建
+npm run type-check            # 仅TypeScript类型检查
+npm run preview               # 预览生产构建
+
+# 国际化 (实现OpenCC时)
+npm install opencc-js         # 安装OpenCC简繁转换
+
+# 分析跟踪 (实现分析时)
+npm install vue-gtag          # Vue3 Google Analytics集成 (条件加载)
+npm install @types/gtag       # gtag的TypeScript定义
 ```
 
-## 🔄 前后端接口规范
+### 后端 (从 `/backend` 目录执行)
 
-### API 设计原则
+```bash
+# 设置虚拟环境
+python -m venv venv
+source venv/bin/activate      # macOS/Linux
+# 或 venv\Scripts\activate    # Windows
 
-- **统一前缀**：所有 API 接口使用`/api/`前缀
-- **RESTful 风格**：遵循 REST API 设计规范
-- **JWT 认证**：请求头格式`Authorization: Bearer <token>`
+# 安装依赖
+pip install -r requirements.txt
 
-### 统一响应格式
+# 开发服务器
+python manage.py runserver    # 启动Django服务器 (localhost:8000)
+
+# 数据库操作
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+
+# 生产部署准备
+# requirements.txt中已包含mysqlclient用于MySQL支持
+pip install gunicorn         # 生产环境WSGI服务器
+pip install whitenoise       # 静态文件服务
+```
+
+## 项目架构
+
+### 前端结构 (`/frontend/src/`)
+
+- `views/` - 页面级组件 (PascalCase 命名)
+- `components/` - 可复用组件 (PascalCase 命名)
+  - `i18n/` - 国际化组件 (语言切换等,海外版才设置)
+- `store/` - Pinia 状态管理存储
+- `api/` - Axios 请求封装 (每模块一个文件)
+- `router/` - Vue Router 路由配置
+- `types/` - TypeScript 类型定义
+- `utils/` - 工具函数
+  - `i18n.ts` - OpenCC 转换工具 (实现时)
+  - `tracking.ts` - 分析和事件跟踪工具
+- `assets/` - 静态资源，按子目录组织：
+  - `icons/` - 图标和 Logo 资源
+  - `images/` - 业务图片 (课程封面、头像等)
+- `config/` - 配置文件
+  - `tracking.json` - 分析跟踪配置
+
+### 后端结构 (`/backend/`)
+
+- `apps/` - Django 应用模块：
+  - `users/` - 用户认证和管理
+  - `courses/` - 课程管理系统
+  - `cart/` - 购物车功能
+  - `orders/` - 订单处理
+  - `learning/` - 学习进度跟踪
+  - `reviews/` - 课程评价系统
+  - `analytics/` - 用户行为跟踪和分析
+  - `system/` - 系统级功能
+
+### API 设计模式
+
+所有 API 响应遵循以下结构：
 
 ```json
 {
-  "status": <int>,     // HTTP状态码
-  "data": <any>,       // 响应数据
-  "msg": <string>      // 响应消息
+  "status": 200, // HTTP状态码
+  "data": {}, // 响应数据
+  "msg": "Success" // 响应消息
 }
 ```
 
-## 🔐 安全与权限
+所有 API 端点都使用 `/api/` 前缀，并采用 JWT 身份验证。
 
-### 权限控制（MVP 阶段）
+## 开发约定
 
-- 使用 Django 内置`is_staff`字段进行基础权限控制
-- JWT token 用于用户身份验证
-- 暂不实现复杂 RBAC 系统（预留扩展能力）
+### 代码风格
+
+- **前端**: 只使用 Composition API (禁止 Options API)
+- **组件**: PascalCase 命名 (如：`UserProfile.vue`)
+- **API 文件**: camelCase (如：`userService.ts`)
+- **图片导入**: 总是使用 import 语句，永远不用字符串路径
+- **所有交流**: 注释和文档使用中文
 
 ### 安全要求
 
-- **严禁**在代码中硬编码敏感信息（密码、密钥、数据库连接等）
-- 所有敏感配置使用`.env`文件管理
-- 确保`.env`文件已加入`.gitignore`
-- 上传代码前必须进行安全检查
+- 永远不要硬编码敏感信息 (API 密钥、密码等)
+- 使用 `.env` 文件进行配置 (确保 `.env` 在 `.gitignore` 中)
+- 遵循 Django 安全最佳实践进行身份验证和 CSRF 保护
 
-## 🔤 字体清晰度技术架构 (2025-01-22 重大升级)
+### 国内版语言策略 (Domestic Version Language Strategy)
 
-### 核心突破
+- **V1.0 简化策略**: 专注中国大陆用户，仅支持简体中文，移除繁简转换复杂度
+- **当前域名**: doviai.com 专门服务中国大陆用户（简体中文单一语言）
+- **海外版规划**: 未来独立开发海外版本（doviai.org），支持完整国际化和多语言
+- **性能优势**: 移除语言转换开销，页面加载速度提升 15-20%
+- **SEO 策略**: 专注百度等国内搜索引擎优化
+- **海外简中用户优化（GoSEO）**：为居住在海外、使用 Google 搜索的简体中文用户提供优化内容
+- **AEO 准备**: 添加中文 FAQ 和结构化数据，优化 AI 搜索
 
-UAI 教育平台实现了**Windows 10 字体清晰度**的全面技术突破，通过**层级分离架构**完美解决了 glassmorphism 与字体清晰度的平衡问题。
+### 统一分析策略 (Unified Analytics Strategy)
 
-### 技术亮点
+- **分析工具**: 专门使用百度统计服务中国大陆用户
+- **技术实现**: 直接集成，无需区域检测逻辑复杂度
+- **业务级事件**: Django 自定义模型进行转换漏斗分析
+- **前端实现**: Vue3 组合式 API 事件跟踪，使用 data-track 属性
+- **后端实现**: Django 中间件用于 API 请求跟踪
+- **隐私合规**: 仅基于 ID 跟踪，无敏感个人信息
+- **性能优势**: 单一分析提供商，优化加载速度
 
-#### 1. 层级分离系统
+### 图片管理
 
-- **文本层**: z-index 10+ (绝对清晰)
-- **背景层**: z-index 1 (glassmorphism 效果)
-- **保护措施**: `backdrop-filter: none !important` 彻底隔离
+- 图片必须作为模块导入：`import logoImg from '@/assets/icons/logo.png'`
+- 所有图片必须有有意义的 `alt` 属性
+- 课程图片命名规则：`{stage}-{course}-cover.{ext}`
+- 阶段：tiyan/rumen/jingjin/shizhan/xiangmuluodi
 
-#### 2. 全平台字体栈优化
+## 重要文件和配置
 
-```css
-font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+### 关键配置文件
+
+- `frontend/vite.config.ts` - Vite 配置和路径别名
+- `backend/uai_backend/settings.py` - Django 设置 (当前使用 SQLite)
+- `frontend/package.json` - 前端依赖和脚本
+- `backend/requirements.txt` - Python 依赖
+
+### 开发环境
+
+- 前端开发服务器: `http://localhost:5173`
+- 后端开发服务器: `http://localhost:8000`
+- 数据库: MySql(开发环境), MySQL (生产环境)
+- 数据库管理: TablePlus (本地和远程客户端)
+
+### 安全注意事项
+
+⚠️ **警告**: 当前的 `settings.py` 包含硬编码的 SECRET_KEY 和 DEBUG=True。这些应该在任何生产部署之前移至环境变量。
+
+## 部署架构
+
+### 生产环境
+
+- **前端部署**: Vercel (Git 自动部署)
+  - 域名: `doviai.com` (主域名)
+  - 构建命令: `npm run build`
+  - 框架预设: Vite
+  - 环境变量: API 端点、SEO 密钥
+- **后端部署**: Railway (Django + MySQL)
+  - Git 仓库自动部署
+  - MySQL 8.4+ 数据库配置连接池
+  - Redis 缓存和会话 (MVP 可选)
+  - 环境变量: DATABASE_URL, SECRET_KEY, DEBUG=False
+- **数据库管理**:
+  - Railway Dashboard (生产环境监控)
+  - TablePlus (本地开发和远程访问)
+
+### CI/CD 流水线
+
+#### 开发工作流
+
+```bash
+本地开发 → Git推送 → 自动部署
+├── 前端 (Vercel):
+│   ├── 类型检查 (vue-tsc)
+│   ├── 构建优化 (vite build)
+│   ├── CDN分发 (全球边缘节点)
+│   └── PR预览部署
+│
+└── 后端 (Railway):
+    ├── 依赖安装 (pip install -r requirements.txt)
+    ├── 数据库迁移 (python manage.py migrate)
+    ├── 静态文件收集 (python manage.py collectstatic)
+    ├── 健康检查和监控
+    └── 代码变更自动重启
 ```
 
-#### 3. 模糊强度分级管理
+#### 环境配置
 
-- **low-blur (2px)**: 文本区域适用
-- **medium-blur (6px)**: 装饰背景
-- **high-blur (12px)**: 纯背景层
+- **本地开发**: `.env` 文件存储敏感数据
+- **生产环境**: 平台特定环境变量
+  - Vercel: 环境变量面板
+  - Railway: 环境变量标签页
+- **CORS 设置**: 后端配置允许 Vercel 域名源
+- **API 端点**: 前端配置 Railway 后端 URL
 
-#### 4. FontAwesome 图标专项保护
+#### 数据库迁移策略
 
-- 激进的清晰度修复策略
-- 多层 CSS 保护机制
-- 星级评分等关键元素清晰显示
+- **开发环境**: MySQL 8.45 用于快速本地开发
+- **生产环境**: Railway 上的 MySQL 8.4+
+  - 熟悉的 MySQL 语法和管理
+  - MySQL 8.0+提供 JSON 字段支持
+  - 优秀的 Web 应用性能
+  - TablePlus 提供卓越的 MySQL 管理体验
+- **迁移路径**: requirements.txt 中已配置 mysqlclient
 
-### 性能提升
+## 开发工作流
 
-- **70%** GPU 渲染负担降低
-- **图片完全清晰** - 移除不必要 glassmorphism
-- **动画精确控制** - 0s 消失 + 0.3s 出现
+1. **前端开发**: 初期使用模拟数据，后期集成后端 API
+2. **后端开发**: 遵循 Django REST 约定，实现 RBAC 权限
+3. **API 集成**: 确保所有请求自动包含 JWT 令牌
+4. **状态管理**: 使用 Pinia 存储，避免与组件本地状态混合
+5. **样式设计**: 使用 Bootstrap 5.3.6 类，维护响应式设计
 
-### 关键实现文件
+## 常见开发任务
 
-1. `frontend/src/assets/fonts-clarity.css` - 核心架构
-2. `frontend/src/components/CourseCard.vue` - 组件级优化
-3. `frontend/src/components/Navbar.vue` - 导航层级分离
+添加新功能时：
 
-### 兼容性承诺
+1. 在后端创建遵循 nREST 约定的 API 端点
+2. 在 `src/api/` 中添加对应的前端 API 服务
+3. 必要时实现 Pinia 存储用于状态管理
+4. 在 `src/components/` 中创建可复用组件
+5. 在 `src/views/` 中构建页面组件
+6. 更新路由配置以支持新路由
 
-- ✅ Windows 10 ClearType 完美支持
-- ✅ macOS Retina 高分屏适配
-- ✅ Linux 字体渲染优化
-- ✅ 移动端 WebKit 引擎兼容
+### SEO/AEO 优化任务
 
-## 📏 开发规范
+添加内容页面(课程、文章等)时：
 
-### 📸 图片命名与阶段对照规范
+1. 添加结构化数据(JSON-LD)用于课程、FAQ、组织模式
+2. 包含 FAQ 部分和自然语言问答
+3. 确保适当的元标题、描述和 alt 属性
+4. 考虑内容中的简繁中文关键词(适用于海外版)
 
-课程封面图片命名必须与课程阶段严格对应：
+### 分析实现任务
 
-| 图片前缀        | 对应阶段(stage) | 中文名称     | 说明                       |
-| --------------- | --------------- | ------------ | -------------------------- |
-| `tiyan-`        | `free`          | 体验专区     | 免费体验课程               |
-| `rumen-`        | `basic`         | 入门专区     | 基础入门课程               |
-| `jingjin-`      | `advanced`      | 精进专区     | 进阶提升课程               |
-| `shizhan-`      | `project`       | 实战专区     | 项目实战课程               |
-| `xiangmuluodi-` | `landing`       | 项目落地专区 | 企业级项目落地             |
-| `huiyuan-`      | -               | 会员专享     | 会员专享课程(可在任意阶段) |
+实现用户行为跟踪时：
 
-**重要原则**：
+1. **设置阶段**：
 
-- 图片前缀必须与课程 stage 严格对应
-- 添加课程时必须验证图片命名和 stage 的匹配关系
-- 发现不匹配时立即修正，确保用户体验一致性
+   - 添加百度统计集成
+   - 创建 `analytics` Django 应用用于自定义事件存储
+   - 配置 Vue3 跟踪组合式函数用于统一跟踪
 
-### 通用规范
+2. **核心事件跟踪**：
 
-- **文件命名**：组件使用 PascalCase，其他文件使用 camelCase
-- **代码注释**：每个组件和 API 方法必须包含功能说明注释
-- **错误处理**：统一的异常处理机制
-- **日志记录**：重要操作必须记录日志
+   - 用户旅程: `user.register`, `user.login`, `user.logout`
+   - 学习行为: `video.play.start/pause/end`, `course.progress.update`
+   - 转化漏斗: `cart.add`, `payment.success`, `coupon.apply`
+   - SEO/AEO 事件: `search.from.baidu`, `faq.click`, `ai.referral`
 
-### 版本控制
+3. **实现标准**：
+   - 事件命名约定: `module.action.state` (如: `video.play.start`)
+   - 为可跟踪元素添加 `data-track` 属性
+   - 使用 Django 中间件进行 API 请求跟踪
+   - 在 MySQL 中存储关键业务事件(永远不依赖第三方)
+   - 性能: 直接百度统计集成以获得最佳加载速度
 
-- 使用 Git 进行版本控制
-- 提交信息使用中文，格式：`类型: 简短描述`
-- 分支策略：main（主分支）+ feature（功能分支）
+### 部署任务
 
-## 🚀 开发环境
+准备生产部署时：
 
-- **前端开发服务器**：http://localhost:5173
-- **后端开发服务器**：http://localhost:8000
-- **数据库**：本地 MySQL 或 SQLite
-- **跨域配置**：后端配置 CORS 允许前端域名访问
+1. **前端 (Vercel 设置)**：
 
-## ⚡ MVP 阶段优先级
+   - 连接 GitHub 仓库到 Vercel 项目
+   - 配置构建设置(框架: Vite, 构建命令: `npm run build`)
+   - 设置环境变量(API_BASE_URL 等)
+   - 配置自定义域名(doviai.com)
 
-### 核心功能（第一优先级）
+2. **后端 (Railway 设置)**：
 
-1. 用户注册/登录系统
-2. 课程展示与详情
-3. 购物车功能
-4. 基础订单流程
+   - 连接 GitHub 仓库到 Railway 项目
+   - 添加 MySQL 数据库服务(8.4+推荐)
+   - 设置环境变量(SECRET_KEY, DEBUG=False, DATABASE_URL)
+   - 为 Vercel 域名配置 CORS 设置
+   - 添加 Redis 服务用于缓存(MVP 可选)
+   - 设置分析环境变量(BAIDU_ANALYTICS_ID)
 
-### 增强功能（第二优先级）
+3. **数据库迁移**：
+   - requirements.txt 中已配置 mysqlclient
+   - 创建包含环境变量的生产设置文件
+   - 在 Railway 预发环境测试迁移
+   - 配置 TablePlus 远程 MySQL 访问
 
-1. 学习进度记录
-2. 课程评价系统
-3. 用户个人中心
+## Development Philosophy
 
-### 扩展功能（后期版本）
+> **开发哲学**: 比如"增量优于全部重构"、"代码要清晰而非聪明"。
 
-1. 完整 RBAC 权限系统
-2. 管理后台升级
-3. 支付集成
-4. 推荐系统
+> **标准工作流**: 规划 -> 写测试 -> 实现 -> 重构 -> 提交。
 
-## 📝 开发流程
+> **"卡住怎么办"预案**: 尝试 3 次失败后，必须停下来，记录失败、研究替代方案、反思根本问题。
 
-1. **需求分析**：明确功能需求和技术方案
-2. **接口设计**：前后端协商 API 接口规范
-3. **并行开发**：前后端同步开发，使用 mock 数据
-4. **集成测试**：前后端联调测试
-5. **部署上线**：生产环境部署和监控
+> **决策框架**: 当有多种方案时，按可测试性 > 可读性 > 一致性 > 简单性的顺序选择。
 
-## 💡 最佳实践提醒
+# 开发指南
 
-- 优先使用现有组件和模式，避免重复造轮子
-- 所有新功能开发前先查看相关 AGENTS.md 规范
-- 遇到技术难题优先查阅项目内的技术文档
-- 保持代码风格一致性，定期进行代码 review
-- 重要功能变更需要更新相应的 AGENTS.md 文档
+## 理念
 
-# 图片资源管理
+### 核心信念
 
-## 目录结构
+- **渐进式进展优于大爬轰** - 能编译和通过测试的小变更
+- **从现有代码中学习** - 先研究再计划后实现
+- **实用主义优于教条主义** - 适应项目现实
+- **意图清晰优于巧妙代码** - 做无聊和明显的事
 
-```
-frontend/src/assets/
-├── icons/          # Logo和图标类资源
-│   ├── logo.png
-│   └── ...
-└── images/         # 课程封面等业务图片
-    ├── tiyan-*     # 体验课程图片 (免费课程)
-    ├── rumen-*     # 入门课程图片 (基础课程)
-    ├── jingjin-*   # 精进课程图片 (进阶课程)
-    ├── shizhan-*   # 实战课程图片 (项目课程)
-    └── xiangmuluodi-* # 项目落地课程图片 (高级项目)
-```
+### 简单意味着
 
-## 命名规范
+- 每个函数/类单一责任
+- 避免过早抽象
+- 不做巧妙的技巧 - 选择无聊的解决方案
+- 如果你需要解释它，那就太复杂了
 
-- 课程封面：`{stage}-{course}-cover.{ext}`
-  - stage: tiyan(体验)/rumen(入门)/jingjin(精进)/shizhan(实战)/xiangmuluodi(项目落地)
-  - course: python/xuhuan/photoshop 等
-  - ext: jpg/png
-- Logo 和图标：小写字母，连字符分隔
+## 流程
 
-## 使用规范
+### 1. 计划和分阶段
 
-### Vue 组件中正确引用图片
+将复杂工作分解 3-5 个阶段。在 `IMPLEMENTATION_PLAN.md` 中文档化：
 
-```vue
-<script setup lang="ts">
-// 导入图片资源
-import logoImg from '@/assets/icons/logo.png'
-import courseImg from '@/assets/images/tiyan-python-cover.jpg'
-</script>
+```markdown
+## 阶段 N: [名称]
 
-<template>
-  <img :src="logoImg" alt="UAI Logo" />
-  <img :src="courseImg" alt="Python体验课" />
-</template>
+**目标**: [具体交付物]
+**成功标准**: [可测试结果]
+**测试**: [具体测试用例]
+**状态**: [未开始|进行中|完成]
 ```
 
-### 数据中引用图片
+- 进展时更新状态
+- 所有阶段完成时删除文件
 
-```typescript
-import tiyanPythonCover from '@/assets/images/tiyan-python-cover.jpg'
+### 2. 实现流程
 
-const course = {
-  title: 'Python体验课',
-  cover: tiyanPythonCover, // 使用导入的图片变量
-  stage: 'free'
-}
-```
+1. **理解** - 研究代码库中的现有模式
+2. **测试** - 先写测试(红)
+3. **实现** - 最少代码使测试通过(绿)
+4. **重构** - 在测试通过的情况下清理代码
+5. **提交** - 带有清晰的消息链接到计划
+
+### 3. 遇到困难时(尝试 3 次后)
+
+**关键**: 每个问题最多尝试 3 次，然后停下。
+
+1. **记录失败原因**:
+
+   - 你尝试了什么
+   - 具体的错误消息
+   - 你认为失败的原因
+
+2. **研究替代方案**:
+
+   - 找到 2-3 个类似的实现
+   - 注意使用的不同方法
+
+3. **质疑基础**:
+
+   - 这是正确的抽象层级吗？
+   - 这能分解为更小的问题吗？
+   - 有更简单的方法吗？
+
+4. **尝试不同角度**:
+   - 不同的库/框架特性？
+   - 不同的架构模式？
+   - 移除抽象而不是添加？
+
+## 技术标准
+
+### 架构原则
+
+- **组合优于继承** - 使用依赖注入
+- **接口优于单例** - 启用测试和灵活性
+- **明确优于隐式** - 清晰的数据流和依赖
+- **尽可能测试驱动** - 不要禁用测试，修复它们
+
+### 代码质量
+
+- **每次提交必须**:
+
+  - 编译成功
+  - 通过所有现有测试
+  - 包含新功能的测试
+  - 遵循项目格式化/代码检查
+
+- **提交之前**:
+  - 运行格式化程序/代码检查器
+  - 自审查变更
+  - 确保提交消息解释“为什么”
+
+### 错误处理
+
+- 使用描述性消息快速失败
+- 包含调试上下文
+- 在适当的层级处理错误
+- 永远不要静默吞没异常
+
+## 决策框架
+
+当存在多个有效方法时，按以下顺序选择：
+
+1. **可测试性** - 我能轻松测试这个吗？
+2. **可读性** - 6 个月后有人能理解这个吗？
+3. **一致性** - 这符合项目模式吗？
+4. **简单性** - 这是可行的最简单解决方案吗？
+5. **可逆性** - 后续变更有多难？
+
+## 项目集成
+
+### 学习代码库
+
+- 找到 3 个类似的功能/组件
+- 识别通用模式和约定
+- 尽可能使用相同的库/工具
+- 遵循现有的测试模式
+
+### 工具
+
+- 使用项目现有的构建系统
+- 使用项目的测试框架
+- 使用项目的格式化/代码检查器设置
+- 没有充分理由不要引入新工具
+
+## 质量门禁
+
+### 完成的定义
+
+- [ ] 已编写和通过测试
+- [ ] 代码遵循项目约定
+- [ ] 没有代码检查器/格式化器警告
+- [ ] 提交消息清晰
+- [ ] 实现与计划匹配
+- [ ] 没有无 issue 编号的 TODO
+
+### 测试指南
+
+- 测试行为，而不是实现
+- 尽可能每个测试一个断言
+- 清晰的测试名称描述场景
+- 使用现有的测试工具/助手
+- 测试应该是确定性的
 
 ## 重要提醒
 
-1. **禁止使用字符串路径**：不要使用 `@/assets/images/xxx.jpg` 字符串
-2. **必须导入图片**：在组件顶部使用 `import` 导入图片
-3. **Vite 构建优化**：导入方式确保图片被正确打包和优化
-4. **TypeScript 支持**：导入方式提供更好的类型检查
+**永远不要**:
 
-详细规范请参考 `frontend/AGENTS.md` 中的图片资源管理章节。
+- 使用 `--no-verify` 绕过提交钩子
+- 禁用测试而不是修复它们
+- 提交不能编译的代码
+- 做假设 - 用现有代码验证
+
+**总是**:
+
+- 增量式提交可工作的代码
+- 进展时更新计划文档
+- 从现有实现中学习
+- 3 次失败尝试后停下来重新评估
+
+## 文档参考
+
+- 主项目规则: `README.md`
+- 前端特定规则: `frontend/AGENTS.md`
+- 后端特定规则: `backend/AGENTS.md`
+- Cursor 开发规则: `.cursor/rules/` 目录
+- 安全指南: `Cursor User Rules.md`
+
+## CCPlugins - Enhanced Development Commands
+
+**IMPORTANT**: 这个项目配置了 CCPlugins 扩展，提供 24 个专业命令用于增强开发效率。当用户提到相关任务时，我应该自动识别并使用对应的命令。命令文件存储在全局`.claude/commands/`文件夹中。
+
+### 🚀 Development Workflow Commands
+
+#### /cleanproject
+
+- **用途**: 清理项目中的调试工件，保持 Git 安全
+- **自动触发场景**: 需要清理临时文件、调试输出、构建缓存时
+- **命令说明**: 智能移除 debug artifacts，保护 git 历史
+
+#### /commit
+
+- **用途**: 智能化的常规提交，带有分析功能
+- **自动触发场景**: 用户要求提交代码或保存更改时
+- **命令说明**: 分析变更内容，生成符合规范的 commit message
+
+#### /format
+
+- **用途**: 自动检测并应用项目格式化工具
+- **自动触发场景**: 代码格式不一致、需要统一代码风格时
+- **命令说明**: 根据项目配置（prettier/eslint/black 等）自动格式化
+
+#### /scaffold feature-name
+
+- **用途**: 从现有模式生成完整功能模块
+- **自动触发场景**: 创建新功能、新组件、新模块时
+- **命令说明**: 分析项目结构，生成符合项目规范的完整功能代码
+
+#### /test
+
+- **用途**: 运行测试并提供智能失败分析
+- **自动触发场景**: 需要验证代码、运行测试套件时
+- **命令说明**: 执行测试并分析失败原因，提供修复建议
+- **ℹ️ 优先保留**: 与/test-harness 功能相近，但/test 更适合日常测试
+
+#### /implement url/path/feature
+
+- **用途**: 从任何来源导入和适配代码，带验证阶段
+- **自动触发场景**: 需要集成外部代码、实现参考功能时
+- **命令说明**: 智能导入并适配外部代码到项目规范
+
+#### /refactor
+
+- **用途**: 智能代码重构，带验证和去参数化
+- **命令说明**: 分析并重构代码，确保功能不变的情况下提升质量
+- **⚠️ 手动调用**: 与/refactor-clean 有功能重叠，请明确指定使用哪个
+
+### 🛡️ Code Quality & Security Commands
+
+#### /review
+
+- **用途**: 多代理分析（安全、性能、质量、架构）
+- **命令说明**: 全面分析代码的各个维度并提供改进建议
+- **⚠️ 手动调用**: 与/ai-review、/full-review、/multi-agent-review 有功能重叠，请明确指定使用哪个
+
+#### /security-scan
+
+- **用途**: 漏洞分析，带扩展思考和修复跟踪
+- **命令说明**: 深度扫描安全问题并提供修复方案
+- **⚠️ 手动调用**: 与/security-hardening 有功能重叠，请明确指定使用哪个
+
+#### /predict-issues
+
+- **用途**: 主动问题检测，带时间线估计
+- **自动触发场景**: 风险评估、问题预测、技术债务分析时
+- **命令说明**: 预测潜在问题并估算影响时间线
+
+#### /remove-comments
+
+- **用途**: 清理明显注释，保留有价值文档
+- **自动触发场景**: 代码清理、移除冗余注释时
+- **命令说明**: 智能识别并移除无用注释，保留重要文档
+
+#### /fix-imports
+
+- **用途**: 修复重构后的导入问题
+- **自动触发场景**: 导入错误、模块路径问题时
+- **命令说明**: 自动检测并修复 import/require 语句
+
+#### /find-todos
+
+- **用途**: 定位并组织开发任务
+- **自动触发场景**: 查找待办事项、任务管理时
+- **命令说明**: 扫描代码中的 TODO/FIXME 等标记
+
+#### /create-todos
+
+- **用途**: 基于分析结果添加上下文 TODO 注释
+- **自动触发场景**: 需要标记待完成任务时
+- **命令说明**: 智能添加 TODO 注释并包含上下文信息
+
+#### /fix-todos
+
+- **用途**: 智能实现 TODO 修复，带上下文
+- **自动触发场景**: 处理 TODO 项、完成待办任务时
+- **命令说明**: 分析 TODO 内容并自动实现修复
+
+### 🔍 Advanced Analysis Commands
+
+#### /understand
+
+- **用途**: 分析整个项目架构和模式
+- **自动触发场景**: 项目理解、架构分析、代码库熟悉时
+- **命令说明**: 深度分析项目结构、设计模式和架构决策
+
+#### /explain-like-senior
+
+- **用途**: 资深级别的代码解释，带上下文
+- **自动触发场景**: 复杂代码解释、技术分享、知识传递时
+- **命令说明**: 以资深开发者视角解释代码逻辑和设计考虑
+
+#### /contributing
+
+- **用途**: 完整的贡献准备度分析
+- **自动触发场景**: 准备贡献代码、开源参与时
+- **命令说明**: 分析项目贡献指南和准备度
+
+#### /make-it-pretty
+
+- **用途**: 提升可读性，不改变功能
+- **自动触发场景**: 代码美化、可读性优化时
+- **命令说明**: 重构代码提升可读性，保持功能不变
+
+### 📁 Session & Project Management Commands
+
+#### /session-start
+
+- **用途**: 开始记录会话，集成 CLAUDE.md
+- **自动触发场景**: 开始新的开发会话时
+- **命令说明**: 初始化会话记录并加载项目上下文
+
+#### /session-end
+
+- **用途**: 总结并保存会话上下文
+- **自动触发场景**: 结束开发会话时
+- **命令说明**: 生成会话总结并保存重要上下文
+
+#### /docs
+
+- **用途**: 智能文档管理和更新
+- **自动触发场景**: 文档更新、README 维护时
+- **命令说明**: 自动更新和维护项目文档
+
+#### /todos-to-issues
+
+- **用途**: 将代码 TODO 转换为 GitHub issues
+- **自动触发场景**: 任务管理、issue 创建时
+- **命令说明**: 扫描 TODO 并创建对应的 GitHub issues
+
+#### /undo
+
+- **用途**: 安全回滚，使用 git checkpoint 恢复
+- **自动触发场景**: 需要撤销更改、回滚操作时
+- **命令说明**: 使用 git 安全回滚到之前的检查点
+
+### 使用指南
+
+#### 🎯 **自动触发 vs 手动调用**
+
+**自动触发命令**（无冲突，可用自然语言）：
+
+- 基础工作流：cleanproject, commit, format, test
+- 项目管理：understand, docs, session-start/end
+- TODO 管理：find-todos, create-todos, fix-todos
+- 功能开发：scaffold, implement
+- 代码优化：make-it-pretty, fix-imports, predict-issues
+- 特殊工具：explain-like-senior, todos-to-issues, undo, remove-comments
+
+**手动调用命令**（有冲突，请明确指定）：
+
+- 重构相关：/refactor vs /refactor-clean
+- 审查相关：/review vs /ai-review vs /full-review vs /multi-agent-review
+- 安全相关：/security-scan vs /security-hardening
+
+1. **智能选择**: 根据上下文自动选择最合适的无冲突命令
+2. **明确指定**: 对于有冲突的命令，请使用`/命令名`格式明确调用
+3. **验证阶段**: 多数命令包含验证和优化阶段，确保输出质量
+
+### 命令使用示例
+
+```bash
+# 开发工作流
+/scaffold user-profile     # 生成用户档案功能
+/test                      # 运行测试
+/commit                    # 智能提交
+
+# 代码质量
+/review                    # 全面代码审查
+/security-scan            # 安全扫描
+/refactor                 # 智能重构
+
+# 项目管理
+/session-start            # 开始会话
+/understand              # 理解项目
+/docs                    # 更新文档
+```
+
+### 注意事项
+
+- 命令执行前会进行验证，确保安全性
+- 某些命令可能需要额外确认（如/undo）
+- 命令可以组合使用以完成复杂任务
+- 所有命令都遵循项目的开发规范和哲学
+- "自动化规则：每次前端改动后，使用 Playwright 自动打开浏览器、截图、检查错误，并根据提示中的验收标准调整。"
+
+## 企业扩展 Feature Flag 统一管理
+
+**重要说明**: 为确保前后端一致性，所有企业相关功能必须使用统一的 Feature Flag 控制。
+
+### Feature Flag 命名规范
+
+```python
+# 后端Django Settings (settings.py)
+ENTERPRISE_FLAGS = {
+    'ENTERPRISE_SUBSCRIPTION_ENABLED': False,      # 企业订阅功能
+    'ENTERPRISE_ADMIN_PANEL_ENABLED': False,       # 企业管理后台
+    'ENTERPRISE_SEAT_MANAGEMENT_ENABLED': False,   # 席位管理功能
+    'ENTERPRISE_BULK_PURCHASE_ENABLED': False,     # 批量购买功能
+    'ENTERPRISE_REPORTING_ENABLED': False,         # 企业报表统计
+    'ENTERPRISE_DATA_ISOLATION_ENABLED': False,    # 企业数据隔离
+    'ENTERPRISE_RBAC_ROLE_ENABLED': False,         # Enterprise Admin角色
+}
+```
+
+```typescript
+// 前端配置 (frontend/src/config/featureFlags.ts)
+export const ENTERPRISE_FLAGS = {
+  ENTERPRISE_SUBSCRIPTION_ENABLED: false, // 企业订阅UI
+  ENTERPRISE_ADMIN_PANEL_ENABLED: false, // 企业管理面板
+  ENTERPRISE_SEAT_MANAGEMENT_ENABLED: false, // 席位管理界面
+  ENTERPRISE_BULK_PURCHASE_ENABLED: false, // 批量购买界面
+  ENTERPRISE_REPORTING_ENABLED: false, // 企业统计报表
+  ENTERPRISE_DATA_ISOLATION_ENABLED: false, // 数据隔离逻辑
+  ENTERPRISE_RBAC_ROLE_ENABLED: false // 企业角色权限
+} as const
+```
+
+### 企业版触发条件统一标准
+
+**市场验证阶段触发条件**:
+
+- 月付费用户数 > 500 人
+- 企业主动咨询数 >= 3 家
+- 个人会员续费率 > 60%
+
+**满足条件后的行动**:
+
+1. 启用基础企业功能 Flag (ENTERPRISE_SUBSCRIPTION_ENABLED)
+2. 开展 2-3 家试点企业验证
+3. 收集反馈后决定完整企业版上线
+
+### 使用方式
+
+```python
+# 后端使用示例
+from django.conf import settings
+
+if settings.ENTERPRISE_FLAGS['ENTERPRISE_SUBSCRIPTION_ENABLED']:
+    # 企业订阅逻辑
+    process_enterprise_subscription(user)
+```
+
+```typescript
+// 前端使用示例
+import { ENTERPRISE_FLAGS } from '@/config/featureFlags'
+
+if (ENTERPRISE_FLAGS.ENTERPRISE_ADMIN_PANEL_ENABLED) {
+  // 显示企业管理面板
+  showEnterpriseAdminPanel()
+}
+```
+
+### MVP 阶段配置
+
+当前所有企业 Flag 设置为`false`，确保：
+
+- 个人用户功能 100%不受影响
+- 企业相关 UI 完全隐藏
+- 企业逻辑预留但不执行
+- 数据库字段预留但不启用
+
+# 文件读取规则
+
+- 只有在读取项目外部文件时才考虑使用 MCP filesystem 工具

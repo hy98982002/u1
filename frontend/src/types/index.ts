@@ -1,6 +1,6 @@
 // 课程阶段枚举 - 统一管理所有可能的阶段
 export const STAGES = {
-  free: '体验',
+  free: '免费',
   basic: '入门',
   advanced: '精进',
   project: '实战',
@@ -19,18 +19,18 @@ export const STAGE_STYLES = {
   landing: { textClass: 'text-danger', bgClass: 'bg-danger-subtle', label: '项目落地' }
 } as const
 
-// 课程卡片模板类型
+// 课程卡片模板类型 - 使用英文标识符以支持SEO友好的URL
 export type CourseCardTemplate =
-  | 'tiyan'
-  | 'rumen'
-  | 'jingjin'
-  | 'shizhan'
-  | 'xiangmushizhan'
-  | 'huiyuan'
+  | 'free'
+  | 'beginner'
+  | 'advanced'
+  | 'hands-on'
+  | 'project'
+  | 'vip'
 
 // 课程卡片模板配置
 export interface CourseCardConfig {
-  level: string // 等级标签 (体验、入门、精进、实战等)
+  level: string // 等级标签 (免费、入门、精进、实战等)
   priceRange: [number, number] // 价格范围 [最小值, 最大值]
   learnerRange: [number, number] // 学员数范围
   isFree: boolean // 是否免费
@@ -40,15 +40,15 @@ export interface CourseCardConfig {
 
 // 课程卡片模板映射
 export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig> = {
-  tiyan: {
-    level: '体验',
+  free: {
+    level: '免费',
     priceRange: [0, 0],
     learnerRange: [180, 280],
     isFree: true,
     isVip: false,
     levelStyle: 'success'
   },
-  rumen: {
+  beginner: {
     level: '入门',
     priceRange: [99, 299],
     learnerRange: [120, 220],
@@ -56,7 +56,7 @@ export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig>
     isVip: false,
     levelStyle: 'primary'
   },
-  jingjin: {
+  advanced: {
     level: '精进',
     priceRange: [199, 399],
     learnerRange: [100, 200],
@@ -64,7 +64,7 @@ export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig>
     isVip: false,
     levelStyle: 'info'
   },
-  shizhan: {
+  'hands-on': {
     level: '实战',
     priceRange: [99, 199],
     learnerRange: [200, 400],
@@ -72,7 +72,7 @@ export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig>
     isVip: false,
     levelStyle: 'warning'
   },
-  xiangmushizhan: {
+  project: {
     level: '项目实战',
     priceRange: [299, 599],
     learnerRange: [80, 150],
@@ -80,7 +80,7 @@ export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig>
     isVip: false,
     levelStyle: 'danger'
   },
-  huiyuan: {
+  vip: {
     level: '会员专享',
     priceRange: [0, 0],
     learnerRange: [50, 120],
@@ -94,15 +94,15 @@ export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig>
 export function getTemplateFromImagePath(imagePath: string): CourseCardTemplate {
   const filename = imagePath.split('/').pop() || ''
 
-  if (filename.startsWith('tiyan-')) return 'tiyan'
-  if (filename.startsWith('rumen-')) return 'rumen'
-  if (filename.startsWith('jingjin-')) return 'jingjin'
-  if (filename.startsWith('shizhan-')) return 'shizhan'
-  if (filename.startsWith('xiangmushizhan-')) return 'xiangmushizhan'
-  if (filename.startsWith('huiyuan-')) return 'huiyuan'
+  if (filename.startsWith('free-')) return 'free'
+  if (filename.startsWith('beginner-')) return 'beginner'
+  if (filename.startsWith('advanced-')) return 'advanced'
+  if (filename.startsWith('hands-on-')) return 'hands-on'
+  if (filename.startsWith('project-')) return 'project'
+  if (filename.startsWith('vip-')) return 'vip'
 
-  // 默认返回体验模板
-  return 'tiyan'
+  // 默认返回免费模板
+  return 'free'
 }
 
 // 生成随机价格和学员数的工具函数
@@ -132,6 +132,7 @@ export function generateCourseData(template: CourseCardTemplate) {
 export interface Course {
   id: number
   title: string
+  slug: string // SEO友好的URL标识，如 "beginner-python"
   cover: string
   stage: StageKey
   camp?: 'skill' | 'career' | 'enterprise' // 营区归属

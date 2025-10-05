@@ -6,7 +6,7 @@
       <div class="row mb-3" style="margin-top: -0.3rem">
         <div class="col-12">
           <h2 class="section-title text-start" data-aos="fade-up">
-            <span class="black-text">UAI学院</span>
+            <span class="black-text">多维AI课堂</span>
             <span class="divider"></span>
             <span class="title-highlight">精品课程</span>
             <!-- <span class="title-subtitle">助力你的技术成长之路</span> -->
@@ -98,7 +98,6 @@
             :stage="currentStage"
             :show-load-more="hasMoreCourses"
             :loading="loading"
-            @card-click="handleCourseClick"
             @add-to-cart="handleAddToCart"
             @watch-now="handleWatchNow"
             @load-more="loadMoreCourses"

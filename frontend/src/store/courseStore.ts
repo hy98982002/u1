@@ -1,23 +1,23 @@
 import { defineStore } from 'pinia'
 import type { Course, StageKey } from '../types'
+import { generateCourseSlug } from '@/utils/slug'
 
 // 导入图片资源
-import tiyanPythonCover from '@/assets/images/tiyan-python-cover.jpg'
-import tiyanXuhuanCover from '@/assets/images/tiyan-xuhuan-cover.jpg'
-import tiyanPhotoshopCover from '@/assets/images/tiyan-photoshop-cover.jpg'
-import rumenPythonCover from '@/assets/images/rumen-python-cover.jpg'
-import rumenXuhuanCover from '@/assets/images/rumen-xuhuan-cover.jpg.jpg'
-import rumenPhotoshopCover from '@/assets/images/rumen-photoshop-cover.jpg.jpg'
-import jingjinPythonCover from '@/assets/images/jingjin-python-cover.jpg'
-import jingjinXuhuanCover from '@/assets/images/jingjin-xuhuan-cover.jpg.jpg'
-import jingjinPhotoshopCover from '@/assets/images/jingjin-photoshop-cover.jpg.jpg'
-import shizhanPythonCover from '@/assets/images/shizhan-python-cover.jpg'
-import shizhanXuhuanCover from '@/assets/images/shizhan-xuhuan-cover.jpg.jpg'
-import shizhanPhotoshopCover from '@/assets/images/shizhan-photoshop-cover.jpg.jpg'
-import huiyuanLogoCover from '@/assets/images/huiyuan-logo-cover.png'
-import huiyuanLogo2Cover from '@/assets/images/huiyuan-logo2-cover.png'
-import xiangmuluodiPsCover from '@/assets/images/xiangmuluodi-ps-cover.png'
-import xiangmuluodiPs2Cover from '@/assets/images/xiangmuluodi-ps2-cover.png'
+import freeunrealCover from '@/assets/images/courses/free-unreal-cover-480.webp'
+import freePhotoshopCover from '@/assets/images/courses/free-photoshop-cover-480.webp'
+import beginnerPythonCover from '@/assets/images/courses/beginner-python-cover-480.webp'
+import beginnerunrealCover from '@/assets/images/courses/beginner-unreal-cover-480.webp'
+import beginnerPhotoshopCover from '@/assets/images/courses/beginner-photoshop-cover-480.webp'
+import advancedPythonCover from '@/assets/images/courses/advanced-python-cover-480.webp'
+import advancedunrealCover from '@/assets/images/courses/advanced-unreal-cover-480.webp'
+import advancedPhotoshopCover from '@/assets/images/courses/advanced-photoshop-cover-480.webp'
+import handsOnPythonCover from '@/assets/images/courses/hands-on-python-cover-480.webp'
+import handsOnunrealCover from '@/assets/images/courses/hands-on-unreal-cover-480.webp'
+import handsOnPhotoshopCover from '@/assets/images/courses/hands-on-photoshop-cover-480.webp'
+import vipLogoCover from '@/assets/images/courses/vip-logo-cover-480.webp'
+import vipLogo2Cover from '@/assets/images/courses/vip-logo2-cover-480.webp'
+import projectPsCover from '@/assets/images/courses/project-ps-cover-480.webp'
+import projectPs2Cover from '@/assets/images/courses/project-ps2-cover-480.webp'
 
 export const useCourseStore = defineStore('course', {
   state: () => ({
@@ -25,10 +25,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 1,
         title: 'Photoshop体验课',
+        slug: generateCourseSlug('free', 'Photoshop'),
         description: '零基础入门Photoshop编程',
         price: 0,
         stage: 'free',
-        cover: tiyanPythonCover,
+        cover: freePhotoshopCover,
         tags: ['photoshop', 'AIGC'],
         rating: 4.5,
         enrolled: 1200,
@@ -39,11 +40,12 @@ export const useCourseStore = defineStore('course', {
       {
         id: 2,
         title: '虚幻引擎体验课',
+        slug: generateCourseSlug('free', 'Unreal Engine'),
         description: '虚幻引擎游戏开发入门',
         price: 0,
         stage: 'free',
-        cover: tiyanXuhuanCover,
-        tags: ['UE', '游戏开发', '入门'],
+        cover: freeunrealCover,
+        tags: ['UE', '游戏开发', '入门', 'AI+logo'],
         rating: 4.3,
         enrolled: 800,
         duration: '2小时',
@@ -53,11 +55,12 @@ export const useCourseStore = defineStore('course', {
       {
         id: 3,
         title: 'Photoshop体验课',
+        slug: generateCourseSlug('free', 'Photoshop Advanced'),
         description: 'PS图像处理基础入门',
         price: 0,
         stage: 'free',
-        cover: tiyanPhotoshopCover,
-        tags: ['Photoshop', '图像处理', '入门'],
+        cover: freePhotoshopCover,
+        tags: ['Photoshop', '图像处理', '入门', 'AI+logo'],
         rating: 4.7,
         enrolled: 1500,
         duration: '2小时',
@@ -67,10 +70,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 4,
         title: 'Python入门课程',
+        slug: generateCourseSlug('basic', 'Python'),
         description: 'Python编程基础知识',
         price: 199,
         stage: 'basic',
-        cover: tiyanPythonCover,
+        cover: beginnerPythonCover,
         tags: ['Python', '基础', '入门'],
         rating: 4.6,
         enrolled: 2000,
@@ -81,11 +85,12 @@ export const useCourseStore = defineStore('course', {
       {
         id: 5,
         title: 'illustrator基础课程',
+        slug: generateCourseSlug('basic', 'illustrator'),
         description: 'illustrator核心概念',
         price: 299,
         stage: 'basic',
-        cover: rumenPythonCover,
-        tags: ['illustrator', 'logo设计', 'AIGC'],
+        cover: beginnerPythonCover,
+        tags: ['illustrator', 'logo设计', 'AIGC', 'AI+logo'],
         rating: 4.8,
         enrolled: 1800,
         duration: '30小时',
@@ -95,10 +100,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 6,
         title: '虚幻引擎入门课程',
+        slug: generateCourseSlug('basic', 'Unreal Engine'),
         description: '虚幻引擎基础开发',
         price: 299,
         stage: 'basic',
-        cover: rumenXuhuanCover,
+        cover: beginnerunrealCover,
         tags: ['UE', '基础', '入门'],
         rating: 4.4,
         enrolled: 1200,
@@ -109,11 +115,12 @@ export const useCourseStore = defineStore('course', {
       {
         id: 7,
         title: 'Photoshop入门课程',
+        slug: generateCourseSlug('basic', 'Photoshop'),
         description: 'PS图像处理基础技巧',
         price: 199,
         stage: 'basic',
-        cover: rumenPhotoshopCover,
-        tags: ['Photoshop', 'AIGC', '入门'],
+        cover: beginnerPhotoshopCover,
+        tags: ['Photoshop', 'AIGC', '入门', 'AI+logo'],
         rating: 4.5,
         enrolled: 1600,
         duration: '15小时',
@@ -123,10 +130,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 8,
         title: 'Python进阶课程',
+        slug: generateCourseSlug('advanced', 'Python'),
         description: 'Python高级编程技巧',
         price: 599,
         stage: 'advanced',
-        cover: jingjinPythonCover,
+        cover: advancedPythonCover,
         tags: ['Python', '高级', '进阶'],
         rating: 4.9,
         enrolled: 800,
@@ -137,10 +145,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 9,
         title: 'logo分析',
+        slug: generateCourseSlug('advanced', 'logo Analysis'),
         description: 'Python数据处理与分析',
         price: 699,
         stage: 'advanced',
-        cover: jingjinPythonCover,
+        cover: advancedPythonCover,
         tags: ['illustrator', 'logo设计', 'AIGC'],
         rating: 4.7,
         enrolled: 600,
@@ -151,10 +160,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 10,
         title: '虚幻引擎进阶课程',
+        slug: generateCourseSlug('advanced', 'Unreal Engine'),
         description: '虚幻引擎高级开发技巧',
         price: 699,
         stage: 'advanced',
-        cover: jingjinXuhuanCover,
+        cover: advancedunrealCover,
         tags: ['UE', '游戏开发', 'AIGC'],
         rating: 4.6,
         enrolled: 500,
@@ -165,10 +175,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 11,
         title: 'Photoshop场景环境课程',
+        slug: generateCourseSlug('advanced', 'Photoshop Scene'),
         description: 'PS高级图像处理技巧',
         price: 499,
         stage: 'advanced',
-        cover: jingjinPhotoshopCover,
+        cover: advancedPhotoshopCover,
         tags: ['Photoshop', 'AIGC', '场景设计'],
         rating: 4.8,
         enrolled: 700,
@@ -179,10 +190,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 12,
         title: 'Python Web开发',
+        slug: generateCourseSlug('advanced', 'Python Web'),
         description: 'Python Web应用开发',
         price: 799,
         stage: 'advanced',
-        cover: jingjinPythonCover,
+        cover: advancedPythonCover,
         tags: ['Python', 'Web', 'Django'],
         rating: 4.5,
         enrolled: 400,
@@ -193,10 +205,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 13,
         title: 'Python实战项目',
+        slug: generateCourseSlug('project', 'Python Project'),
         description: 'Python项目实战开发',
         price: 999,
         stage: 'project',
-        cover: shizhanPythonCover,
+        cover: handsOnPythonCover,
         tags: ['Python', '实战', '项目'],
         rating: 4.9,
         enrolled: 300,
@@ -207,10 +220,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 14,
         title: '虚幻引擎实战项目',
+        slug: generateCourseSlug('project', 'Unreal Engine Project'),
         description: '虚幻引擎游戏项目开发',
         price: 1199,
         stage: 'project',
-        cover: shizhanXuhuanCover,
+        cover: handsOnunrealCover,
         tags: ['UE', '实战', '项目'],
         rating: 4.8,
         enrolled: 200,
@@ -221,10 +235,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 15,
         title: 'Photoshop实战项目',
+        slug: generateCourseSlug('project', 'Photoshop Project'),
         description: 'PS综合项目实战',
         price: 899,
         stage: 'project',
-        cover: shizhanPhotoshopCover,
+        cover: handsOnPhotoshopCover,
         tags: ['Photoshop', '实战', '项目'],
         rating: 4.7,
         enrolled: 400,
@@ -235,10 +250,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 16,
         title: 'Python企业项目',
+        slug: generateCourseSlug('project', 'Python Enterprise'),
         description: 'Python企业级应用开发',
         price: 1299,
         stage: 'project',
-        cover: shizhanPythonCover,
+        cover: handsOnPythonCover,
         tags: ['Python', '企业', '项目'],
         rating: 4.9,
         enrolled: 150,
@@ -249,10 +265,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 17,
         title: 'Logo设计基础',
+        slug: generateCourseSlug('basic', 'Logo Design'),
         description: '企业品牌Logo设计入门',
         price: 299,
         stage: 'basic',
-        cover: huiyuanLogoCover,
+        cover: vipLogoCover,
         tags: ['Logo', '设计', '入门'],
         rating: 4.5,
         enrolled: 800,
@@ -263,10 +280,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 18,
         title: 'Logo设计进阶',
+        slug: generateCourseSlug('advanced', 'Logo Design'),
         description: '高级品牌Logo设计技巧',
         price: 599,
         stage: 'advanced',
-        cover: huiyuanLogo2Cover,
+        cover: vipLogo2Cover,
         tags: ['Logo', '设计', '进阶'],
         rating: 4.7,
         enrolled: 400,
@@ -277,10 +295,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 19,
         title: 'PS项目实战-电商设计',
+        slug: generateCourseSlug('project', 'PS Ecommerce Design'),
         description: '电商平台视觉设计项目',
         price: 899,
         stage: 'project',
-        cover: xiangmuluodiPsCover,
+        cover: projectPsCover,
         tags: ['Photoshop', '电商', '设计'],
         rating: 4.8,
         enrolled: 300,
@@ -291,10 +310,11 @@ export const useCourseStore = defineStore('course', {
       {
         id: 20,
         title: 'PS项目实战-品牌设计',
+        slug: generateCourseSlug('landing', 'PS Brand Design'),
         description: '企业品牌视觉设计项目',
         price: 999,
         stage: 'landing',
-        cover: xiangmuluodiPs2Cover,
+        cover: projectPs2Cover,
         tags: ['Photoshop', '品牌', '设计'],
         isFree: false,
         rating: 4.9,
@@ -311,6 +331,7 @@ export const useCourseStore = defineStore('course', {
   }),
   getters: {
     getCoursesByStage: state => (stage: string) => state.courses.filter(c => c.stage === stage),
+    getCourseBySlug: state => (slug: string) => state.courses.find(c => c.slug === slug),
     filteredCourses: state => {
       let result = state.courses
       if (state.showVipOnly) {

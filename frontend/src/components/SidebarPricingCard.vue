@@ -59,18 +59,6 @@
         </div>
       </div>
     </div>
-    
-    <!-- 讲师卡片 -->
-    <div class="teacher-card">
-      <div class="teacher-avatar">
-        <img src="/img/tou03.png" alt="老师头像" />
-      </div>
-      <div class="teacher-name">小雨宿 · 资深讲师</div>
-      <div class="teacher-field">交互设计 & Unity</div>
-      <div class="teacher-courses-btn" @click="handleViewTeacherCourses">
-        查看该老师全部课程
-      </div>
-    </div>
   </div>
 </template>
 
@@ -122,10 +110,6 @@ const handleAddToCart = () => {
 
 const handleGetCoupon = () => {
   console.log('领取专属优惠券')
-}
-
-const handleViewTeacherCourses = () => {
-  console.log('查看该老师全部课程')
 }
 </script>
 
@@ -372,68 +356,6 @@ const handleViewTeacherCourses = () => {
   margin: 0;
 }
 
-/* 讲师卡片 - 使用白银比例 1.414 */
-.teacher-card {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  /* 白银比例：宽度320px，高度约320/1.414=226px */
-  min-height: 226px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-}
-
-/* 头像 */
-.teacher-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto;
-}
-
-.teacher-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* 讲师信息 */
-.teacher-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.teacher-field {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-}
-
-/* 讲师课程按钮 */
-.teacher-courses-btn {
-  background: rgba(30, 127, 152, 0.1);
-  color: #1E7F98;
-  padding: 8px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.teacher-courses-btn:hover {
-  background: rgba(30, 127, 152, 0.2);
-  transform: translateY(-2px);
-}
-
 /* 响应式设计 */
 @media (max-width: 768px) {
   .sidebar-container {
@@ -442,9 +364,8 @@ const handleViewTeacherCourses = () => {
     max-width: 100%;
     margin: 20px 0;
   }
-  
-  .price-card,
-  .teacher-card {
+
+  .price-card {
     margin-left: auto;
     margin-right: auto;
   }
@@ -454,9 +375,7 @@ const handleViewTeacherCourses = () => {
 .sidebar-container,
 .sidebar-container *,
 .price-card,
-.price-card *,
-.teacher-card,
-.teacher-card * {
+.price-card * {
   box-sizing: border-box;
 }
 

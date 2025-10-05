@@ -7,7 +7,6 @@
         :key="course.id"
         :course="course"
         :stage="stage"
-        @card-click="handleCardClick"
         @add-to-cart="handleAddToCart"
         @watch-now="handleWatchNow"
       />
@@ -48,17 +47,12 @@ const { courses, stage = undefined, showLoadMore = false, loading = false } = de
 
 // Emits定义
 const emit = defineEmits<{
-  cardClick: [course: Course]
   addToCart: [course: Course]
   watchNow: [course: Course]
   loadMore: []
 }>()
 
 // 事件处理
-const handleCardClick = (course: Course) => {
-  emit('cardClick', course)
-}
-
 const handleAddToCart = (course: Course) => {
   emit('addToCart', course)
 }

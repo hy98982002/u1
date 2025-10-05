@@ -1,18 +1,52 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
+    <!-- Meta信息-SEO 基础信息 -->
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/img/logo.png" />
+    <title>多维AI课堂 - 专业的在线技术培训</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UAI教育平台 - 专业的在线技术培训</title>
     <meta
       name="description"
-      content="UAI教育平台提供Python、前端、AI等专业技术培训课程，助力你的职业发展"
+      content="doviai提供Python、前端、AI等专业技术培训课程，助力你的职业发展"
     />
     <meta
       name="keywords"
       content="在线教育,技术培训,Python,前端开发,Vue,React,AI,机器学习,编程培训,职业发展"
     />
+
+    <!-- 浏览器小图标 -->
+    <link rel="icon" type="image/svg+xml" href="/img/logo.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo-universal-favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/logo-universal-favicon-16.png" />
+
+    <!-- iOS PWA 支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- PWA 入口,注册manifest.json-->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#166d84" />
+
+    <!-- iOS 图标  -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- 社交媒体og分享时生成卡片 -->
+    <meta property="og:title" content="多维AI课堂 - AI设计学习平台" />
+    <meta property="og:description" content="从零基础到实战，掌握AI设计技能" />
+    <meta
+      property="og:image"
+      content="https://www.doviai.com/images/seo/free-xuhuan-cover-1200.webp"
+    />
+    <!-- JPEG 备用图 -->
+    <meta
+      property="og:image"
+      content="https://www.doviai.com/images/seo/free-xuhuan-cover-1200.jpg"
+    />
+
+    <!-- 文字描述，用于无障碍和SEO -->
+    <meta property="og:image:alt" content="多维AI课堂 免费课程封面" />
+    <meta property="og:url" content="https://www.doviai.com" />
+    <meta property="og:type" content="website" />
 
     <!-- Bootstrap 5.3.6 CSS -->
     <link
@@ -25,6 +59,16 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <!-- JSON-LD结构化数据,AEO优化 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "多维AI课堂",
+        "url": "https://www.doviai.com",
+        "logo": "https://www.doviai.com/images/logo/logo-pc-main-2x.webp"
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>
@@ -34,5 +78,17 @@
 
     <!-- Vue App -->
     <script type="module" src="/src/main.ts"></script>
+
+    <!-- 为PWA 注册 Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .then(reg => console.log('SW 注册成功: ', reg.scope))
+            .catch(err => console.warn('SW 注册失败: ', err))
+        })
+      }
+    </script>
   </body>
 </html>

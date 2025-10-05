@@ -1,14 +1,15 @@
 # CLAUDE.md
 
 **🔥 强制要求：**
-- **语言：所有交流必须使用中文，包括bmad代理、CCPlugins命令和任何工具调用的对话**
-- **文件读取：项目内文件(/Users/dongqingzhai/Desktop/UAI_project/)必须使用Claude内置Read工具，禁用mcp__filesystem__*工具**
+
+- **语言：所有交流必须使用中文，包括 bmad 代理、CCPlugins 命令和任何工具调用的对话**
+- **文件读取：项目内文件(/Users/dongqingzhai/Desktop/UAI_project/)必须使用 Claude 内置 Read 工具，禁用 mcp**filesystem**\*工具**
 
 本文件为 Claude Code (claude.ai/code) 在此代码仓库中工作时提供指导。
 
 ## 项目概述
 
-UAI教育平台 - 基于 Vue 3 + Django 构建的在线教育服务全栈Web应用。项目采用前后端分离架构，使用JWT身份验证。
+多维 AI 课堂 - 基于 Vue 3 + Django 构建的在线教育服务全栈 Web 应用。项目采用前后端分离架构，使用 JWT 身份验证。
 
 ## 技术栈
 
@@ -16,19 +17,19 @@ UAI教育平台 - 基于 Vue 3 + Django 构建的在线教育服务全栈Web应�
 
 - Vue 3 配合 Composition API + TypeScript
 - Vite 构建工具
-- Bootstrap 5.3.6 UI框架（禁用其他UI框架）
+- Bootstrap 5.3.6 UI 框架（禁用其他 UI 框架）
 - Pinia 状态管理
 - Vue Router 路由
-- Axios API请求
+- Axios API 请求
 
 **后端：**
 
 - Python 3.12 + Django 5.2
-- Django REST Framework API框架
-- JWT身份验证 (SimpleJWT)
-- MySQL 8.4+ (Railway生产环境) / mysql (本地开发)
+- Django REST Framework API 框架
+- JWT 身份验证 (SimpleJWT)
+- MySQL 8.4+ (Railway 生产环境) / mysql (本地开发)
 - Django Admin 后台管理
-- Redis 缓存和会话存储 (MVP可选)
+- Redis 缓存和会话存储 (MVP 可选)
 
 ## 开发命令
 
@@ -79,25 +80,25 @@ pip install whitenoise       # 静态文件服务
 
 ### 前端结构 (`/frontend/src/`)
 
-- `views/` - 页面级组件 (PascalCase命名)
-- `components/` - 可复用组件 (PascalCase命名)
+- `views/` - 页面级组件 (PascalCase 命名)
+- `components/` - 可复用组件 (PascalCase 命名)
   - `i18n/` - 国际化组件 (语言切换等,海外版才设置)
-- `store/` - Pinia状态管理存储
-- `api/` - Axios请求封装 (每模块一个文件)
-- `router/` - Vue Router路由配置
-- `types/` - TypeScript类型定义
+- `store/` - Pinia 状态管理存储
+- `api/` - Axios 请求封装 (每模块一个文件)
+- `router/` - Vue Router 路由配置
+- `types/` - TypeScript 类型定义
 - `utils/` - 工具函数
-  - `i18n.ts` - OpenCC转换工具 (实现时)
+  - `i18n.ts` - OpenCC 转换工具 (实现时)
   - `tracking.ts` - 分析和事件跟踪工具
 - `assets/` - 静态资源，按子目录组织：
-  - `icons/` - 图标和Logo资源
+  - `icons/` - 图标和 Logo 资源
   - `images/` - 业务图片 (课程封面、头像等)
 - `config/` - 配置文件
   - `tracking.json` - 分析跟踪配置
 
 ### 后端结构 (`/backend/`)
 
-- `apps/` - Django应用模块：
+- `apps/` - Django 应用模块：
   - `users/` - 用户认证和管理
   - `courses/` - 课程管理系统
   - `cart/` - 购物车功能
@@ -107,9 +108,9 @@ pip install whitenoise       # 静态文件服务
   - `analytics/` - 用户行为跟踪和分析
   - `system/` - 系统级功能
 
-### API设计模式
+### API 设计模式
 
-所有API响应遵循以下结构：
+所有 API 响应遵循以下结构：
 
 ```json
 {
@@ -119,42 +120,42 @@ pip install whitenoise       # 静态文件服务
 }
 ```
 
-所有API端点都使用 `/api/` 前缀，并采用JWT身份验证。
+所有 API 端点都使用 `/api/` 前缀，并采用 JWT 身份验证。
 
 ## 开发约定
 
 ### 代码风格
 
-- **前端**: 只使用Composition API (禁止Options API)
-- **组件**: PascalCase命名 (如：`UserProfile.vue`)
-- **API文件**: camelCase (如：`userService.ts`)
-- **图片导入**: 总是使用import语句，永远不用字符串路径
+- **前端**: 只使用 Composition API (禁止 Options API)
+- **组件**: PascalCase 命名 (如：`UserProfile.vue`)
+- **API 文件**: camelCase (如：`userService.ts`)
+- **图片导入**: 总是使用 import 语句，永远不用字符串路径
 - **所有交流**: 注释和文档使用中文
 
 ### 安全要求
 
-- 永远不要硬编码敏感信息 (API密钥、密码等)
+- 永远不要硬编码敏感信息 (API 密钥、密码等)
 - 使用 `.env` 文件进行配置 (确保 `.env` 在 `.gitignore` 中)
-- 遵循Django安全最佳实践进行身份验证和CSRF保护
+- 遵循 Django 安全最佳实践进行身份验证和 CSRF 保护
 
 ### 国内版语言策略 (Domestic Version Language Strategy)
 
 - **V1.0 简化策略**: 专注中国大陆用户，仅支持简体中文，移除繁简转换复杂度
-- **当前域名**: uaiedu.com 专门服务中国大陆用户（简体中文单一语言）
-- **海外版规划**: 未来独立开发海外版本（uaiedu.org），支持完整国际化和多语言
-- **性能优势**: 移除语言转换开销，页面加载速度提升15-20%
-- **SEO策略**: 专注百度等国内搜索引擎优化
+- **当前域名**: doviai.com 专门服务中国大陆用户（简体中文单一语言）
+- **海外版规划**: 未来独立开发海外版本（doviai.org），支持完整国际化和多语言
+- **性能优势**: 移除语言转换开销，页面加载速度提升 15-20%
+- **SEO 策略**: 专注百度等国内搜索引擎优化
 - **海外简中用户优化（GoSEO）**：为居住在海外、使用 Google 搜索的简体中文用户提供优化内容
-- **AEO准备**: 添加中文FAQ和结构化数据，优化AI搜索
+- **AEO 准备**: 添加中文 FAQ 和结构化数据，优化 AI 搜索
 
 ### 统一分析策略 (Unified Analytics Strategy)
 
 - **分析工具**: 专门使用百度统计服务中国大陆用户
 - **技术实现**: 直接集成，无需区域检测逻辑复杂度
-- **业务级事件**: Django自定义模型进行转换漏斗分析
-- **前端实现**: Vue3组合式API事件跟踪，使用data-track属性
-- **后端实现**: Django中间件用于API请求跟踪
-- **隐私合规**: 仅基于ID跟踪，无敏感个人信息
+- **业务级事件**: Django 自定义模型进行转换漏斗分析
+- **前端实现**: Vue3 组合式 API 事件跟踪，使用 data-track 属性
+- **后端实现**: Django 中间件用于 API 请求跟踪
+- **隐私合规**: 仅基于 ID 跟踪，无敏感个人信息
 - **性能优势**: 单一分析提供商，优化加载速度
 
 ### 图片管理
@@ -168,10 +169,10 @@ pip install whitenoise       # 静态文件服务
 
 ### 关键配置文件
 
-- `frontend/vite.config.ts` - Vite配置和路径别名
-- `backend/uai_backend/settings.py` - Django设置 (当前使用SQLite)
+- `frontend/vite.config.ts` - Vite 配置和路径别名
+- `backend/uai_backend/settings.py` - Django 设置 (当前使用 SQLite)
 - `frontend/package.json` - 前端依赖和脚本
-- `backend/requirements.txt` - Python依赖
+- `backend/requirements.txt` - Python 依赖
 
 ### 开发环境
 
@@ -182,27 +183,27 @@ pip install whitenoise       # 静态文件服务
 
 ### 安全注意事项
 
-⚠️ **警告**: 当前的 `settings.py` 包含硬编码的SECRET_KEY和DEBUG=True。这些应该在任何生产部署之前移至环境变量。
+⚠️ **警告**: 当前的 `settings.py` 包含硬编码的 SECRET_KEY 和 DEBUG=True。这些应该在任何生产部署之前移至环境变量。
 
 ## 部署架构
 
 ### 生产环境
 
-- **前端部署**: Vercel (Git自动部署)
-  - 域名: `uaiedu.com` (主域名)
+- **前端部署**: Vercel (Git 自动部署)
+  - 域名: `doviai.com` (主域名)
   - 构建命令: `npm run build`
   - 框架预设: Vite
-  - 环境变量: API端点、SEO密钥
+  - 环境变量: API 端点、SEO 密钥
 - **后端部署**: Railway (Django + MySQL)
-  - Git仓库自动部署
+  - Git 仓库自动部署
   - MySQL 8.4+ 数据库配置连接池
-  - Redis缓存和会话 (MVP可选)
+  - Redis 缓存和会话 (MVP 可选)
   - 环境变量: DATABASE_URL, SECRET_KEY, DEBUG=False
 - **数据库管理**:
   - Railway Dashboard (生产环境监控)
   - TablePlus (本地开发和远程访问)
 
-### CI/CD流水线
+### CI/CD 流水线
 
 #### 开发工作流
 
@@ -228,45 +229,45 @@ pip install whitenoise       # 静态文件服务
 - **生产环境**: 平台特定环境变量
   - Vercel: 环境变量面板
   - Railway: 环境变量标签页
-- **CORS设置**: 后端配置允许Vercel域名源
-- **API端点**: 前端配置Railway后端URL
+- **CORS 设置**: 后端配置允许 Vercel 域名源
+- **API 端点**: 前端配置 Railway 后端 URL
 
 #### 数据库迁移策略
 
-- **开发环境**: MySQL 8.45用于快速本地开发
-- **生产环境**: Railway上的MySQL 8.4+
-  - 熟悉的MySQL语法和管理
-  - MySQL 8.0+提供JSON字段支持
-  - 优秀的Web应用性能
-  - TablePlus提供卓越的MySQL管理体验
-- **迁移路径**: requirements.txt中已配置mysqlclient
+- **开发环境**: MySQL 8.45 用于快速本地开发
+- **生产环境**: Railway 上的 MySQL 8.4+
+  - 熟悉的 MySQL 语法和管理
+  - MySQL 8.0+提供 JSON 字段支持
+  - 优秀的 Web 应用性能
+  - TablePlus 提供卓越的 MySQL 管理体验
+- **迁移路径**: requirements.txt 中已配置 mysqlclient
 
 ## 开发工作流
 
-1. **前端开发**: 初期使用模拟数据，后期集成后端API
-2. **后端开发**: 遵循Django REST约定，实现RBAC权限
-3. **API集成**: 确保所有请求自动包含JWT令牌
-4. **状态管理**: 使用Pinia存储，避免与组件本地状态混合
-5. **样式设计**: 使用Bootstrap 5.3.6类，维护响应式设计
+1. **前端开发**: 初期使用模拟数据，后期集成后端 API
+2. **后端开发**: 遵循 Django REST 约定，实现 RBAC 权限
+3. **API 集成**: 确保所有请求自动包含 JWT 令牌
+4. **状态管理**: 使用 Pinia 存储，避免与组件本地状态混合
+5. **样式设计**: 使用 Bootstrap 5.3.6 类，维护响应式设计
 
 ## 常见开发任务
 
 添加新功能时：
 
-1. 在后端创建遵循nREST约定的API端点
-2. 在 `src/api/` 中添加对应的前端API服务
-3. 必要时实现Pinia存储用于状态管理
+1. 在后端创建遵循 nREST 约定的 API 端点
+2. 在 `src/api/` 中添加对应的前端 API 服务
+3. 必要时实现 Pinia 存储用于状态管理
 4. 在 `src/components/` 中创建可复用组件
 5. 在 `src/views/` 中构建页面组件
 6. 更新路由配置以支持新路由
 
-### SEO/AEO优化任务
+### SEO/AEO 优化任务
 
 添加内容页面(课程、文章等)时：
 
 1. 添加结构化数据(JSON-LD)用于课程、FAQ、组织模式
-2. 包含FAQ部分和自然语言问答
-3. 确保适当的元标题、描述和alt属性
+2. 包含 FAQ 部分和自然语言问答
+3. 确保适当的元标题、描述和 alt 属性
 4. 考虑内容中的简繁中文关键词(适用于海外版)
 
 ### 分析实现任务
@@ -276,48 +277,48 @@ pip install whitenoise       # 静态文件服务
 1. **设置阶段**：
 
    - 添加百度统计集成
-   - 创建 `analytics` Django应用用于自定义事件存储
-   - 配置Vue3跟踪组合式函数用于统一跟踪
+   - 创建 `analytics` Django 应用用于自定义事件存储
+   - 配置 Vue3 跟踪组合式函数用于统一跟踪
 
 2. **核心事件跟踪**：
 
    - 用户旅程: `user.register`, `user.login`, `user.logout`
    - 学习行为: `video.play.start/pause/end`, `course.progress.update`
    - 转化漏斗: `cart.add`, `payment.success`, `coupon.apply`
-   - SEO/AEO事件: `search.from.baidu`, `faq.click`, `ai.referral`
+   - SEO/AEO 事件: `search.from.baidu`, `faq.click`, `ai.referral`
 
 3. **实现标准**：
    - 事件命名约定: `module.action.state` (如: `video.play.start`)
    - 为可跟踪元素添加 `data-track` 属性
-   - 使用Django中间件进行API请求跟踪
-   - 在MySQL中存储关键业务事件(永远不依赖第三方)
+   - 使用 Django 中间件进行 API 请求跟踪
+   - 在 MySQL 中存储关键业务事件(永远不依赖第三方)
    - 性能: 直接百度统计集成以获得最佳加载速度
 
 ### 部署任务
 
 准备生产部署时：
 
-1. **前端 (Vercel设置)**：
+1. **前端 (Vercel 设置)**：
 
-   - 连接GitHub仓库到Vercel项目
+   - 连接 GitHub 仓库到 Vercel 项目
    - 配置构建设置(框架: Vite, 构建命令: `npm run build`)
-   - 设置环境变量(API_BASE_URL等)
-   - 配置自定义域名(uaiedu.com)
+   - 设置环境变量(API_BASE_URL 等)
+   - 配置自定义域名(doviai.com)
 
-2. **后端 (Railway设置)**：
+2. **后端 (Railway 设置)**：
 
-   - 连接GitHub仓库到Railway项目
-   - 添加MySQL数据库服务(8.4+推荐)
+   - 连接 GitHub 仓库到 Railway 项目
+   - 添加 MySQL 数据库服务(8.4+推荐)
    - 设置环境变量(SECRET_KEY, DEBUG=False, DATABASE_URL)
-   - 为Vercel域名配置CORS设置
-   - 添加Redis服务用于缓存(MVP可选)
+   - 为 Vercel 域名配置 CORS 设置
+   - 添加 Redis 服务用于缓存(MVP 可选)
    - 设置分析环境变量(BAIDU_ANALYTICS_ID)
 
 3. **数据库迁移**：
-   - requirements.txt中已配置mysqlclient
+   - requirements.txt 中已配置 mysqlclient
    - 创建包含环境变量的生产设置文件
-   - 在Railway预发环境测试迁移
-   - 配置TablePlus远程MySQL访问
+   - 在 Railway 预发环境测试迁移
+   - 配置 TablePlus 远程 MySQL 访问
 
 ## Development Philosophy
 
@@ -351,7 +352,7 @@ pip install whitenoise       # 静态文件服务
 
 ### 1. 计划和分阶段
 
-将复杂工作分解3-5个阶段。在 `IMPLEMENTATION_PLAN.md` 中文档化：
+将复杂工作分解 3-5 个阶段。在 `IMPLEMENTATION_PLAN.md` 中文档化：
 
 ```markdown
 ## 阶段 N: [名称]
@@ -373,9 +374,9 @@ pip install whitenoise       # 静态文件服务
 4. **重构** - 在测试通过的情况下清理代码
 5. **提交** - 带有清晰的消息链接到计划
 
-### 3. 遇到困难时(尝试3次后)
+### 3. 遇到困难时(尝试 3 次后)
 
-**关键**: 每个问题最多尝试3次，然后停下。
+**关键**: 每个问题最多尝试 3 次，然后停下。
 
 1. **记录失败原因**:
 
@@ -385,7 +386,7 @@ pip install whitenoise       # 静态文件服务
 
 2. **研究替代方案**:
 
-   - 找到2-3个类似的实现
+   - 找到 2-3 个类似的实现
    - 注意使用的不同方法
 
 3. **质疑基础**:
@@ -434,7 +435,7 @@ pip install whitenoise       # 静态文件服务
 当存在多个有效方法时，按以下顺序选择：
 
 1. **可测试性** - 我能轻松测试这个吗？
-2. **可读性** - 6个月后有人能理解这个吗？
+2. **可读性** - 6 个月后有人能理解这个吗？
 3. **一致性** - 这符合项目模式吗？
 4. **简单性** - 这是可行的最简单解决方案吗？
 5. **可逆性** - 后续变更有多难？
@@ -443,7 +444,7 @@ pip install whitenoise       # 静态文件服务
 
 ### 学习代码库
 
-- 找到3个类似的功能/组件
+- 找到 3 个类似的功能/组件
 - 识别通用模式和约定
 - 尽可能使用相同的库/工具
 - 遵循现有的测试模式
@@ -464,7 +465,7 @@ pip install whitenoise       # 静态文件服务
 - [ ] 没有代码检查器/格式化器警告
 - [ ] 提交消息清晰
 - [ ] 实现与计划匹配
-- [ ] 没有无issue编号的TODO
+- [ ] 没有无 issue 编号的 TODO
 
 ### 测试指南
 
@@ -488,14 +489,14 @@ pip install whitenoise       # 静态文件服务
 - 增量式提交可工作的代码
 - 进展时更新计划文档
 - 从现有实现中学习
-- 3次失败尝试后停下来重新评估
+- 3 次失败尝试后停下来重新评估
 
 ## 文档参考
 
 - 主项目规则: `README.md`
 - 前端特定规则: `frontend/AGENTS.md`
 - 后端特定规则: `backend/AGENTS.md`
-- Cursor开发规则: `.cursor/rules/` 目录
+- Cursor 开发规则: `.cursor/rules/` 目录
 - 安全指南: `Cursor User Rules.md`
 
 ## CCPlugins - Enhanced Development Commands
@@ -705,12 +706,11 @@ pip install whitenoise       # 静态文件服务
 - 所有命令都遵循项目的开发规范和哲学
 - "自动化规则：每次前端改动后，使用 Playwright 自动打开浏览器、截图、检查错误，并根据提示中的验收标准调整。"
 
+## 企业扩展 Feature Flag 统一管理
 
-## 企业扩展Feature Flag统一管理
+**重要说明**: 为确保前后端一致性，所有企业相关功能必须使用统一的 Feature Flag 控制。
 
-**重要说明**: 为确保前后端一致性，所有企业相关功能必须使用统一的Feature Flag控制。
-
-### Feature Flag命名规范
+### Feature Flag 命名规范
 
 ```python
 # 后端Django Settings (settings.py)
@@ -728,26 +728,28 @@ ENTERPRISE_FLAGS = {
 ```typescript
 // 前端配置 (frontend/src/config/featureFlags.ts)
 export const ENTERPRISE_FLAGS = {
-  ENTERPRISE_SUBSCRIPTION_ENABLED: false,      // 企业订阅UI
-  ENTERPRISE_ADMIN_PANEL_ENABLED: false,       // 企业管理面板
-  ENTERPRISE_SEAT_MANAGEMENT_ENABLED: false,   // 席位管理界面
-  ENTERPRISE_BULK_PURCHASE_ENABLED: false,     // 批量购买界面
-  ENTERPRISE_REPORTING_ENABLED: false,         // 企业统计报表
-  ENTERPRISE_DATA_ISOLATION_ENABLED: false,    // 数据隔离逻辑
-  ENTERPRISE_RBAC_ROLE_ENABLED: false,         // 企业角色权限
-} as const;
+  ENTERPRISE_SUBSCRIPTION_ENABLED: false, // 企业订阅UI
+  ENTERPRISE_ADMIN_PANEL_ENABLED: false, // 企业管理面板
+  ENTERPRISE_SEAT_MANAGEMENT_ENABLED: false, // 席位管理界面
+  ENTERPRISE_BULK_PURCHASE_ENABLED: false, // 批量购买界面
+  ENTERPRISE_REPORTING_ENABLED: false, // 企业统计报表
+  ENTERPRISE_DATA_ISOLATION_ENABLED: false, // 数据隔离逻辑
+  ENTERPRISE_RBAC_ROLE_ENABLED: false // 企业角色权限
+} as const
 ```
 
 ### 企业版触发条件统一标准
 
 **市场验证阶段触发条件**:
-- 月付费用户数 > 500人
-- 企业主动咨询数 >= 3家
+
+- 月付费用户数 > 500 人
+- 企业主动咨询数 >= 3 家
 - 个人会员续费率 > 60%
 
 **满足条件后的行动**:
-1. 启用基础企业功能Flag (ENTERPRISE_SUBSCRIPTION_ENABLED)
-2. 开展2-3家试点企业验证
+
+1. 启用基础企业功能 Flag (ENTERPRISE_SUBSCRIPTION_ENABLED)
+2. 开展 2-3 家试点企业验证
 3. 收集反馈后决定完整企业版上线
 
 ### 使用方式
@@ -763,23 +765,23 @@ if settings.ENTERPRISE_FLAGS['ENTERPRISE_SUBSCRIPTION_ENABLED']:
 
 ```typescript
 // 前端使用示例
-import { ENTERPRISE_FLAGS } from '@/config/featureFlags';
+import { ENTERPRISE_FLAGS } from '@/config/featureFlags'
 
 if (ENTERPRISE_FLAGS.ENTERPRISE_ADMIN_PANEL_ENABLED) {
   // 显示企业管理面板
-  showEnterpriseAdminPanel();
+  showEnterpriseAdminPanel()
 }
 ```
 
-### MVP阶段配置
+### MVP 阶段配置
 
-当前所有企业Flag设置为`false`，确保：
-- 个人用户功能100%不受影响
-- 企业相关UI完全隐藏
+当前所有企业 Flag 设置为`false`，确保：
+
+- 个人用户功能 100%不受影响
+- 企业相关 UI 完全隐藏
 - 企业逻辑预留但不执行
 - 数据库字段预留但不启用
 
 # 文件读取规则
-  
-  - 只有在读取项目外部文件时才考虑使用MCP filesystem工具
-  
+
+- 只有在读取项目外部文件时才考虑使用 MCP filesystem 工具
