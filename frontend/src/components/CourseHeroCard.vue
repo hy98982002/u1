@@ -127,6 +127,11 @@ body {
 .course-hero {
   border: 1px solid var(--uai-border-gray);
   border-radius: 10px;
+  /* 添加最大宽度限制，使其与侧边栏购物车图块在右侧对齐 */
+  max-width: calc(100% - 70px);
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateX(-18px);
 }
 
 /* 面包屑在卡片内的样式调整 */
