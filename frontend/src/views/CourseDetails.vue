@@ -25,13 +25,10 @@
 
     <!-- 正常内容 -->
     <template v-else>
-      <!-- 面包屑导航 -->
-      <BreadcrumbNav :items="breadcrumbItems" />
-
       <!-- 课程详情主体 -->
       <section class="container">
-        <!-- 课程封面和信息 -->
-        <CourseHeroCard :courseInfo="courseInfo" />
+        <!-- 课程封面和信息（包含面包屑导航） -->
+        <CourseHeroCard :courseInfo="courseInfo" :breadcrumbItems="breadcrumbItems" />
 
         <!-- 选项卡和侧栏 -->
         <div class="row g-4">
@@ -60,7 +57,6 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import AuthNavbar from '../components/AuthNavbar.vue'
-import BreadcrumbNav from '../components/BreadcrumbNav.vue'
 import CourseHeroCard from '../components/CourseHeroCard.vue'
 import CourseTabs from '../components/CourseTabs.vue'
 import SidebarPricingCard from '../components/SidebarPricingCard.vue'

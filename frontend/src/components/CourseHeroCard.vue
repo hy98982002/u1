@@ -1,6 +1,9 @@
 <!-- CourseHeroCard.vue - 课程顶部卡片组件 -->
 <template>
   <div class="card cardTop p-lg-4 p-3 mb-4 course-hero">
+    <!-- 面包屑导航 -->
+    <BreadcrumbNav :items="breadcrumbItems" />
+
     <div class="row g-0 align-items-center">
       <div class="col-md-4 mb-3 mb-md-0">
         <img
@@ -57,20 +60,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import BreadcrumbNav from './BreadcrumbNav.vue'
+import type { BreadcrumbItem, CourseInfo } from '@/types'
 // 导入默认图片 (使用现有的课程封面作为占位符)
 import defaultCoverImage from '@/assets/images/courses/free-photoshop-cover-480.png'
 
-interface CourseInfo {
-  title: string
-  coverImage: string | any // 支持字符串路径或导入的图片
-  difficulty: string
-  updatedLessons: number
-  isFree: boolean
-  price?: number
-}
-
 interface Props {
   courseInfo?: CourseInfo
+  breadcrumbItems?: BreadcrumbItem[]
 }
 
 withDefaults(defineProps<Props>(), {
@@ -81,7 +78,8 @@ withDefaults(defineProps<Props>(), {
     updatedLessons: 25,
     isFree: true,
     price: 299
-  })
+  }),
+  breadcrumbItems: () => []
 })
 
 const isFavorited = ref(false)
@@ -129,6 +127,30 @@ body {
 .course-hero {
   border: 1px solid var(--uai-border-gray);
   border-radius: 10px;
+}
+
+/* 面包屑在卡片内的样式调整 */
+.course-hero :deep(.container) {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.course-hero :deep(.breadcrumb) {
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: 1rem;
+  background: transparent !important;
+  padding: 0;
+  font-size: 14px;
+}
+
+.course-hero :deep(.breadcrumb-item) {
+  color: #888;
+}
+
+.course-hero :deep(.breadcrumb-item a) {
+  color: #888 !important;
 }
 
 .course-hero-img {
