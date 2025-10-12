@@ -229,28 +229,34 @@ const handleOpenVip = () => {
 
 /* 主标题 */
 .course-title {
-  font-size: 28px;
-  line-height: 1.3;
+  font-size: 26px;
+  line-height: 1.1;
   color: #111111;
-  margin-bottom: 12px;
+  /* margin-top: 5px; */
+  margin-bottom: 10px;
   font-weight: 700;
   letter-spacing: -0.3px;
+  transform: translateY(14px);
 }
 
 /* 副标题 - HIG Deference原则：辅助信息克制展示 */
 .course-subtitle {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.2;
   color: #666666;
   margin-bottom: 16px;
-  font-weight: 400;
+  transform: translateY(12px);
+  font-weight: 450;
 }
 
 /* 课程统计信息 */
 .course-stats {
   font-size: 14px;
+  line-height: 0.8;
   color: #666666;
+  margin-top: -5px;
   margin-bottom: 20px;
+  transform: translateY(10px);
 }
 
 .course-stats span {
@@ -265,11 +271,12 @@ const handleOpenVip = () => {
 
 /* 当前折扣价 - 最大号强调 */
 .current-price {
-  font-size: 42px;
+  font-size: 18px;
   font-weight: 700;
   color: #111111;
   line-height: 1;
   letter-spacing: -0.5px;
+  transform: translateY(10px);
 }
 
 /* 原价 - 删除线 */
@@ -278,6 +285,7 @@ const handleOpenVip = () => {
   color: #999999;
   text-decoration: line-through;
   font-weight: 400;
+  transform: translateY(10px);
 }
 
 /* 折扣标签 */
@@ -294,7 +302,7 @@ const handleOpenVip = () => {
 
 /* 倒计时提示 - 红色警示 */
 .countdown-notice {
-  color: var(--countdown-red);
+  color: #d32f2f !important; /* 使用具体的红色值 */
   font-size: 14px;
   font-weight: 500;
   display: flex;
