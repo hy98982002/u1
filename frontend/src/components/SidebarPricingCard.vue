@@ -8,35 +8,29 @@
         <div class="promo-icon">⏰</div>
         <span class="promo-text">五一限时七折特惠</span>
       </div>
-      
+
       <!-- 活动时间 -->
-      <div class="activity-time">
-        活动结束时间：2025年05月16日
-      </div>
-      
+      <div class="activity-time">活动结束时间：2025年05月16日</div>
+
       <!-- 价格区域 -->
       <div class="price-section">
         <div class="current-price">¥896.00</div>
         <div class="original-price">¥1280.00</div>
       </div>
-      
+
       <!-- VIP价格 -->
       <div class="vip-section">
         <span class="vip-label">超级会员价</span>
         <span class="vip-price">¥806.40</span>
         <span class="vip-link" @click="handleJoinVip">立即加入>>></span>
       </div>
-      
+
       <!-- 购物车按钮 -->
-      <div class="cart-button" @click="handleAddToCart">
-        🛒 加入购物车
-      </div>
-      
+      <div class="cart-button" @click="handleAddToCart">🛒 加入购物车</div>
+
       <!-- 优惠券按钮 -->
-      <div class="coupon-button" @click="handleGetCoupon">
-        🎫 领取专属优惠券
-      </div>
-      
+      <div class="coupon-button" @click="handleGetCoupon">🎫 领取专属优惠券</div>
+
       <!-- 服务标签 -->
       <div class="service-section">
         <div class="service-label">承诺服务</div>
@@ -67,35 +61,35 @@ import { ref } from 'vue'
 
 // 服务标签数据
 const serviceTags = ref([
-  { 
-    name: '练', 
-    title: '24小时作业批阅', 
-    desc: '24小时内完成作业批阅，即时反馈并巩固您的学习效果' 
+  {
+    name: '练',
+    title: '24小时作业批阅',
+    desc: '24小时内完成作业批阅，即时反馈并巩固您的学习效果'
   },
-  { 
-    name: '试', 
-    title: '免费课程试听', 
-    desc: '精选课程内容免费体验，提前感受优质教学' 
+  {
+    name: '试',
+    title: '免费课程试听',
+    desc: '精选课程内容免费体验，提前感受优质教学'
   },
-  { 
-    name: '问', 
-    title: '在线答疑解惑', 
-    desc: '资深讲师实时在线答疑，快速解决学习难题' 
+  {
+    name: '问',
+    title: '在线答疑解惑',
+    desc: '资深讲师实时在线答疑，快速解决学习难题'
   },
-  { 
-    name: '疑', 
-    title: '疑难问题解决', 
-    desc: '专业技术团队一对一指导，助你突破技术瓶颈' 
+  {
+    name: '疑',
+    title: '疑难问题解决',
+    desc: '专业技术团队一对一指导，助你突破技术瓶颈'
   },
-  { 
-    name: '活', 
-    title: '丰富课程活动', 
-    desc: '定期技术沙龙、项目实战，提升实践能力' 
+  {
+    name: '活',
+    title: '丰富课程活动',
+    desc: '定期技术沙龙、项目实战，提升实践能力'
   },
-  { 
-    name: '就', 
-    title: '就业服务保障', 
-    desc: '一站式就业服务，助你快速实现职业提升' 
+  {
+    name: '就',
+    title: '就业服务保障',
+    desc: '一站式就业服务，助你快速实现职业提升'
   }
 ])
 
@@ -121,6 +115,7 @@ const handleGetCoupon = () => {
   width: 100%;
   max-width: 320px;
   z-index: 100;
+  transform: translateY(66px); /* 添加这行代码，30px是移动距离，可以根据需要调整 */
 }
 
 /* 价格卡片 - 使用黄金比例 1.618 */
@@ -142,7 +137,7 @@ const handleGetCoupon = () => {
 }
 
 .promo-icon {
-  color: #1E7F98;
+  color: #1e7f98;
   margin-right: 8px;
   font-size: 16px;
 }
@@ -198,7 +193,7 @@ const handleGetCoupon = () => {
 }
 
 .vip-link {
-  color: #1E7F98;
+  color: #1e7f98;
   cursor: pointer;
   text-decoration: none;
 }
@@ -209,7 +204,7 @@ const handleGetCoupon = () => {
 
 /* 按钮样式 */
 .cart-button {
-  background: #1E7F98;
+  background: #1e7f98;
   color: white;
   padding: 12px 0;
   text-align: center;
@@ -228,7 +223,7 @@ const handleGetCoupon = () => {
 
 .coupon-button {
   background: transparent;
-  color: #1E7F98;
+  color: #1e7f98;
   padding: 10px 0;
   text-align: center;
   border-radius: 6px;
@@ -236,7 +231,7 @@ const handleGetCoupon = () => {
   font-size: 14px;
   margin-bottom: 20px;
   transition: all 0.3s ease;
-  border: 2px dashed #1E7F98;
+  border: 2px dashed #1e7f98;
 }
 
 .coupon-button:hover {
@@ -271,7 +266,7 @@ const handleGetCoupon = () => {
 
 .service-tag {
   background: rgba(30, 127, 152, 0.1);
-  color: #1E7F98;
+  color: #1e7f98;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 13px;
@@ -340,7 +335,7 @@ const handleGetCoupon = () => {
 
 /* 弹出卡片标题 */
 .popup-header h6 {
-  color: #1E7F98;
+  color: #1e7f98;
   font-weight: 600;
   font-size: 14px;
   margin: 0 0 8px 0;
@@ -387,10 +382,10 @@ const handleGetCoupon = () => {
 
 /* 但保留虚线边框的优惠券按钮 */
 .coupon-button {
-  border: 2px dashed #1E7F98 !important;
+  border: 2px dashed #1e7f98 !important;
 }
 
 .coupon-button:hover {
   border: 2px dashed #35a4be !important;
 }
-</style> 
+</style>
