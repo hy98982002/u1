@@ -6,15 +6,13 @@
 
     <div class="row g-0 align-items-center">
       <!-- 左侧：课程封面图 -->
-      <div class="col-md-4 mb-3 mb-md-0 position-relative">
+      <div class="col-md-4 mb-3 mb-md-0">
         <img
           :src="courseInfo.coverImage"
           class="course-hero-img w-100"
           :alt="courseInfo.title"
           loading="lazy"
         />
-        <!-- 热门课程标签 -->
-        <div class="hot-badge position-absolute">热门课程</div>
       </div>
 
       <!-- 右侧：课程信息 -->
@@ -27,8 +25,9 @@
           {{ courseInfo.subtitle }}
         </p>
 
-        <!-- 学习热度和课程时长 -->
+        <!-- 热门课程标签和学习热度、课程时长 -->
         <div class="course-stats mb-3 d-flex align-items-center text-muted">
+          <span class="hot-badge me-3">热门课程</span>
           <span class="me-4">学习热度：{{ courseInfo.studyHeat }}</span>
           <span>课程时长：{{ courseInfo.duration }}</span>
         </div>
@@ -214,18 +213,16 @@ const handleOpenVip = () => {
   display: block;
 }
 
-/* 热门课程标签 - HIG Depth原则：层次感 */
+/* 热门课程标签 - 行内显示样式 */
 .hot-badge {
-  top: 12px;
-  left: 12px;
-  background-color: var(--hot-badge-bg);
+  display: inline-block;
+  background-color: #4a9e9e;
   color: white;
-  padding: 6px 16px;
+  padding: 4px 12px;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* ===== 右侧内容区域 - HIG Clarity原则 ===== */
