@@ -97,7 +97,7 @@ body {
 }
 
 .main-content {
-  padding-top: 0; /* 让轮播图贴着导航栏 */
+  padding-top: 50px; /* 让轮播图贴着导航栏 */
   min-height: 100vh;
 }
 
