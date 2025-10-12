@@ -250,11 +250,18 @@ export interface Chapter {
 
 export interface CourseInfo {
   title: string
+  subtitle?: string // 副标题
   coverImage: string
-  difficulty: string
-  updatedLessons: number
+  studyHeat?: number // 学习热度
+  duration?: string // 课程时长（如：191分钟）
+  discountPrice?: number // 折扣价
+  originalPrice?: number // 原价
+  discount?: number // 折扣百分比
+  promotionEndTime?: Date // 促销结束时间
+  difficulty?: string // 难度级别（向下兼容）
+  updatedLessons?: number // 已更新课时数（向下兼容）
   isFree: boolean
-  price?: number
+  price?: number // 基础价格（向下兼容）
 }
 
 export interface Review {

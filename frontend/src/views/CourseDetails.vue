@@ -104,10 +104,17 @@ onMounted(() => {
   const course = courseStore.getCourseBySlug(slug)
 
   if (course) {
-    // 设置课程信息
+    // 设置课程信息（包含新增的字段）
     courseInfo.value = {
       title: course.title,
+      subtitle: '一听就懂，快速上手，8大商业案例助你快速提升ps技能',
       coverImage: course.cover,
+      studyHeat: 2281,
+      duration: '191分钟',
+      discountPrice: 13.99,
+      originalPrice: 19.99,
+      discount: 30,
+      promotionEndTime: new Date(Date.now() + 9 * 60 * 60 * 1000), // 9小时后结束
       difficulty: course.level || '适合初学者',
       updatedLessons: Math.floor(Math.random() * 50) + 1,
       isFree: course.isFree || course.price === 0,
