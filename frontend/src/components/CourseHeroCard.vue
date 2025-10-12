@@ -35,7 +35,7 @@
         <!-- 价格区域 -->
         <div class="price-section mb-3">
           <div class="d-flex align-items-baseline mb-2">
-            <span class="current-price me-2">¥{{ courseInfo.discountPrice }}</span>
+            <span class="current-price me-2">价格¥{{ courseInfo.discountPrice }}</span>
             <span class="original-price me-2">¥{{ courseInfo.originalPrice }}</span>
             <span class="discount-badge">{{ courseInfo.discount }}% 折扣</span>
           </div>
@@ -190,12 +190,13 @@ const handleOpenVip = () => {
 }
 
 .course-hero :deep(.breadcrumb) {
-  margin-top: 0;
+  margin-top: -35px;
   margin-left: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   background: transparent !important;
   padding: 0;
-  font-size: 14px;
+  font-size: 16px;
+  transform: translateY(20px);
 }
 
 .course-hero :deep(.breadcrumb-item) {
