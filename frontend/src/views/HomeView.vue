@@ -1,8 +1,8 @@
 <template>
   <div class="home-page">
     <!-- 轮播图区域 -->
-    <div class="hero-section d-none d-md-block" style="margin-top: 60px">
-      <!-- 添加负margin-top抵消导航栏高度 -->
+    <!-- 移除margin-top: 60px，让轮播图紧贴导航栏 -->
+    <div class="hero-section d-none d-md-block">
       <HeroCarousel />
     </div>
 

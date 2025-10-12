@@ -96,8 +96,9 @@ body {
   min-height: 100vh;
 }
 
+/* 调整padding-top值，让轮播图紧贴导航栏 */
 .main-content {
-  padding-top: 50px; /* 让轮播图贴着导航栏 */
+  padding-top: 60px;
   min-height: 100vh;
 }
 
