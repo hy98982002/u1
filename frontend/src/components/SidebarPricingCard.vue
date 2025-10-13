@@ -49,16 +49,19 @@
 
       <!-- VIP价格 -->
       <div class="vip-section">
-        <span class="vip-label">超级会员价</span>
-        <span class="vip-price">¥806.40</span>
+        <span class="vip-label">加入会员享更多课程</span>
+        <!-- <span class="vip-price">¥806.40</span> -->
         <span class="vip-link" @click="handleJoinVip">立即加入>>></span>
       </div>
 
       <!-- 购物车按钮 -->
-      <div class="cart-button" @click="handleAddToCart">🛒 加入购物车</div>
+      <div class="cart-button" @click="handleAddToCart">添加至购物车</div>
+
+      <!-- 开通VIP立即学按钮 -->
+      <div class="vip-learn-button" @click="handleJoinVip">开通VIP立即学</div>
 
       <!-- 优惠券按钮 -->
-      <div class="coupon-button" @click="handleGetCoupon">🎫 领取专属优惠券</div>
+      <!-- <div class="coupon-button" @click="handleGetCoupon">🎫 领取专属优惠券</div> -->
 
       <!-- 服务标签 -->
       <div class="service-section">
@@ -260,6 +263,28 @@ const handleFavorite = () => {
 
 .cart-button:hover {
   background: #35a4be;
+  transform: translateY(-2px);
+}
+
+/* 开通VIP立即学按钮样式 */
+.vip-learn-button {
+  background: transparent;
+  color: #000; /* 改为黑色字体 */
+  border: 1px solid #ffc107 !important;
+  padding: 12px 0;
+  text-align: center;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.vip-learn-button:hover {
+  background: rgba(255, 193, 7, 0.1); /* 透明度为0.1的半透明背景，您可以根据需要调整这个值 */
   transform: translateY(-2px);
 }
 
