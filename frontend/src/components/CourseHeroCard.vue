@@ -1,12 +1,12 @@
 <!-- CourseHeroCard.vue - 课程顶部卡片组件 -->
 <template>
-  <div class="card cardTop p-lg-3 p-3 mb-4 course-hero">
+  <div class="card cardTop p-3 pb-0 mb-4 course-hero">
     <!-- 面包屑导航 -->
     <BreadcrumbNav :items="breadcrumbItems" />
 
-    <div class="row g-0 align-items-center">
+    <div class="row gx-3 gy-0 align-items-center">
       <!-- 左侧：课程封面图 -->
-      <div class="col-md-4 mb-0 mb-md-0">
+      <div class="col-md-4 mb-0 mb-md-0 p-0">
         <img
           :src="courseInfo.coverImage"
           class="course-hero-img w-100"
@@ -212,8 +212,6 @@ const handleOpenVip = () => {
   width: 100%;
   border-radius: 10px;
   display: block;
-  margin-bottom: 8px; /* 减少图片底部空白 */
-  vertical-align: bottom; /* 消除inline元素的基线空隙 */
 }
 
 /* 热门课程标签 - 行内显示样式 */
