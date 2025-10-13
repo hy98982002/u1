@@ -1,21 +1,38 @@
 <!-- SidebarPricingCard.vue - 全新设计的侧边栏价格卡片组件 -->
 <template>
   <div class="sidebar-container">
+    <!-- 分享和收藏功能 -->
+    <div class="d-flex align-items-center text-muted small mb-4">
+      <a href="#" class="me-3" @click.prevent="handleShare" data-bs-toggle="tooltip" title="分享">
+        <i class="fas fa-share-alt"></i> 分享
+      </a>
+      <a
+        href="#"
+        class="me-3"
+        @click.prevent="handleFavorite"
+        data-bs-toggle="tooltip"
+        title="收藏"
+      >
+        <i :class="isFavorited ? 'fas' : 'far'" class="fa-heart"></i>
+        {{ isFavorited ? '已收藏' : '收藏' }}
+      </a>
+    </div>
+
     <!-- 价格卡片 -->
     <div class="price-card">
       <!-- 特惠标题 -->
-      <div class="promo-header">
+      <!-- <div class="promo-header">
         <div class="promo-icon">⏰</div>
         <span class="promo-text">五一限时七折特惠</span>
-      </div>
+      </div> -->
 
       <!-- 活动时间 -->
-      <div class="activity-time">活动结束时间：2025年05月16日</div>
+      <!-- <div class="activity-time">活动结束时间：2025年05月16日</div> -->
 
       <!-- 价格区域 -->
       <div class="price-section">
-        <div class="current-price">¥896.00</div>
-        <div class="original-price">¥1280.00</div>
+        <div class="current-price">¥13.99</div>
+        <div class="original-price">¥19.99</div>
       </div>
 
       <!-- VIP价格 -->
@@ -58,6 +75,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+const isFavorited = ref(false)
 
 // 服务标签数据
 const serviceTags = ref([
@@ -104,6 +123,17 @@ const handleAddToCart = () => {
 
 const handleGetCoupon = () => {
   console.log('领取专属优惠券')
+}
+
+const handleShare = () => {
+  console.log('分享课程')
+  // TODO: 显示分享弹窗
+}
+
+const handleFavorite = () => {
+  isFavorited.value = !isFavorited.value
+  console.log('收藏状态：', isFavorited.value)
+  // TODO: 调用收藏API
 }
 </script>
 
