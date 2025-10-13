@@ -321,26 +321,26 @@ const handleOpenVip = () => {
 /* 立即购买按钮 - 新设计 */
 .btn-buy-course {
   background: transparent;
-  border: 2px solid #2c849a;
+  border: 1px solid #2c849a;
   color: #2c849a;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   border-radius: 8px;
-  transition: background-color 0.25s ease;
+  transition: all 0.25s ease; /* 修改为all以包含所有属性变化 */
   min-width: 140px;
 }
 
 .btn-buy-course:hover {
-  background-color: #97bbc6;
+  background-color: rgba(161, 188, 196, 0.3); /* 使用RGBA设置半透明，最后一个参数0.3表示30%透明度 */
   color: #2c849a;
   border-color: #2c849a;
 }
 
-.btn-buy-course:focus {
+/* .btn-buy-course:focus {
   box-shadow: 0 0 0 3px rgba(44, 132, 154, 0.2);
   border-color: #2c849a;
   background-color: transparent;
-}
+} */
 
 /* VIP按钮 */
 .btn-yellow-black {
@@ -348,7 +348,7 @@ const handleOpenVip = () => {
   color: #222222 !important;
   border: 2px solid #ffc107 !important;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   transition: all 0.25s ease;
   min-width: 160px;
@@ -357,7 +357,7 @@ const handleOpenVip = () => {
 .btn-yellow-black:hover {
   background-color: #ffb300 !important;
   border-color: #ffb300 !important;
-  transform: translateY(-1px);
+  /* transform: translateY(-1px); */
   box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
 }
 
