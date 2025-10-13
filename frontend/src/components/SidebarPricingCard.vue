@@ -1,25 +1,26 @@
 <!-- SidebarPricingCard.vue - 全新设计的侧边栏价格卡片组件 -->
 <template>
   <div class="sidebar-container">
-    <!-- 分享和收藏功能 -->
-    <div class="d-flex align-items-center text-muted small mb-4">
-      <a href="#" class="me-3" @click.prevent="handleShare" data-bs-toggle="tooltip" title="分享">
-        <i class="fas fa-share-alt"></i> 分享
-      </a>
-      <a
-        href="#"
-        class="me-3"
-        @click.prevent="handleFavorite"
-        data-bs-toggle="tooltip"
-        title="收藏"
-      >
-        <i :class="isFavorited ? 'fas' : 'far'" class="fa-heart"></i>
-        {{ isFavorited ? '已收藏' : '收藏' }}
-      </a>
-    </div>
-
     <!-- 价格卡片 -->
     <div class="price-card">
+      <!-- 分享和收藏功能 - 移动到白色框内部 -->
+      <div class="d-flex align-items-center text-muted small mb-4">
+        <a href="#" class="me-3" @click.prevent="handleShare" data-bs-toggle="tooltip" title="分享">
+          <i class="fas fa-share-alt"></i> 分享
+        </a>
+        <a
+          href="#"
+          class="me-3"
+          @click.prevent="handleFavorite"
+          data-bs-toggle="tooltip"
+          title="收藏"
+        >
+          <i :class="isFavorited ? 'fas' : 'far'" class="fa-heart"></i>
+          {{ isFavorited ? '已收藏' : '收藏' }}
+        </a>
+      </div>
+
+      <!-- 其他内容保持不变 -->
       <!-- 特惠标题 -->
       <!-- <div class="promo-header">
         <div class="promo-icon">⏰</div>
