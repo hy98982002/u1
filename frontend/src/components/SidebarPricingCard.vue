@@ -3,6 +3,11 @@
   <div class="sidebar-container">
     <!-- 价格卡片 -->
     <div class="price-card">
+      <!-- SEO友好的项目价值提示 -->
+      <div class="course-value-proposition text-left mb-4">
+        <strong class="text-dark">学完可立即上手商业项目</strong>
+      </div>
+
       <!-- 分享和收藏功能 - 移动到白色框内部 -->
       <div class="d-flex align-items-center text-muted small mb-4">
         <a href="#" class="me-3" @click.prevent="handleShare" data-bs-toggle="tooltip" title="分享">
@@ -32,8 +37,14 @@
 
       <!-- 价格区域 -->
       <div class="price-section">
-        <div class="current-price">¥13.99</div>
-        <div class="original-price">¥19.99</div>
+        <!-- 当前价格和原价在同一行 -->
+        <div class="current-price">¥13.99 <span class="original-price">¥19.99</span></div>
+
+        <!-- 倒计时提示 - 在价格下方 -->
+        <div class="countdown-notice">
+          <i class="far fa-clock me-1"></i>
+          <span>此优惠价格仅剩 9 小时!</span>
+        </div>
       </div>
 
       <!-- VIP价格 -->
@@ -418,5 +429,28 @@ const handleFavorite = () => {
 
 .coupon-button:hover {
   border: 2px dashed #35a4be !important;
+}
+
+/* 调整价格区域布局，确保元素垂直排列 */
+.price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 调整元素间的垂直间距 */
+  margin-bottom: 12px;
+}
+
+/* 倒计时提示样式 */
+.countdown-notice {
+  color: #d32f2f !important;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.countdown-notice i {
+  font-size: 16px;
+  margin-right: 6px;
 }
 </style>
