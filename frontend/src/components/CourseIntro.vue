@@ -1,6 +1,27 @@
 <!-- CourseIntro.vue - 课程介绍组件 -->
 <template>
   <div class="bg-white rounded p-3 p-md-4 shadow-sm course-intro">
+    <section aria-labelledby="course-value-heading" class="mb-4">
+      <h4 id="course-value-heading" class="h4 mb-3">本课程您将会学到的核心技能与学习目标</h4>
+      <div class="row g-3">
+        <article
+          v-for="(point, index) in valuePoints"
+          :key="`value-${index}`"
+          class="col-12 col-md-4"
+        >
+          <div class="h-100 rounded-3 border border-light-subtle p-3 p-lg-4">
+            <h6 class="fw-semibold text-primary mb-2">{{ point.title }}</h6>
+            <p class="mb-0 text-body-secondary">{{ point.description }}</p>
+          </div>
+        </article>
+      </div>
+      <div class="text-start">
+        <p>
+          通过本课程的系统学习，您不仅能够掌握主流 AI 创意设计的使用技能，
+          还将具备从零构建创意设计项目的全流程能力，为未来的职业发展打下坚实基础。
+        </p>
+      </div>
+    </section>
     <section aria-labelledby="course-summary-heading" class="mb-4">
       <h4 id="course-summary-heading" class="h4 mb-3">课程概要</h4>
       <p
@@ -22,22 +43,6 @@
           </div>
         </li>
       </ul>
-    </section>
-
-    <section aria-labelledby="course-value-heading" class="mb-4">
-      <h5 id="course-value-heading" class="h5 mb-3">您将会学到</h5>
-      <div class="row g-3">
-        <article
-          v-for="(point, index) in valuePoints"
-          :key="`value-${index}`"
-          class="col-12 col-md-4"
-        >
-          <div class="h-100 rounded-3 border border-light-subtle p-3 p-lg-4">
-            <h6 class="fw-semibold text-primary mb-2">{{ point.title }}</h6>
-            <p class="mb-0 text-body-secondary">{{ point.description }}</p>
-          </div>
-        </article>
-      </div>
     </section>
 
     <section aria-labelledby="course-cta-heading" class="mb-5">
