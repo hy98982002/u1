@@ -2,18 +2,37 @@
 <template>
   <div class="bg-white rounded p-3 p-md-4 shadow-sm course-intro">
     <section aria-labelledby="course-value-heading" class="mb-4">
-      <h4 id="course-value-heading" class="h4 mb-3">本课程您将会学到的核心技能与实用设计能力</h4>
-      <div class="row g-3">
+      <h4 id="course-value-heading" class="h4 mb-3 text-primary">
+        本课程您将会学到的核心技能与实用设计能力
+      </h4>
+      <div class="row g-4">
         <article
           v-for="(point, index) in valuePoints"
           :key="`value-${index}`"
           class="col-12 col-md-4"
         >
-          <div class="h-100 rounded-3 border border-light-subtle p-3 p-lg-4">
-            <h6 class="fw-semibold text-primary mb-2">{{ point.title }}</h6>
-            <p class="mb-0 text-body-secondary">{{ point.description }}</p>
+          <div class="h-100 rounded-4 border border-light-subtle p-4 bg-white shadow-sm hover-lift">
+            <h5 class="fw-semibold text-primary mb-3">{{ point.title }}</h5>
+            <ul class="list-unstyled mb-0">
+              <li
+                v-for="(item, idx) in point.skills"
+                :key="`skill-${idx}`"
+                class="d-flex align-items-start gap-2 mb-2"
+              >
+                <span class="text-success fs-5 lh-1">✓</span>
+                <span class="text-body-secondary lh-lg">{{ item }}</span>
+              </li>
+            </ul>
           </div>
         </article>
+      </div>
+
+      <!-- SEO优化总结段落 -->
+      <div class="value-summary mt-4 p-4 bg-light rounded-4 border border-primary border-opacity-10">
+        <p class="mb-0 text-body-secondary lh-lg">
+          通过本课程的系统学习，您不仅能快速掌握 Photoshop 中的 AI
+          创意设计工具，还将具备独立完成商业视觉项目的全流程能力。从品牌海报到社交媒体视觉方案，从创意构想到高效落地，本课程将为您迈向专业设计师之路奠定坚实基础。
+        </p>
       </div>
     </section>
     <section aria-labelledby="course-summary-heading" class="mb-4">
@@ -61,7 +80,7 @@ import { toRefs } from 'vue'
 
 interface ValuePoint {
   title: string
-  description: string
+  skills: string[]
 }
 
 interface FAQItem {
@@ -92,19 +111,28 @@ const props = withDefaults(defineProps<Props>(), {
   ],
   valuePoints: () => [
     {
-      title: '模块化进阶路径',
-      description:
-        '从场景搭建、交互逻辑到数据联动分成四大阶段，每周输出可交付 Demo，帮助团队快速验证业务设想。'
+      title: 'AI设计基础与思维构建',
+      skills: [
+        '掌握 Photoshop 中 AI 工具面板、智能选区与生成式填充的使用方法',
+        '理解 AI 在视觉设计中的工作原理',
+        '构建 AI 创意设计思维框架'
+      ]
     },
     {
-      title: '行业级实战案例',
-      description:
-        '以智慧园区数字孪生为主线，覆盖 IoT 数据接入、状态告警与可视化驾驶舱，贴近甲方真实需求。'
+      title: 'AI创意设计核心技能',
+      skills: [
+        '学会利用生成式扩展、内容识别和 AI 图像合成技术快速完成创意设计',
+        '掌握 Prompt 提示词编写方法',
+        '提升设计结果的精准度和商业价值'
+      ]
     },
     {
-      title: '可落地工具链',
-      description:
-        '提供项目脚手架、性能优化清单与部署指南，降低从学习到上线的门槛，让成果可以直接用于投标或演示。'
+      title: '实战案例与商业应用',
+      skills: [
+        '从 0 到 1 完成品牌主视觉设计、海报构思与产品图制作',
+        '掌握 AI 设计在广告、电商、社交媒体等商业场景中的应用策略',
+        '独立交付完整设计项目'
+      ]
     }
   ],
   callToAction:
@@ -134,6 +162,26 @@ const { summaries, targetAudience, valuePoints, callToAction, faqItems } = toRef
 <style scoped>
 .course-intro {
   border: 1px solid var(--bs-border-color-translucent);
+}
+
+/* 苹果HIG风格：悬停提升效果 */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* 技能列表项优化 */
+.hover-lift li:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* 总结段落优化 */
+.value-summary {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .faq-list dt {
