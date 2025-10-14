@@ -55,7 +55,7 @@
       </div>
 
       <!-- 购物车按钮 -->
-      <div class="cart-button" @click="handleAddToCart">添加至购物车</div>
+      <div class="cart-button" @click="handleAddToCart">添加入购物车</div>
 
       <!-- 开通VIP立即学按钮 -->
       <div class="vip-learn-button" @click="handleJoinVip">开通VIP立即学</div>
@@ -262,15 +262,15 @@ const handleFavorite = () => {
 }
 
 .cart-button:hover {
-  background: #35a4be;
-  transform: translateY(-2px);
+  background: #166d84;
+  /* transform: translateY(-2px); */
 }
 
 /* 开通VIP立即学按钮样式 */
 .vip-learn-button {
   background: transparent;
   color: #000; /* 改为黑色字体 */
-  border: 1px solid #ffc107 !important;
+  border: 1.5px solid #f0690e !important;
   padding: 12px 0;
   text-align: center;
 
@@ -284,8 +284,8 @@ const handleFavorite = () => {
 }
 
 .vip-learn-button:hover {
-  background: rgba(255, 193, 7, 0.1); /* 透明度为0.1的半透明背景，您可以根据需要调整这个值 */
-  transform: translateY(-2px);
+  background: rgba(240, 105, 14, 0.1); /* 透明度为0.1的半透明背景，您可以根据需要调整这个值 */
+  /* transform: translateY(-2px); */
 }
 
 .coupon-button {

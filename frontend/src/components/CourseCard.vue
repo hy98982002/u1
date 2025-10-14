@@ -13,17 +13,9 @@
         <div class="card-img-top ratio ratio-16x9">
           <picture>
             <!-- WebP 格式优先 -->
-            <source
-              :srcset="srcsetWebp"
-              type="image/webp"
-              sizes="(max-width: 768px) 100vw, 33vw"
-            />
+            <source :srcset="srcsetWebp" type="image/webp" sizes="(max-width: 768px) 100vw, 33vw" />
             <!-- PNG 格式作为回退 -->
-            <source
-              :srcset="srcsetPng"
-              type="image/png"
-              sizes="(max-width: 768px) 100vw, 33vw"
-            />
+            <source :srcset="srcsetPng" type="image/png" sizes="(max-width: 768px) 100vw, 33vw" />
             <!-- 最终回退图片 -->
             <img
               :src="coverFallback"
@@ -634,7 +626,7 @@ const handleWatchNow = () => {
 
 .course-pop .btn-tech-blue:hover {
   background: #166d84;
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
   box-shadow: 0 6px 20px rgba(30, 127, 152, 0.3);
   color: #ffffff;
 }
