@@ -292,7 +292,7 @@ const handleFavorite = () => {
 
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 12px;
   transform: translateY(-26px);
   transition: all 0.3s ease;
