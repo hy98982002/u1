@@ -284,7 +284,7 @@ const handleFavorite = () => {
 .vip-learn-button {
   background: transparent;
   color: #000; /* 改为黑色字体 */
-  border: 1.5px solid #f0690e !important;
+  border: 2px solid #f0690e !important;
   padding: 12px 0;
   text-align: center;
 
