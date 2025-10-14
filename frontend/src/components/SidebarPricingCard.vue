@@ -49,9 +49,9 @@
 
       <!-- VIP价格 -->
       <div class="vip-section">
-        <span class="vip-label">加入会员享更多课程</span>
+        <span class="vip-label">单独购买此课程</span>
         <!-- <span class="vip-price">¥806.40</span> -->
-        <span class="vip-link" @click="handleJoinVip">立即加入>>></span>
+        <span class="vip-link" @click="handleJoinVip">立即购买>>></span>
       </div>
 
       <!-- 开通VIP立即学按钮 -->
