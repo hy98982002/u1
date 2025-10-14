@@ -5,7 +5,7 @@
     <div class="price-card">
       <!-- SEO友好的项目价值提示 -->
       <div class="course-value-proposition text-left mb-4">
-        <strong class="text-dark">学完可立即上手商业项目</strong>
+        <strong class="text-muted">学完可立即上手商业项目</strong>
       </div>
 
       <!-- 分享和收藏功能 - 移动到白色框内部 -->
@@ -269,10 +269,10 @@ const handleFavorite = () => {
   /* transform: translateY(-2px); */
 }
 .course-value-proposition {
-  color: #666;
+  color: #8e8e8e;
   font-size: 22px;
   margin-bottom: 12px;
-  font-weight: 300;
+  font-weight: 100;
 }
 .align-items-center {
   font-size: 16px;
@@ -282,10 +282,10 @@ const handleFavorite = () => {
 
 /* 开通VIP立即学按钮样式 */
 .vip-learn-button {
-  background: transparent;
+  background: rgba(240, 105, 14, 0);
   color: #000; /* 改为黑色字体 */
   border: 1.5px solid #f0690e !important;
-  padding: 12px 0;
+  padding: 10px 0;
   text-align: center;
 
   border-radius: 8px;
