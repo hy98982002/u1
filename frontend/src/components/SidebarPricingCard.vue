@@ -54,11 +54,11 @@
         <span class="vip-link" @click="handleJoinVip">立即加入>>></span>
       </div>
 
+      <!-- 开通VIP立即学按钮 -->
+      <div class="vip-learn-button" @click="handleJoinVip">开通会员立即学</div>
+
       <!-- 购物车按钮 -->
       <div class="cart-button" @click="handleAddToCart">添加入购物车</div>
-
-      <!-- 开通VIP立即学按钮 -->
-      <div class="vip-learn-button" @click="handleJoinVip">开通VIP立即学</div>
 
       <!-- 优惠券按钮 -->
       <!-- <div class="coupon-button" @click="handleGetCoupon">🎫 领取专属优惠券</div> -->
@@ -205,6 +205,7 @@ const handleFavorite = () => {
   align-items: baseline;
   gap: 12px;
   margin-bottom: 12px;
+  transform: translateY(-20px);
 }
 
 .current-price {
@@ -225,7 +226,8 @@ const handleFavorite = () => {
   align-items: center;
   gap: 8px;
   margin-bottom: 20px;
-  font-size: 14px;
+  font-size: 16px;
+  transform: translateY(-37px);
 }
 
 .vip-label {
@@ -258,12 +260,24 @@ const handleFavorite = () => {
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 12px;
+  transform: translateY(-18px);
   transition: all 0.3s ease;
 }
 
 .cart-button:hover {
   background: #166d84;
   /* transform: translateY(-2px); */
+}
+.course-value-proposition {
+  color: #666;
+  font-size: 22px;
+  margin-bottom: 12px;
+  font-weight: 300;
+}
+.align-items-center {
+  font-size: 16px;
+  /* font-weight: 400; */
+  transform: translateY(-18px);
 }
 
 /* 开通VIP立即学按钮样式 */
@@ -280,6 +294,7 @@ const handleFavorite = () => {
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 12px;
+  transform: translateY(-18px);
   transition: all 0.3s ease;
 }
 
@@ -297,6 +312,7 @@ const handleFavorite = () => {
   cursor: pointer;
   font-size: 14px;
   margin-bottom: 20px;
+
   transition: all 0.3s ease;
   border: 2px dashed #1e7f98;
 }
@@ -471,7 +487,8 @@ const handleFavorite = () => {
   font-weight: 500;
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  transform: translateY(-10px);
+  /* margin-top: 1px; */
 }
 
 .countdown-notice i {
