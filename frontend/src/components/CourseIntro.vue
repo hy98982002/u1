@@ -15,11 +15,7 @@
     <section aria-labelledby="course-audience-heading" class="mb-4">
       <h5 id="course-audience-heading" class="h5 mb-3">适合人群</h5>
       <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2">
-        <li
-          v-for="(audience, index) in targetAudience"
-          :key="`audience-${index}`"
-          class="col"
-        >
+        <li v-for="(audience, index) in targetAudience" :key="`audience-${index}`" class="col">
           <div class="d-flex align-items-start gap-2">
             <span class="badge rounded-pill text-bg-info mt-1">{{ index + 1 }}</span>
             <span class="text-body-secondary">{{ audience }}</span>
@@ -29,7 +25,7 @@
     </section>
 
     <section aria-labelledby="course-value-heading" class="mb-4">
-      <h5 id="course-value-heading" class="h5 mb-3">核心价值点</h5>
+      <h5 id="course-value-heading" class="h5 mb-3">您将会学到</h5>
       <div class="row g-3">
         <article
           v-for="(point, index) in valuePoints"
@@ -49,11 +45,7 @@
       <p class="mb-0 text-body-secondary">{{ callToAction }}</p>
     </section>
 
-    <section
-      id="course-faq"
-      aria-labelledby="course-faq-heading"
-      class="border-top pt-4"
-    >
+    <section id="course-faq" aria-labelledby="course-faq-heading" class="border-top pt-4">
       <h5 id="course-faq-heading" class="h5 mb-3">常见问题（FAQ）</h5>
       <dl class="faq-list mb-0">
         <div v-for="(faq, index) in faqItems" :key="`faq-${index}`" class="mb-3">

@@ -89,8 +89,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   courseInfo: () => ({
-    title: 'Photoshop体验课:从小白到高手',
-    subtitle: '一听就懂，快速上手，8大商业案例助你快速提升ps技能',
+    title: 'Ps AI设计技能体验课:从小白到高手',
+    subtitle: '快速学会Ps中AI设计功能，掌握AI创意设计技能',
     coverImage: defaultCoverImage,
     studyHeat: 2281,
     duration: '191分钟',

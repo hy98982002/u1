@@ -24,7 +24,7 @@ export const useCourseStore = defineStore('course', {
     courses: [
       {
         id: 1,
-        title: 'Photoshop体验课：从小白到高手',
+        title: 'Ps AI设计技能体验课：从小白到高手',
         slug: generateCourseSlug('free', 'Photoshop'),
         description: '零基础入门Photoshop编程',
         price: 0,

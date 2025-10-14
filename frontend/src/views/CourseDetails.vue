@@ -82,9 +82,7 @@ const courseNotFound = ref(false)
 const activeTab = ref('intro')
 
 // 面包屑数据
-const breadcrumbItems = ref<BreadcrumbItem[]>([
-  { title: '首页', href: '/', path: '/' }
-])
+const breadcrumbItems = ref<BreadcrumbItem[]>([{ title: '首页', href: '/', path: '/' }])
 
 // 课程信息
 const courseInfo = ref<CourseInfo>({
@@ -107,7 +105,7 @@ onMounted(() => {
     // 设置课程信息（包含新增的字段）
     courseInfo.value = {
       title: course.title,
-      subtitle: '一听就懂，快速上手，8大商业案例助你快速提升ps技能',
+      subtitle: '快速学会Ps中AI设计功能，掌握AI创意设计技能',
       coverImage: course.cover,
       studyHeat: 2281,
       duration: '191分钟',
