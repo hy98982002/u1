@@ -205,7 +205,7 @@ const handleFavorite = () => {
   align-items: baseline;
   gap: 12px;
   margin-bottom: 12px;
-  transform: translateY(-20px);
+  transform: translateY(-24px);
 }
 
 .current-price {
@@ -227,7 +227,7 @@ const handleFavorite = () => {
   gap: 8px;
   margin-bottom: 20px;
   font-size: 16px;
-  transform: translateY(-37px);
+  transform: translateY(-42px);
 }
 
 .vip-label {
@@ -260,7 +260,7 @@ const handleFavorite = () => {
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 12px;
-  transform: translateY(-18px);
+  transform: translateY(-28px);
   transition: all 0.3s ease;
 }
 
@@ -294,7 +294,7 @@ const handleFavorite = () => {
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 12px;
-  transform: translateY(-18px);
+  transform: translateY(-26px);
   transition: all 0.3s ease;
 }
 
@@ -326,6 +326,8 @@ const handleFavorite = () => {
 /* 服务区域 */
 .service-section {
   text-align: center;
+  transform: translateY(-26px);
+  margin-bottom: -10px; /* 添加负值的底部margin来减小白色空隙 */
 }
 
 .service-label {
