@@ -2,7 +2,7 @@
 <template>
   <div class="bg-white rounded p-3 p-md-4 shadow-sm course-intro">
     <section aria-labelledby="course-value-heading" class="mb-4">
-      <h4 id="course-value-heading" class="h4 mb-3 text-primary">
+      <h4 id="course-value-heading" class="h4 mb-3 text-dark">
         本课程您将会学到的核心技能与实用设计能力
       </h4>
       <div class="row g-4">
@@ -28,7 +28,9 @@
       </div>
 
       <!-- SEO优化总结段落 -->
-      <div class="value-summary mt-4 p-4 bg-light rounded-4 border border-primary border-opacity-10">
+      <div
+        class="value-summary mt-4 p-4 bg-light rounded-4 border border-primary border-opacity-10"
+      >
         <p class="mb-0 text-body-secondary lh-lg">
           通过本课程的系统学习，您不仅能快速掌握 Photoshop 中的 AI
           创意设计工具，还将具备独立完成商业视觉项目的全流程能力。从品牌海报到社交媒体视觉方案，从创意构想到高效落地，本课程将为您迈向专业设计师之路奠定坚实基础。
@@ -165,6 +167,7 @@ const { summaries, targetAudience, valuePoints, callToAction, faqItems } = toRef
 }
 
 /* 苹果HIG风格：悬停提升效果 */
+/*
 .hover-lift {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -173,6 +176,7 @@ const { summaries, targetAudience, valuePoints, callToAction, faqItems } = toRef
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
+*/
 
 /* 技能列表项优化 */
 .hover-lift li:last-child {
@@ -190,5 +194,10 @@ const { summaries, targetAudience, valuePoints, callToAction, faqItems } = toRef
 
 .faq-list dd {
   margin-left: 0;
+}
+/* 你将学到 */
+#course-value-heading {
+  font-weight: 400; /* 字重，值可以是：normal(400), bold(700), 或100-900之间的数值 */
+  color: #333333; /* 颜色，使用十六进制色值、RGB或颜色名称 */
 }
 </style>
