@@ -54,12 +54,15 @@ onMounted(() => {
 <template>
   <div id="app">
     <!-- 根据登录状态切换导航栏 -->
-    <AuthNavbar v-if="authStore.isAuthenticated" />
-    <Navbar
-      v-else
-      @openLoginModal="handleOpenLoginModal"
-      @openRegisterModal="handleOpenRegisterModal"
-    />
+    <!-- 添加header标签包裹导航组件 -->
+    <header>
+      <AuthNavbar v-if="authStore.isAuthenticated" />
+      <Navbar
+        v-else
+        @openLoginModal="handleOpenLoginModal"
+        @openRegisterModal="handleOpenRegisterModal"
+      />
+    </header>
 
     <!-- 主内容区域 -->
     <main class="main-content">
