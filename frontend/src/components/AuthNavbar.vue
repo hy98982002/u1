@@ -1,5 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" id="authNav">
+  <nav
+    aria-label="主导航"
+    class="navbar navbar-expand-lg navbar-light bg-white fixed-top"
+    id="authNav"
+  >
     <div class="container-fluid custom-container">
       <!-- 品牌Logo -->
       <a class="navbar-brand" href="/">

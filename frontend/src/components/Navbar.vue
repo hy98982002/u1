@@ -104,6 +104,7 @@ onUnmounted(() => {
 
 <template>
   <nav
+    aria-label="主导航"
     class="navbar navbar-expand-lg navbar-light bg-white fixed-top"
     id="mainNav"
     :class="{ scrolled: isScrolled, hide: isHidden, show: !isHidden }"
