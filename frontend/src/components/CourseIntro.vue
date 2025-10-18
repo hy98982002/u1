@@ -2,9 +2,9 @@
 <template>
   <div class="bg-white rounded p-3 p-md-4 shadow-sm course-intro">
     <section aria-labelledby="course-value-heading" class="mb-4">
-      <h4 id="course-value-heading" class="h4 mb-3 text-dark">
+      <h2 id="course-value-heading" class="h4 mb-3 text-dark">
         本课程您将会学到的核心技能与实用设计能力
-      </h4>
+      </h2>
       <div class="row g-4">
         <article
           v-for="(point, index) in valuePoints"
@@ -100,16 +100,16 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  courseName: 'Unity数字孪生实战营',
+  courseName: 'Photoshop AI设计技能体验课：从小白到高手',
   summaries: () => [
-    '《Unity数字孪生实战营》以 4 周项目式训练帮助你在 Unity 2022 LTS 中搭建城市级实时 3D 场景，快速掌握数字孪生的完整开发链路。',
-    '课程将 Unity 引擎、C# 脚本、数据可视化与行业案例整合，确保学习成果能够直接用于智慧城市、工业仿真与元宇宙互动体验。'
+    '《Photoshop AI设计技能体验课》以实战为导向，帮助你快速掌握Photoshop中的AI设计工具与功能，让创意设计变得简单高效。',
+    '课程将AI生成式设计理念、Photoshop最新功能与商业设计需求相结合，确保你能在短时间内将所学应用于实际项目中。'
   ],
   targetAudience: () => [
-    '希望从零转型实时 3D / 数字孪生岗位的开发者',
-    '在校计算机、建筑、规划等专业学生，准备参加相关竞赛或就业',
-    '传统制造、园区运营团队，需要快速评估数字孪生方案可行性的负责人',
-    '已具备 Unity 基础，想补齐数据驱动场景与部署流程的进阶学习者'
+    '对设计感兴趣的零基础学习者，希望快速掌握AI辅助设计技能',
+    '传统设计师，想提升工作效率，学习最新AI设计工具',
+    '电商、新媒体从业者，需要独立完成产品图、宣传图设计',
+    '营销人员，希望能够自己动手快速制作营销素材'
   ],
   valuePoints: () => [
     {
@@ -138,22 +138,27 @@ const props = withDefaults(defineProps<Props>(), {
     }
   ],
   callToAction:
-    '立即报名加入《Unity数字孪生实战营》，预约开班后即可获得预习资料包、班主任跟进以及专属答疑群，确保你在 28 天内交付一套可展示的数字孪生城市样板。',
+    '立即报名加入《Photoshop AI设计技能体验课》，即可获得AI设计资源包、素材模板库以及专属学习社群，让你在短时间内从设计小白快速成长为能够独立完成商业设计项目的AI设计师。',
   faqItems: () => [
     {
       question: '零基础可以学习这门课程吗？',
       answer:
-        '课程在第一阶段提供 Unity 环境配置、界面操作与 C# 语法巩固，只要具备基本电脑操作能力即可快速上手。'
+        '完全可以！课程从基础操作开始，逐步讲解Photoshop界面和AI工具使用，只要会基本电脑操作，就能跟随课程学习。'
     },
     {
-      question: '完成课程后能交付什么成果？',
+      question: '学习本课程需要安装什么软件？',
       answer:
-        '你将获得一套包含城市模型、数据看板和实时交互的数字孪生 Demo，可用于面试展示、客户演示或继续拓展为企业项目。'
+        '建议安装Photoshop 2023或更高版本，以获得完整的AI功能体验。课程也会提供软件安装和配置的指导。'
     },
     {
-      question: '是否提供项目复盘与就业辅导？',
+      question: '完成课程后能达到什么水平？',
       answer:
-        '结课后班主任会安排一对一作品诊断，提供项目复盘文档模板，并给出针对数字孪生岗位的简历与面试建议。'
+        '完成课程后，你将能够独立使用Photoshop AI功能完成创意设计、图片优化、海报制作等工作，满足大多数商业场景的设计需求。'
+    },
+    {
+      question: '课程内容是否会随AI技术更新？',
+      answer:
+        '是的，我们会定期更新课程内容，确保涵盖最新的Photoshop AI功能和设计趋势，购买后可免费学习更新内容。'
     }
   ]
 })
