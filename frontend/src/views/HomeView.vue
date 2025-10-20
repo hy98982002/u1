@@ -19,7 +19,7 @@
     <WorksShowSection />
 
     <!-- 页脚 -->
-    <footer class="footer py-5">
+    <footer class="footer py-5" role="contentinfo">
       <div class="container">
         <div class="row">
           <div class="col-lg-4 col-md-6 mb-4">
@@ -117,7 +117,6 @@ import logoImg from '@/assets/icons/logo.png'
 
 const uiStore = useUIStore()
 
-
 onMounted(() => {
   // 设置当前导航项
   uiStore.setCurrentNavItem('home')
@@ -163,9 +162,6 @@ onMounted(() => {
   margin: 0 auto;
   line-height: 1.6;
 }
-
-
-
 
 /* 页脚样式 */
 .footer {
@@ -290,7 +286,6 @@ onMounted(() => {
   .title-subtitle {
     font-size: 1rem;
   }
-
 }
 
 /* 按钮样式 */
