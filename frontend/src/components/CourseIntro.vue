@@ -11,7 +11,7 @@
           :key="`value-${index}`"
           class="col-12 col-md-4"
         >
-          <div class="h-100 rounded-4 border border-light-subtle p-4 bg-white shadow-sm hover-lift">
+          <section :aria-label="point.title + '技能详情'" class="h-100 rounded-4 border border-light-subtle p-4 bg-white shadow-sm hover-lift">
             <h5 class="fw-semibold text-primary mb-3">{{ point.title }}</h5>
             <ul class="list-unstyled mb-0">
               <li
@@ -23,7 +23,7 @@
                 <span class="text-body-secondary lh-lg">{{ item }}</span>
               </li>
             </ul>
-          </div>
+          </section>
         </article>
       </div>
 
