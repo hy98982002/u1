@@ -1,7 +1,7 @@
 <!-- CourseIntro.vue - 课程介绍组件 -->
 <template>
   <div class="bg-white rounded p-3 p-md-4 shadow-sm course-intro">
-    <section aria-labelledby="course-value-heading" class="mb-4">
+    <section aria-labelledby="course-value-heading" class="mb-4 course-module">
       <h2 id="course-value-heading" class="h4 mb-3 text-dark">
         本课程您将会学到的核心技能与实用设计能力
       </h2>
