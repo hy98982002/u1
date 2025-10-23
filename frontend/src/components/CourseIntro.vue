@@ -1,5 +1,8 @@
 <!-- CourseIntro.vue - 课程介绍组件 -->
 <template>
+  <!-- 外层改用 <section> + <nav> + <h4>，可被搜索引擎识别为章节导航（类似目录结构）。 -->
+
+  <!-- 每一章（Chapter）与小节（Lesson）使用了可预测的层级 ID，如 chapter1, lesson1-1，这有助于爬虫建立内容索引。 -->
   <div class="bg-white rounded p-3 p-md-4 shadow-sm course-intro">
     <section aria-labelledby="course-value-heading" class="mb-4 course-module">
       <h2 id="course-value-heading" class="h4 mb-3 text-dark">

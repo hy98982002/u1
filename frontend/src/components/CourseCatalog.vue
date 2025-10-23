@@ -1,5 +1,6 @@
 <!-- CourseCatalog.vue - 课程目录组件 -->
 <template>
+  <!-- 外层改用 <section> + <nav> + <h4>，可被搜索引擎识别为章节导航（类似目录结构）。 -->
   <section class="bg-white rounded p-3">
     <h4 id="course-catalog-heading" class="mt-5 mb-3">课程目录</h4>
     <nav aria-labelledby="course-catalog-heading" class="catalog-wrapper">

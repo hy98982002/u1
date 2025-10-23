@@ -331,8 +331,8 @@ src/assets/
     ├── free-*-cover.jpg     # 免费体验课程
     ├── beginner-*-cover.jpg     # 基础课程
     ├── advanced-*-cover.jpg   # 进阶课程
-    ├── hands-on-*-cover.jpg   # 项目课程
-    └── project-*-cover.png # 企业课程
+    ├── hands-on-*-cover.jpg   # 实战课程
+    └── project-*-cover.png # 项目落地课程
     |__ vip-*-cover.png # 会员课程
     └── employment-logo-cover.png # 就业logo设计课程
 
