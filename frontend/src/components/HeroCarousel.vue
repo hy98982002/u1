@@ -380,7 +380,7 @@ onMounted(() => {
 /* 立即学习按钮 - 使用更高的优先级 */
 .start-learn-btn {
   margin-right: 1rem !important;
-  background-color: #1e7f98 !important;
+  background-color: #ffffff !important;
   color: #000 !important;
   border-color: #1e7f98 !important;
 }

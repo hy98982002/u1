@@ -1,6 +1,6 @@
 <!-- LessonRow.vue - 课程行组件 -->
 <template>
-  <div class="lesson-item">
+  <div class="lesson-item" tabindex="0" @keydown.enter="handleClick" @keydown.space.prevent="handleClick">
     <div class="d-flex align-items-center">
       <i :class="getIconClass()" class="me-2"></i>
       <span>{{ lesson.title }}</span>
@@ -9,12 +9,15 @@
       <span 
         v-if="lesson.duration" 
         class="text-muted small me-3"
+        aria-label="课时时长"
       >
         {{ lesson.duration }}
       </span>
       <button 
         class="btn btn-sm"
         :class="getButtonClass()"
+        :aria-label="getButtonAriaLabel()"
+        data-track="lesson_click"
         @click="handleClick"
       >
         {{ getButtonText() }}
@@ -24,7 +27,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Lesson } from '../types/course'
+// 定义课程课时类型
+interface Lesson {
+  id: string
+  title: string
+  duration: string
+  isFree: boolean
+}
 
 interface Props {
   lesson: Lesson
@@ -63,6 +72,11 @@ const getButtonText = () => {
   } else {
     return '立即学习'
   }
+}
+
+const getButtonAriaLabel = () => {
+  const action = getButtonText()
+  return `${action}：${props.lesson.title}，时长${props.lesson.duration || '未知'}`
 }
 
 const handleClick = () => {
@@ -133,4 +147,4 @@ const handleClick = () => {
   color: #999 !important;
   font-size: 12px;
 }
-</style> 
+</style>

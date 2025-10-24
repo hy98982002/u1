@@ -178,13 +178,13 @@ onUnmounted(() => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <span class="nav-underline">职业变现探索</span>
+              <span class="nav-underline">职业探索</span>
             </a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="javascript:void(0);">AI+logo设计师</a>
               <a class="dropdown-item" href="javascript:void(0);">AI+包装师</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void(0);">Something else here</a>
+              <a class="dropdown-item" href="javascript:void(0);">更多</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -199,10 +199,10 @@ onUnmounted(() => {
               <span class="nav-underline">学习路径</span>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="javascript:void(0);">AI+logo设计师</a>
-              <a class="dropdown-item" href="javascript:void(0);">AI+包装师</a>
+              <a class="dropdown-item" href="javascript:void(0);">AIGC设计师</a>
+              <a class="dropdown-item" href="javascript:void(0);">AI+平面设计</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void(0);">Something else here</a>
+              <a class="dropdown-item" href="javascript:void(0);">更多</a>
             </div>
           </li>
         </ul>
