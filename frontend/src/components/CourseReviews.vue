@@ -93,7 +93,7 @@ const reviews = ref<Review[]>([
     userAvatar: tou01Image,
     rating: 4,
     content: '神仙老师，讲的超级棒！若是能把材质创建那部分的原理讲的再细致一些就完美了。',
-    date: '2020-03-13'
+    date: '2025-10-26'
   }
 ])
 
