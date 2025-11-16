@@ -65,7 +65,7 @@ onMounted(() => {
     </header>
 
     <!-- 主内容区域 -->
-    <main class="main-content" role="main">
+    <main class="main-content">
       <RouterView />
     </main>
 

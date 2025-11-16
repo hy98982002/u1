@@ -30,7 +30,7 @@ export const useCourseStore = defineStore('course', {
         price: 0,
         stage: 'free',
         cover: freePhotoshopCover,
-        tags: ['photoshop', 'AIGC'],
+        tags: ['PhotoshopAI', 'AIGC', 'AI+logo'],
         rating: 4.5,
         enrolled: 1200,
         duration: '2小时',
@@ -45,7 +45,7 @@ export const useCourseStore = defineStore('course', {
         price: 0,
         stage: 'free',
         cover: freeunrealCover,
-        tags: ['UE', '游戏开发', '入门', 'AI+logo'],
+        tags: ['UE', '游戏开发', 'AIGC+logo'],
         rating: 4.3,
         enrolled: 800,
         duration: '2小时',
@@ -90,7 +90,7 @@ export const useCourseStore = defineStore('course', {
         price: 299,
         stage: 'basic',
         cover: beginnerPythonCover,
-        tags: ['illustrator', 'logo设计', 'AIGC', 'AI+logo'],
+        tags: ['illustrator', 'logo设计', 'AIGC', 'AIGC+logo'],
         rating: 4.8,
         enrolled: 1800,
         duration: '30小时',
@@ -270,7 +270,7 @@ export const useCourseStore = defineStore('course', {
         price: 299,
         stage: 'basic',
         cover: vipLogoCover,
-        tags: ['Logo', '设计', '入门'],
+        tags: ['Logo'],
         rating: 4.5,
         enrolled: 800,
         duration: '15小时',
@@ -349,13 +349,8 @@ export const useCourseStore = defineStore('course', {
       return result
     },
     popularTags: state => {
-      const map: Record<string, number> = {}
-      state.courses.forEach(c => {
-        ;(c.tags || []).forEach(t => {
-          map[t] = (map[t] || 0) + 1
-        })
-      })
-      return Object.keys(map).sort((a, b) => map[b] - map[a])
+      // 手动指定热门技术标签列表，可以根据需要添加、删除或修改
+      return ['AIGC', 'PhotoshopAI', 'AI+logo', 'UE', '项目', '设计', '插画', 'Web', 'Django']
     }
   },
   actions: {
