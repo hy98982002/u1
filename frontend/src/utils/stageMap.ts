@@ -12,25 +12,25 @@ import type { CourseCardTemplate } from '@/types'
  * 3. URL参数标准化
  */
 
-// 拼音 → 英文映射
-export const PINYIN_TO_ENGLISH: Record<string, CourseCardTemplate> = {
-  tiyan: 'free',
-  rumen: 'beginner',
-  jingjin: 'advanced',
-  shizhan: 'hands-on',
-  xiangmushizhan: 'project',
-  huiyuan: 'vip'
-} as const
+// 拼音 → 英文映射（已注释：课程cover命名已改为英文）
+// export const PINYIN_TO_ENGLISH: Record<string, CourseCardTemplate> = {
+//   tiyan: 'free',
+//   rumen: 'beginner',
+//   jingjin: 'advanced',
+//   shizhan: 'hands-on',
+//   xiangmushizhan: 'project',
+//   huiyuan: 'vip'
+// } as const
 
-// 英文 → 拼音映射（反向查询）
-export const ENGLISH_TO_PINYIN: Record<CourseCardTemplate, string> = {
-  free: 'tiyan',
-  beginner: 'rumen',
-  advanced: 'jingjin',
-  'hands-on': 'shizhan',
-  project: 'xiangmushizhan',
-  vip: 'huiyuan'
-} as const
+// 英文 → 拼音映射（反向查询，已注释：不再需要拼音映射）
+// export const ENGLISH_TO_PINYIN: Record<CourseCardTemplate, string> = {
+//   free: 'tiyan',
+//   beginner: 'rumen',
+//   advanced: 'jingjin',
+//   'hands-on': 'shizhan',
+//   project: 'xiangmushizhan',
+//   vip: 'huiyuan'
+// } as const
 
 // 英文 → 中文映射（用于SEO）
 export const STAGE_TO_CHINESE: Record<CourseCardTemplate, string> = {
@@ -43,19 +43,14 @@ export const STAGE_TO_CHINESE: Record<CourseCardTemplate, string> = {
 } as const
 
 /**
- * 标准化阶段值（智能转换）
- * @param stage - 可能是拼音、英文或中文
+ * 标准化阶段值（简化版：仅检查英文格式）
+ * @param stage - 英文阶段标识
  * @returns 标准英文格式
  */
 export function normalizeStage(stage: string): CourseCardTemplate {
-  // 如果已经是英文格式，直接返回
-  if (stage in ENGLISH_TO_PINYIN) {
+  // 使用STAGE_TO_CHINESE映射检查是否为有效英文阶段
+  if (stage in STAGE_TO_CHINESE) {
     return stage as CourseCardTemplate
-  }
-
-  // 如果是拼音格式，转换为英文
-  if (stage in PINYIN_TO_ENGLISH) {
-    return PINYIN_TO_ENGLISH[stage]
   }
 
   // 默认返回free
