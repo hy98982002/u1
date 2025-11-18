@@ -1,33 +1,33 @@
 <template>
-  <section class="practical-training-section py-5">
+  <section class="portfolio-project-section py-5">
     <div class="container">
       <!-- 标题 -->
       <div class="row mb-4">
         <div class="col-12">
-          <h2 class="practical-training-title mb-0">
-            <span class="title-main">会员专享</span>
-            <span class="title-sub ms-3">实战训练课</span>
+          <h2 class="portfolio-project-title mb-0">
+            <span class="title-main">职业技能训练</span>
+            <span class="title-sub ms-3">项目实战课</span>
           </h2>
         </div>
       </div>
 
-      <!-- 就业课程卡片 -->
+      <!-- 项目实战课卡片 -->
       <div class="row g-4">
-        <!-- AI+logo设计 -->
+        <!-- AI+平面设计 -->
         <div class="col-lg-6 col-md-6">
-          <div class="practical-training-card">
+          <div class="portfolio-project-card">
             <div class="card-image-container">
               <img
-                :src="employmentLogoCover"
-                alt="AI+logo设计课程"
-                class="img-fluid practical-training-image"
+                :src="employmentUiCover"
+                alt="AI+平面设计课程"
+                class="img-fluid portfolio-project-image"
               />
               <!-- 课程信息覆盖层 -->
               <div class="course-overlay">
-                <h3 class="course-title">AI+logo设计</h3>
-                <p class="course-description">上手最快的职业技能，业余时间也赚钱</p>
+                <h3 class="course-title">AI+平面设计</h3>
+                <p class="course-description">用AI智能辅助设计，加速你的职业成长</p>
                 <a href="#" class="course-detail-link">课程详情 ></a>
-                <button class="btn practical-training-btn" @click="startLearning('logo')">
+                <button class="btn portfolio-project-btn" @click="startLearning('ui')">
                   开始学习
                 </button>
               </div>
@@ -41,7 +41,6 @@
 
 <script setup lang="ts">
 // 导入图片资源
-import employmentLogoCover from '@/assets/images/employment-logo-cover.png'
 import employmentUiCover from '@/assets/images/employment-ui-cover.png'
 
 // 处理开始学习点击事件
@@ -53,13 +52,13 @@ const startLearning = (courseType: string) => {
 </script>
 
 <style scoped>
-/* 实战训练课模块样式 */
-.practical-training-section {
+/* 职业技能训练模块样式 */
+.portfolio-project-section {
   background-color: #ffffff;
 }
 
 /* 标题样式 */
-.practical-training-title {
+.portfolio-project-title {
   text-align: left;
   font-weight: 600;
   font-size: 2rem;
@@ -74,15 +73,15 @@ const startLearning = (courseType: string) => {
   color: #5c5b5b;
 }
 
-/* 实战训练课卡片样式 */
-.practical-training-card {
+/* 项目实战课卡片样式 */
+.portfolio-project-card {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.practical-training-card:hover {
+.portfolio-project-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
@@ -93,7 +92,7 @@ const startLearning = (courseType: string) => {
   height: auto;
 }
 
-.practical-training-image {
+.portfolio-project-image {
   width: 100%;
   height: auto;
   object-fit: cover;
@@ -145,8 +144,8 @@ const startLearning = (courseType: string) => {
   color: #6bb6ff;
 }
 
-/* 实战训练课按钮样式 */
-.practical-training-btn {
+/* 项目实战课按钮样式 */
+.portfolio-project-btn {
   background-color: #2b7fd3;
   color: white;
   border: none;
@@ -163,7 +162,7 @@ const startLearning = (courseType: string) => {
   min-width: 270px;
 }
 
-.practical-training-btn:hover {
+.portfolio-project-btn:hover {
   background-color: #1a6bb8;
   color: white;
   transform: translateX(-50%) translateY(-2px);
@@ -172,7 +171,7 @@ const startLearning = (courseType: string) => {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .employment-title {
+  .portfolio-project-title {
     font-size: 1.5rem;
   }
 
@@ -182,7 +181,7 @@ const startLearning = (courseType: string) => {
     margin-top: 0.5rem;
   }
 
-  .practical-training-card {
+  .portfolio-project-card {
     margin-bottom: 1rem;
   }
 
@@ -194,7 +193,7 @@ const startLearning = (courseType: string) => {
     font-size: 0.9rem;
   }
 
-  .practical-training-btn {
+  .portfolio-project-btn {
     bottom: 40px;
     padding: 10px 32px;
     font-size: 1rem;
@@ -202,7 +201,7 @@ const startLearning = (courseType: string) => {
 }
 
 @media (max-width: 576px) {
-  .practical-training-title {
+  .portfolio-project-title {
     font-size: 1.25rem;
   }
 
@@ -214,7 +213,7 @@ const startLearning = (courseType: string) => {
     font-size: 1.3rem;
   }
 
-  .practical-training-btn {
+  .portfolio-project-btn {
     bottom: 32px;
     padding: 8px 24px;
     font-size: 0.95rem;

@@ -15,6 +15,9 @@
     <!-- 就业模块 -->
     <PracticalTrainingSection />
 
+    <!-- 职业技能训练模块 -->
+    <PortfolioProjectSection />
+
     <!-- 作品展示模块 -->
     <!-- <WorksShowSection /> -->
 
@@ -109,6 +112,7 @@ import { onMounted } from 'vue'
 import HeroCarousel from '../components/HeroCarousel.vue'
 import CampSection from '../components/CampSection.vue'
 import PracticalTrainingSection from '../components/PracticalTrainingSection.vue'
+import PortfolioProjectSection from '../components/PortfolioProjectSection.vue'
 import WorksShowSection from '../components/WorksShowSection.vue'
 import { useUIStore } from '../store/uiStore'
 
