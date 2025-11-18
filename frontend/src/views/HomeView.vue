@@ -13,7 +13,7 @@
     </div>
 
     <!-- 就业模块 -->
-    <EmploymentSection />
+    <PracticalTrainingSection />
 
     <!-- 作品展示模块 -->
     <!-- <WorksShowSection /> -->
@@ -108,7 +108,7 @@
 import { onMounted } from 'vue'
 import HeroCarousel from '../components/HeroCarousel.vue'
 import CampSection from '../components/CampSection.vue'
-import EmploymentSection from '../components/EmploymentSection.vue'
+import PracticalTrainingSection from '../components/PracticalTrainingSection.vue'
 import WorksShowSection from '../components/WorksShowSection.vue'
 import { useUIStore } from '../store/uiStore'
 

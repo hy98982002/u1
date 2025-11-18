@@ -1,12 +1,12 @@
 <template>
-  <section class="employment-section py-5">
+  <section class="practical-training-section py-5">
     <div class="container">
       <!-- 标题 -->
       <div class="row mb-4">
         <div class="col-12">
-          <h2 class="employment-title mb-0">
-            <span class="title-main">就业新选项</span>
-            <span class="title-sub ms-3">给能力多加分</span>
+          <h2 class="practical-training-title mb-0">
+            <span class="title-main">会员专享</span>
+            <span class="title-sub ms-3">实战训练课</span>
           </h2>
         </div>
       </div>
@@ -15,19 +15,21 @@
       <div class="row g-4">
         <!-- AI+logo设计 -->
         <div class="col-lg-6 col-md-6">
-          <div class="employment-card">
+          <div class="practical-training-card">
             <div class="card-image-container">
               <img
                 :src="employmentLogoCover"
                 alt="AI+logo设计课程"
-                class="img-fluid employment-image"
+                class="img-fluid practical-training-image"
               />
               <!-- 课程信息覆盖层 -->
               <div class="course-overlay">
                 <h3 class="course-title">AI+logo设计</h3>
                 <p class="course-description">上手最快的职业技能，业余时间也赚钱</p>
                 <a href="#" class="course-detail-link">课程详情 ></a>
-                <button class="btn employment-btn" @click="startLearning('logo')">开始学习</button>
+                <button class="btn practical-training-btn" @click="startLearning('logo')">
+                  开始学习
+                </button>
               </div>
             </div>
           </div>
@@ -47,7 +49,9 @@
                 <h3 class="course-title">AI+平面设计</h3>
                 <p class="course-description">用AI智能辅助设计，加速你的职业成长</p>
                 <a href="#" class="course-detail-link">课程详情 ></a>
-                <button class="btn employment-btn" @click="startLearning('ui')">开始学习</button>
+                <button class="btn practical-training-btn" @click="startLearning('ui')">
+                  开始学习
+                </button>
               </div>
             </div>
           </div>
@@ -71,13 +75,13 @@ const startLearning = (courseType: string) => {
 </script>
 
 <style scoped>
-/* 就业模块样式 */
-.employment-section {
+/* 实战训练课模块样式 */
+.practical-training-section {
   background-color: #ffffff;
 }
 
 /* 标题样式 */
-.employment-title {
+.practical-training-title {
   text-align: left;
   font-weight: 600;
   font-size: 2rem;
@@ -92,15 +96,15 @@ const startLearning = (courseType: string) => {
   color: #5c5b5b;
 }
 
-/* 就业卡片样式 */
-.employment-card {
+/* 实战训练课卡片样式 */
+.practical-training-card {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.employment-card:hover {
+.practical-training-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
@@ -111,7 +115,7 @@ const startLearning = (courseType: string) => {
   height: auto;
 }
 
-.employment-image {
+.practical-training-image {
   width: 100%;
   height: auto;
   object-fit: cover;
@@ -163,8 +167,8 @@ const startLearning = (courseType: string) => {
   color: #6bb6ff;
 }
 
-/* 就业按钮样式 */
-.employment-btn {
+/* 实战训练课按钮样式 */
+.practical-training-btn {
   background-color: #2b7fd3;
   color: white;
   border: none;
@@ -181,7 +185,7 @@ const startLearning = (courseType: string) => {
   min-width: 270px;
 }
 
-.employment-btn:hover {
+.practical-training-btn:hover {
   background-color: #1a6bb8;
   color: white;
   transform: translateX(-50%) translateY(-2px);
@@ -200,7 +204,7 @@ const startLearning = (courseType: string) => {
     margin-top: 0.5rem;
   }
 
-  .employment-card {
+  .practical-training-card {
     margin-bottom: 1rem;
   }
 
@@ -212,7 +216,7 @@ const startLearning = (courseType: string) => {
     font-size: 0.9rem;
   }
 
-  .employment-btn {
+  .practical-training-btn {
     bottom: 40px;
     padding: 10px 32px;
     font-size: 1rem;
@@ -220,7 +224,7 @@ const startLearning = (courseType: string) => {
 }
 
 @media (max-width: 576px) {
-  .employment-title {
+  .practical-training-title {
     font-size: 1.25rem;
   }
 
@@ -232,7 +236,7 @@ const startLearning = (courseType: string) => {
     font-size: 1.3rem;
   }
 
-  .employment-btn {
+  .practical-training-btn {
     bottom: 32px;
     padding: 8px 24px;
     font-size: 0.95rem;
