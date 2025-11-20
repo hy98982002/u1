@@ -13,10 +13,10 @@
     </div>
 
     <!-- 就业模块 -->
-    <PracticalTrainingSection />
+    <CurriculumSection />
 
     <!-- 职业技能训练模块 -->
-    <PortfolioProjectSection />
+    <ProfessionalDevelopmentSection />
 
     <!-- 作品展示模块 -->
     <!-- <WorksShowSection /> -->
@@ -111,8 +111,8 @@
 import { onMounted } from 'vue'
 import HeroCarousel from '../components/HeroCarousel.vue'
 import CampSection from '../components/CampSection.vue'
-import PracticalTrainingSection from '../components/PracticalTrainingSection.vue'
-import PortfolioProjectSection from '../components/PortfolioProjectSection.vue'
+import CurriculumSection from '../components/CurriculumSection.vue'
+import ProfessionalDevelopmentSection from '../components/ProfessionalDevelopmentSection.vue'
 import WorksShowSection from '../components/WorksShowSection.vue'
 import { useUIStore } from '../store/uiStore'
 

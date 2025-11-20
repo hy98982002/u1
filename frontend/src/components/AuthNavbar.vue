@@ -68,7 +68,7 @@
               data-bs-toggle="dropdown"
             >
               <img
-                src="../assets/images/avatars/tou01.png"
+                src="../assets/images/avatars/teachers/xiaozhai/teacher-xiaozhai-64.webp"
                 alt="User Avatar"
                 class="rounded-circle avatar-img me-2"
               />

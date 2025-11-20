@@ -49,105 +49,75 @@ npm install @types/gtag       # 分析的TypeScript定义
 ```
 src/
 ├── views/                         # Page-level components (PascalCase)
-│   ├── HomeView.vue              # Landing page
+│   ├── AboutView.vue             # About page
 │   ├── CourseDetails.vue         # Course details page
-│   ├── ShoppingCart.vue          # Shopping cart page
+│   ├── HomeView.vue              # Landing page
+│   ├── NotFound.vue              # 404 Not Found page
 │   ├── Order.vue                 # Order processing page
-│   └── PersonalCenter.vue        # User dashboard
+│   ├── PersonalCenter.vue        # User dashboard
+│   └── ShoppingCart.vue          # Shopping cart page
 ├── components/                    # Reusable components (PascalCase)
-│   ├── auth/                     # Authentication components
-│   │   ├── LoginModal.vue       # Login modal (手机验证码/密码/微信)
-│   │   ├── RegisterForm.vue     # Registration form
-│   │   └── WeChatLogin.vue      # WeChat OAuth component
-│   ├── course/                   # Course-related components
-│   │   ├── CourseCard.vue       # Course display card
-│   │   ├── CourseStage.vue      # 分层课程展示组件
-│   │   ├── LearningProgress.vue # Learning progress tracker
-│   │   └── CourseTrial.vue      # 试学功能组件
-│   ├── memberZone/               # 会员专区组件 (Premium Member功能)
-│   │   ├── MemberCourseList.vue # 会员专属课程列表
-│   │   └── MemberBenefits.vue   # 会员权益展示
-│   ├── projectZone/              # 项目实战组件 (项目落地专区)
-│   │   ├── ProjectCard.vue      # 实战项目卡片
-│   │   └── ProjectChallenge.vue # 项目挑战模块
-│   ├── coupon/                   # 优惠券相关组件
-│   │   ├── CouponModal.vue      # 优惠券领取弹窗
-│   │   └── CouponCountdown.vue  # 倒计时组件
-│   ├── payment/                  # Payment and membership
-│   │   ├── PaymentModal.vue     # Payment processing
-│   │   ├── MembershipCard.vue   # Membership display
-│   │   └── PriceComparison.vue  # Price comparison component
-│   ├── rbac/                     # RBAC权限控制组件
-│   │   ├── PermissionGate.vue   # 权限门控组件
-│   │   └── RoleGuard.vue        # 角色守卫组件
-│   ├── enterprise/              # 企业功能组件 (Feature Flag控制)
-│   │   ├── EnterpriseAdminPanel.vue # 企业管理面板
-│   │   ├── SeatManagement.vue   # 席位管理组件
-│   │   ├── TeamProgress.vue     # 团队学习进度
-│   │   ├── BulkPurchase.vue     # 批量购买界面
-│   │   └── EnterpriseReports.vue # 企业统计报表
-│   ├── cart/                     # Shopping cart components
-│   ├── order/                    # Order processing components
-│   ├── personCenter/             # Personal dashboard components
-│   ├── seo/                      # SEO相关组件
-│   │   ├── SEOHead.vue          # 动态meta标签组件
-│   │   ├── FAQSection.vue       # FAQ组件
-│   │   ├── BreadcrumbSchema.vue # 面包屑结构化数据
-│   │   └── CourseSchema.vue     # 课程结构化数据
-│   ├── i18n/                     # 国际化组件预留 (V1暂不启用)
-│   │   └── LanguageSwitcher.vue # 语言切换器 (海外版预留)
-│   ├── Navbar.vue               # Main navigation
-│   └── ...                     # Other reusable components
+│   ├── AuthNavbar.vue                   # Authenticated navigation bar
+│   ├── BreadcrumbNav.vue                # Breadcrumb navigation component
+│   ├── CampSection.vue                  # Camp section component
+│   ├── ChapterItem.vue                  # Chapter item component
+│   ├── CourseCard.vue                   # Course display card
+│   ├── CourseCatalog.vue                # Course catalog component
+│   ├── CourseGrid.vue                   # Course grid layout
+│   ├── CourseHeroCard.vue               # Hero card for course details
+│   ├── CourseIntro.vue                  # Course introduction
+│   ├── CourseRelated.vue                # Related courses section
+│   ├── CourseReviews.vue                # Course reviews section
+│   ├── CourseTabs.vue                   # Course navigation tabs
+│   ├── CurriculumSection.vue            # 实战课程体系
+│   ├── HelloWorld.vue                   # Default Vue component
+│   ├── HeroCarousel.vue                 # Hero carousel component
+│   ├── LessonRow.vue                    # Lesson row component
+│   ├── LoginModal.vue                   # Login modal (手机验证码/密码/微信)
+│   ├── Navbar.vue                       # Main navigation
+│   ├── ProfessionalDevelopmentSection.vue # 职业技能训练体系
+│   ├── RegisterModal.vue                # Registration modal
+│   ├── SidebarPricingCard.vue           # Sidebar pricing card
+│   ├── StageTabs.vue                    # Course stage tabs
+│   ├── StarRating.vue                   # Star rating component
+│   ├── TeacherCard.vue                  # Teacher card component
+│   ├── Toast.vue                        # Toast notification component
+│   ├── WorksShowSection.vue             # Works show section
+│   ├── cart/                            # Shopping cart components
+│   │   ├── CartItem.vue                 # Shopping cart item
+│   │   ├── CartSummary.vue              # Shopping cart summary
+│   │   ├── EmptyCart.vue                # Empty cart component
+│   │   └── RecommendSection.vue         # Recommended courses in cart
+│   ├── order/                           # Order processing components
+│   │   ├── CountdownTimer.vue           # Countdown timer for orders
+│   │   ├── OrderFooter.vue              # Order footer component
+│   │   ├── OrderInfo.vue                # Order information component
+│   │   ├── OrderItem.vue                # Order item component
+│   │   └── PaymentMethod.vue            # Payment method component
+│   └── personCenter/                    # Personal dashboard components
+│       ├── AccountSettings.vue          # Account settings page
+│       ├── PersonalDashboard.vue        # Personal dashboard page
+│       ├── SettingBasicInfo.vue         # Basic information settings
+│       ├── SettingRealName.vue          # Real name authentication settings
+│       ├── SettingSecurity.vue          # Security settings
+│       ├── SettingWeChat.vue            # WeChat binding settings
+│       ├── SettingsTabs.vue             # Settings navigation tabs
+│       └── SidebarUserPanel.vue         # Sidebar user panel
 ├── store/                        # Pinia state management
 │   ├── index.ts                 # Store configuration
-│   ├── authStore.ts             # Authentication state (多登录方式)
-│   ├── courseStore.ts           # Course data state (分层课程体系)
-│   ├── membershipStore.ts       # Membership and subscription state
-│   ├── learningStore.ts         # Learning progress state
-│   ├── rbacStore.ts             # RBAC权限状态管理
-│   ├── couponStore.ts           # 优惠券状态管理
-│   ├── projectStore.ts          # 项目实战状态管理
-│   ├── enterpriseStore.ts       # 企业功能状态管理 (Feature Flag控制)
-│   ├── uiStore.ts               # UI/UX state
-│   └── seoStore.ts              # SEO状态管理
-├── api/                          # Axios API wrappers
-│   ├── auth.ts                  # Authentication API (手机验证码/密码/微信)
-│   ├── courses.ts               # Course management API (7层课程体系)
-│   ├── payment.ts               # Payment and membership API
-│   ├── sms.ts                   # SMS verification API (阿里云)
-│   ├── learning.ts              # Learning progress tracking API
-│   ├── rbac.ts                  # RBAC权限管理API
-│   ├── coupon.ts                # 优惠券管理API
-│   ├── project.ts               # 项目实战API
-│   ├── enterprise.ts            # 企业管理API (Feature Flag控制)
-│   └── orders.ts                # Order processing API
+│   ├── authStore.ts             # Authentication state
+│   ├── courseStore.ts           # Course data state
+│   └── uiStore.ts               # UI/UX state
 ├── router/                       # Vue Router configuration
 │   └── index.ts                 # Route definitions
 ├── types/                        # TypeScript definitions
 │   ├── index.ts                 # Common types
-│   ├── auth.ts                  # Authentication types (多登录方式)
-│   ├── course.ts                # Course types (7层课程体系)
-│   ├── membership.ts            # Membership and subscription types
-│   ├── learning.ts              # Learning progress types
-│   ├── payment.ts               # Payment processing types
-│   ├── rbac.ts                  # RBAC权限系统类型定义
-│   ├── coupon.ts                # 优惠券系统类型定义
-│   ├── project.ts               # 项目实战类型定义
-│   ├── enterprise.ts            # 企业功能类型定义 (Feature Flag控制)
 │   ├── cart.ts                  # Shopping cart types
-│   ├── order.ts                 # Order types
-│   └── seo.ts                   # SEO类型定义
+│   └── order.ts                 # Order types
 ├── utils/                        # Utility functions
-│   ├── toast.ts                 # Toast notifications
-│   ├── seo.ts                   # SEO工具函数
-│   ├── tracking.ts              # Analytics utilities
-│   ├── stageMap.ts              # 课程阶段映射（拼音⟷英文⟷中文）
-│   └── slug.ts                  # SEO友好的URL slug生成工具
-├── composables/                  # Vue 3 composables
-│   ├── useAnalytics.ts          # 分析统计composable
-│   ├── useRBAC.ts               # RBAC权限检查composable
-│   ├── useEnterprise.ts         # 企业功能composable (Feature Flag控制)
-│   └── useI18n.ts               # 国际化composable (海外版预留)
+│   ├── slug.ts                  # SEO friendly URL slug generation
+│   ├── stageMap.ts              # Course stage mapping
+│   └── toast.ts                 # Toast notifications
 ├── assets/                       # Static resources
 │   ├── icons/                   # Logo and icon resources
 │   ├── images/                  # Business images (course covers, avatars)
