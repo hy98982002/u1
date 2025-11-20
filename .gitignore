@@ -29,7 +29,8 @@ frontend/.env.development
 notes/
 notes/**
 
-# 忽略本地私人 skills
+# 忽略本地私人
+ skills/
 .skills-local/
 
 

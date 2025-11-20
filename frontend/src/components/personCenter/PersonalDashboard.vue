@@ -47,7 +47,7 @@
         <div class="video-card bg-white rounded shadow-sm overflow-hidden">
           <div class="position-relative">
             <img
-              src="/img/py01.jpg"
+              src="../../assets/images/courses/free-python-cover-480.png"
               alt="Video thumbnail"
               class="w-100"
               style="height: 120px; object-fit: cover"
