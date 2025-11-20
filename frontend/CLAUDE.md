@@ -61,7 +61,7 @@ src/
 │   ├── BreadcrumbNav.vue                # Breadcrumb navigation component
 │   ├── CampSection.vue                  # Camp section component
 │   ├── ChapterItem.vue                  # Chapter item component
-│   ├── CourseCard.vue                   # Course display card
+│   ├── CourseCard.vue                   # Course display card/首页课程卡和hover卡
 │   ├── CourseCatalog.vue                # Course catalog component
 │   ├── CourseGrid.vue                   # Course grid layout
 │   ├── CourseHeroCard.vue               # Hero card for course details
@@ -78,7 +78,7 @@ src/
 │   ├── ProfessionalDevelopmentSection.vue # 职业技能训练体系
 │   ├── RegisterModal.vue                # Registration modal
 │   ├── SidebarPricingCard.vue           # Sidebar pricing card
-│   ├── StageTabs.vue                    # Course stage tabs
+│   ├── StageTabs.vue                    # Course stage tabs/首页每个阶段的标签
 │   ├── StarRating.vue                   # Star rating component
 │   ├── TeacherCard.vue                  # Teacher card component
 │   ├── Toast.vue                        # Toast notification component
@@ -288,6 +288,138 @@ body {
 }
 ```
 
+### 无障碍设计（A11y）规范
+
+**核心原则**: 确保所有用户（包括使用辅助技术的用户）都能访问和使用应用。
+
+#### 基本要求
+
+- **WCAG 2.1 合规**: 遵循 WCAG 2.1 AA 级标准
+- **语义化 HTML**: 使用正确的 HTML 标签（如 `<header>`, `<nav>`, `<main>`, `<footer>`）
+- **颜色对比度**: 文本与背景的对比度至少为 4.5:1（大文本 3:1）
+- **焦点指示器**: 所有可交互元素必须有清晰可见的焦点状态
+- **ARIA 应用**: 仅在必要时使用 ARIA 属性，且确保正确使用
+
+#### 图像无障碍
+
+```vue
+<!-- ✅ 正确 - 为所有图像提供有意义的 alt 属性 -->
+<img :src="courseCover" alt="Python 基础课程封面" />
+
+<!-- ✅ 装饰性图像使用空 alt 属性 -->
+<img :src="decorativeImg" alt="" />
+
+<!-- ❌ 避免缺少 alt 属性 -->
+<!-- <img :src="courseCover" /> -->
+```
+
+#### 表单无障碍
+
+```vue
+<!-- ✅ 正确 - 使用 label 与表单控件关联 -->
+<label for="username">用户名</label>
+<input type="text" id="username" name="username" />
+
+<!-- ✅ 使用 aria-label 当没有可见标签时 -->
+<input type="search" aria-label="搜索课程" />
+
+<!-- ✅ 使用 aria-describedby 提供额外说明 -->
+<input type="password" aria-describedby="password-hint" />
+<p id="password-hint">密码至少包含8个字符</p>
+```
+
+### 键盘可访问性规范
+
+**核心原则**: 确保用户可以仅使用键盘完成所有操作。
+
+#### 键盘导航要求
+
+- **Tab 键导航**: 所有可交互元素必须可以通过 Tab 键访问
+- **顺序合理**: 导航顺序应符合视觉布局和逻辑流程
+- **Enter/Space 键**: 按钮和链接应通过 Enter/Space 键激活
+- **Escape 键**: 模态框、下拉菜单等应可通过 Escape 键关闭
+- **焦点管理**: 弹出元素时应将焦点移至该元素，关闭时应将焦点返回至触发元素
+
+#### 键盘操作示例
+
+```vue
+<!-- ✅ 正确 - 可聚焦元素 -->
+<button @click="submitForm">提交</button>
+<a href="/course">课程列表</a>
+<input type="text" />
+
+<!-- ✅ 添加 tabindex 使非默认可聚焦元素可聚焦 -->
+<div tabindex="0" @keydown.enter="toggleMenu" @click="toggleMenu">
+  点击或按 Enter 切换菜单
+</div>
+
+<!-- ✅ 管理模态框焦点 -->
+<script setup lang="ts">
+import { ref, onMounted, nextTick } from 'vue'
+
+const modalVisible = ref(false)
+const modalRef = ref(null)
+const triggerRef = ref(null)
+
+const openModal = () => {
+  modalVisible.value = true
+  nextTick(() => {
+    modalRef.value?.focus()
+  })
+}
+
+const closeModal = () => {
+  modalVisible.value = false
+  triggerRef.value?.focus()
+}
+</script>
+```
+
+### SEO/AEO 增强规范
+
+#### 结构化数据
+
+```vue
+<!-- 在页面组件中添加结构化数据 -->
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useCourseStore } from '@/store/courseStore'
+
+const courseStore = useCourseStore()
+const course = computed(() => courseStore.currentCourse)
+
+const structuredData = computed(() => ({
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  'name': course.value?.title,
+  'description': course.value?.description,
+  'provider': {
+    '@type': 'Organization',
+    'name': '多维AI课堂',
+    'url': 'https://www.doviai.com'
+  },
+  'inLanguage': 'zh-CN',
+  'keywords': course.value?.tags.join(', ')
+}))
+</script>
+
+<template>
+  <div>
+    <h1>{{ course.title }}</h1>
+    <!-- 添加结构化数据 -->
+    <script type="application/ld+json">
+      {{ structuredData }}
+    </script>
+  </div>
+</template>
+```
+
+#### 页面加载优化
+
+- **懒加载图像**: 使用 `loading="lazy"` 属性延迟加载非关键图像
+- **代码分割**: 使用动态导入减少初始加载时间
+- **预加载关键资源**: 使用 `<link rel="preload">` 预加载关键 CSS 和 JavaScript
+
 ## 图片资源管理
 
 ### 资源目录结构
@@ -332,30 +464,33 @@ import courseCover from '@/assets/images/beginner-python-cover.jpg'
 ### 课程图片命名约定
 
 - **文件前缀必须与课程阶段匹配**:
-  * `free-` → `template: 'free'` (免费体验)
-  * `beginner-` → `template: 'beginner'` (入门级别)
-  * `advanced-` → `template: 'advanced'` (进阶级别)
-  * `hands-on-` → `template: 'hands-on'` (实战级别)
-  * `project-` → `template: 'project'` (项目落地)
-  * `vip-` → `template: 'vip'` (会员专享)
+  - `free-` → `template: 'free'` (免费体验)
+  - `beginner-` → `template: 'beginner'` (入门级别)
+  - `advanced-` → `template: 'advanced'` (进阶级别)
+  - `hands-on-` → `template: 'hands-on'` (实战级别)
+  - `project-` → `template: 'project'` (项目落地)
+  - `vip-` → `template: 'vip'` (会员专享)
 
-### SEO/AEO优化：语义化URL规范
+### SEO/AEO 优化：语义化 URL 规范
 
 **重要：所有暴露给搜索引擎的内容必须使用英文或中文，禁用拼音**
 
 ✅ **允许使用拼音的场景：**
-- TypeScript类型定义（内部使用）
+
+- TypeScript 类型定义（内部使用）
 - 组件内部变量名
 - 不会暴露给搜索引擎的代码逻辑
 
 ❌ **禁止使用拼音的场景：**
-- URL路径和参数（如 `/course/:slug`）
-- HTML的class、id、data-*属性
-- Schema.org结构化数据
-- 图片文件名（已统一使用英文前缀）
-- Meta标签和alt属性（使用中文）
 
-**课程URL格式：**
+- URL 路径和参数（如 `/course/:slug`）
+- HTML 的 class、id、data-\*属性
+- Schema.org 结构化数据
+- 图片文件名（已统一使用英文前缀）
+- Meta 标签和 alt 属性（使用中文）
+
+**课程 URL 格式：**
+
 ```
 ✅ 正确：/course/beginner-python
 ✅ 正确：/course/advanced-ai
@@ -365,7 +500,8 @@ import courseCover from '@/assets/images/beginner-python-cover.jpg'
 ❌ 错误：/course/123 （纯ID，无语义）
 ```
 
-**Slug生成规则：**
+**Slug 生成规则：**
+
 ```typescript
 import { generateCourseSlug } from '@/utils/slug'
 
