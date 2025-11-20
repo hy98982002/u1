@@ -49,105 +49,75 @@ npm install @types/gtag       # 分析的TypeScript定义
 ```
 src/
 ├── views/                         # Page-level components (PascalCase)
-│   ├── HomeView.vue              # Landing page
+│   ├── AboutView.vue             # About page
 │   ├── CourseDetails.vue         # Course details page
-│   ├── ShoppingCart.vue          # Shopping cart page
+│   ├── HomeView.vue              # Landing page
+│   ├── NotFound.vue              # 404 Not Found page
 │   ├── Order.vue                 # Order processing page
-│   └── PersonalCenter.vue        # User dashboard
+│   ├── PersonalCenter.vue        # User dashboard
+│   └── ShoppingCart.vue          # Shopping cart page
 ├── components/                    # Reusable components (PascalCase)
-│   ├── auth/                     # Authentication components
-│   │   ├── LoginModal.vue       # Login modal (手机验证码/密码/微信)
-│   │   ├── RegisterForm.vue     # Registration form
-│   │   └── WeChatLogin.vue      # WeChat OAuth component
-│   ├── course/                   # Course-related components
-│   │   ├── CourseCard.vue       # Course display card
-│   │   ├── CourseStage.vue      # 分层课程展示组件
-│   │   ├── LearningProgress.vue # Learning progress tracker
-│   │   └── CourseTrial.vue      # 试学功能组件
-│   ├── memberZone/               # 会员专区组件 (Premium Member功能)
-│   │   ├── MemberCourseList.vue # 会员专属课程列表
-│   │   └── MemberBenefits.vue   # 会员权益展示
-│   ├── projectZone/              # 项目实战组件 (项目落地专区)
-│   │   ├── ProjectCard.vue      # 实战项目卡片
-│   │   └── ProjectChallenge.vue # 项目挑战模块
-│   ├── coupon/                   # 优惠券相关组件
-│   │   ├── CouponModal.vue      # 优惠券领取弹窗
-│   │   └── CouponCountdown.vue  # 倒计时组件
-│   ├── payment/                  # Payment and membership
-│   │   ├── PaymentModal.vue     # Payment processing
-│   │   ├── MembershipCard.vue   # Membership display
-│   │   └── PriceComparison.vue  # Price comparison component
-│   ├── rbac/                     # RBAC权限控制组件
-│   │   ├── PermissionGate.vue   # 权限门控组件
-│   │   └── RoleGuard.vue        # 角色守卫组件
-│   ├── enterprise/              # 企业功能组件 (Feature Flag控制)
-│   │   ├── EnterpriseAdminPanel.vue # 企业管理面板
-│   │   ├── SeatManagement.vue   # 席位管理组件
-│   │   ├── TeamProgress.vue     # 团队学习进度
-│   │   ├── BulkPurchase.vue     # 批量购买界面
-│   │   └── EnterpriseReports.vue # 企业统计报表
-│   ├── cart/                     # Shopping cart components
-│   ├── order/                    # Order processing components
-│   ├── personCenter/             # Personal dashboard components
-│   ├── seo/                      # SEO相关组件
-│   │   ├── SEOHead.vue          # 动态meta标签组件
-│   │   ├── FAQSection.vue       # FAQ组件
-│   │   ├── BreadcrumbSchema.vue # 面包屑结构化数据
-│   │   └── CourseSchema.vue     # 课程结构化数据
-│   ├── i18n/                     # 国际化组件预留 (V1暂不启用)
-│   │   └── LanguageSwitcher.vue # 语言切换器 (海外版预留)
-│   ├── Navbar.vue               # Main navigation
-│   └── ...                     # Other reusable components
+│   ├── AuthNavbar.vue                   # Authenticated navigation bar
+│   ├── BreadcrumbNav.vue                # Breadcrumb navigation component
+│   ├── CampSection.vue                  # Camp section component
+│   ├── ChapterItem.vue                  # Chapter item component
+│   ├── CourseCard.vue                   # Course display card/首页课程卡和hover卡
+│   ├── CourseCatalog.vue                # Course catalog component
+│   ├── CourseGrid.vue                   # Course grid layout
+│   ├── CourseHeroCard.vue               # Hero card for course details
+│   ├── CourseIntro.vue                  # Course introduction
+│   ├── CourseRelated.vue                # Related courses section
+│   ├── CourseReviews.vue                # Course reviews section
+│   ├── CourseTabs.vue                   # Course navigation tabs
+│   ├── CurriculumSection.vue            # 实战课程体系
+│   ├── HelloWorld.vue                   # Default Vue component
+│   ├── HeroCarousel.vue                 # Hero carousel component
+│   ├── LessonRow.vue                    # Lesson row component
+│   ├── LoginModal.vue                   # Login modal (手机验证码/密码/微信)
+│   ├── Navbar.vue                       # Main navigation
+│   ├── ProfessionalDevelopmentSection.vue # 职业技能训练体系
+│   ├── RegisterModal.vue                # Registration modal
+│   ├── SidebarPricingCard.vue           # Sidebar pricing card
+│   ├── StageTabs.vue                    # Course stage tabs/首页每个阶段的标签
+│   ├── StarRating.vue                   # Star rating component
+│   ├── TeacherCard.vue                  # Teacher card component
+│   ├── Toast.vue                        # Toast notification component
+│   ├── WorksShowSection.vue             # Works show section
+│   ├── cart/                            # Shopping cart components
+│   │   ├── CartItem.vue                 # Shopping cart item
+│   │   ├── CartSummary.vue              # Shopping cart summary
+│   │   ├── EmptyCart.vue                # Empty cart component
+│   │   └── RecommendSection.vue         # Recommended courses in cart
+│   ├── order/                           # Order processing components
+│   │   ├── CountdownTimer.vue           # Countdown timer for orders
+│   │   ├── OrderFooter.vue              # Order footer component
+│   │   ├── OrderInfo.vue                # Order information component
+│   │   ├── OrderItem.vue                # Order item component
+│   │   └── PaymentMethod.vue            # Payment method component
+│   └── personCenter/                    # Personal dashboard components
+│       ├── AccountSettings.vue          # Account settings page
+│       ├── PersonalDashboard.vue        # Personal dashboard page
+│       ├── SettingBasicInfo.vue         # Basic information settings
+│       ├── SettingRealName.vue          # Real name authentication settings
+│       ├── SettingSecurity.vue          # Security settings
+│       ├── SettingWeChat.vue            # WeChat binding settings
+│       ├── SettingsTabs.vue             # Settings navigation tabs
+│       └── SidebarUserPanel.vue         # Sidebar user panel
 ├── store/                        # Pinia state management
 │   ├── index.ts                 # Store configuration
-│   ├── authStore.ts             # Authentication state (多登录方式)
-│   ├── courseStore.ts           # Course data state (分层课程体系)
-│   ├── membershipStore.ts       # Membership and subscription state
-│   ├── learningStore.ts         # Learning progress state
-│   ├── rbacStore.ts             # RBAC权限状态管理
-│   ├── couponStore.ts           # 优惠券状态管理
-│   ├── projectStore.ts          # 项目实战状态管理
-│   ├── enterpriseStore.ts       # 企业功能状态管理 (Feature Flag控制)
-│   ├── uiStore.ts               # UI/UX state
-│   └── seoStore.ts              # SEO状态管理
-├── api/                          # Axios API wrappers
-│   ├── auth.ts                  # Authentication API (手机验证码/密码/微信)
-│   ├── courses.ts               # Course management API (7层课程体系)
-│   ├── payment.ts               # Payment and membership API
-│   ├── sms.ts                   # SMS verification API (阿里云)
-│   ├── learning.ts              # Learning progress tracking API
-│   ├── rbac.ts                  # RBAC权限管理API
-│   ├── coupon.ts                # 优惠券管理API
-│   ├── project.ts               # 项目实战API
-│   ├── enterprise.ts            # 企业管理API (Feature Flag控制)
-│   └── orders.ts                # Order processing API
+│   ├── authStore.ts             # Authentication state
+│   ├── courseStore.ts           # Course data state
+│   └── uiStore.ts               # UI/UX state
 ├── router/                       # Vue Router configuration
 │   └── index.ts                 # Route definitions
 ├── types/                        # TypeScript definitions
 │   ├── index.ts                 # Common types
-│   ├── auth.ts                  # Authentication types (多登录方式)
-│   ├── course.ts                # Course types (7层课程体系)
-│   ├── membership.ts            # Membership and subscription types
-│   ├── learning.ts              # Learning progress types
-│   ├── payment.ts               # Payment processing types
-│   ├── rbac.ts                  # RBAC权限系统类型定义
-│   ├── coupon.ts                # 优惠券系统类型定义
-│   ├── project.ts               # 项目实战类型定义
-│   ├── enterprise.ts            # 企业功能类型定义 (Feature Flag控制)
 │   ├── cart.ts                  # Shopping cart types
-│   ├── order.ts                 # Order types
-│   └── seo.ts                   # SEO类型定义
+│   └── order.ts                 # Order types
 ├── utils/                        # Utility functions
-│   ├── toast.ts                 # Toast notifications
-│   ├── seo.ts                   # SEO工具函数
-│   ├── tracking.ts              # Analytics utilities
-│   ├── stageMap.ts              # 课程阶段映射（拼音⟷英文⟷中文）
-│   └── slug.ts                  # SEO友好的URL slug生成工具
-├── composables/                  # Vue 3 composables
-│   ├── useAnalytics.ts          # 分析统计composable
-│   ├── useRBAC.ts               # RBAC权限检查composable
-│   ├── useEnterprise.ts         # 企业功能composable (Feature Flag控制)
-│   └── useI18n.ts               # 国际化composable (海外版预留)
+│   ├── slug.ts                  # SEO friendly URL slug generation
+│   ├── stageMap.ts              # Course stage mapping
+│   └── toast.ts                 # Toast notifications
 ├── assets/                       # Static resources
 │   ├── icons/                   # Logo and icon resources
 │   ├── images/                  # Business images (course covers, avatars)
@@ -318,6 +288,138 @@ body {
 }
 ```
 
+### 无障碍设计（A11y）规范
+
+**核心原则**: 确保所有用户（包括使用辅助技术的用户）都能访问和使用应用。
+
+#### 基本要求
+
+- **WCAG 2.1 合规**: 遵循 WCAG 2.1 AA 级标准
+- **语义化 HTML**: 使用正确的 HTML 标签（如 `<header>`, `<nav>`, `<main>`, `<footer>`）
+- **颜色对比度**: 文本与背景的对比度至少为 4.5:1（大文本 3:1）
+- **焦点指示器**: 所有可交互元素必须有清晰可见的焦点状态
+- **ARIA 应用**: 仅在必要时使用 ARIA 属性，且确保正确使用
+
+#### 图像无障碍
+
+```vue
+<!-- ✅ 正确 - 为所有图像提供有意义的 alt 属性 -->
+<img :src="courseCover" alt="Python 基础课程封面" />
+
+<!-- ✅ 装饰性图像使用空 alt 属性 -->
+<img :src="decorativeImg" alt="" />
+
+<!-- ❌ 避免缺少 alt 属性 -->
+<!-- <img :src="courseCover" /> -->
+```
+
+#### 表单无障碍
+
+```vue
+<!-- ✅ 正确 - 使用 label 与表单控件关联 -->
+<label for="username">用户名</label>
+<input type="text" id="username" name="username" />
+
+<!-- ✅ 使用 aria-label 当没有可见标签时 -->
+<input type="search" aria-label="搜索课程" />
+
+<!-- ✅ 使用 aria-describedby 提供额外说明 -->
+<input type="password" aria-describedby="password-hint" />
+<p id="password-hint">密码至少包含8个字符</p>
+```
+
+### 键盘可访问性规范
+
+**核心原则**: 确保用户可以仅使用键盘完成所有操作。
+
+#### 键盘导航要求
+
+- **Tab 键导航**: 所有可交互元素必须可以通过 Tab 键访问
+- **顺序合理**: 导航顺序应符合视觉布局和逻辑流程
+- **Enter/Space 键**: 按钮和链接应通过 Enter/Space 键激活
+- **Escape 键**: 模态框、下拉菜单等应可通过 Escape 键关闭
+- **焦点管理**: 弹出元素时应将焦点移至该元素，关闭时应将焦点返回至触发元素
+
+#### 键盘操作示例
+
+```vue
+<!-- ✅ 正确 - 可聚焦元素 -->
+<button @click="submitForm">提交</button>
+<a href="/course">课程列表</a>
+<input type="text" />
+
+<!-- ✅ 添加 tabindex 使非默认可聚焦元素可聚焦 -->
+<div tabindex="0" @keydown.enter="toggleMenu" @click="toggleMenu">
+  点击或按 Enter 切换菜单
+</div>
+
+<!-- ✅ 管理模态框焦点 -->
+<script setup lang="ts">
+import { ref, onMounted, nextTick } from 'vue'
+
+const modalVisible = ref(false)
+const modalRef = ref(null)
+const triggerRef = ref(null)
+
+const openModal = () => {
+  modalVisible.value = true
+  nextTick(() => {
+    modalRef.value?.focus()
+  })
+}
+
+const closeModal = () => {
+  modalVisible.value = false
+  triggerRef.value?.focus()
+}
+</script>
+```
+
+### SEO/AEO 增强规范
+
+#### 结构化数据
+
+```vue
+<!-- 在页面组件中添加结构化数据 -->
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useCourseStore } from '@/store/courseStore'
+
+const courseStore = useCourseStore()
+const course = computed(() => courseStore.currentCourse)
+
+const structuredData = computed(() => ({
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  'name': course.value?.title,
+  'description': course.value?.description,
+  'provider': {
+    '@type': 'Organization',
+    'name': '多维AI课堂',
+    'url': 'https://www.doviai.com'
+  },
+  'inLanguage': 'zh-CN',
+  'keywords': course.value?.tags.join(', ')
+}))
+</script>
+
+<template>
+  <div>
+    <h1>{{ course.title }}</h1>
+    <!-- 添加结构化数据 -->
+    <script type="application/ld+json">
+      {{ structuredData }}
+    </script>
+  </div>
+</template>
+```
+
+#### 页面加载优化
+
+- **懒加载图像**: 使用 `loading="lazy"` 属性延迟加载非关键图像
+- **代码分割**: 使用动态导入减少初始加载时间
+- **预加载关键资源**: 使用 `<link rel="preload">` 预加载关键 CSS 和 JavaScript
+
 ## 图片资源管理
 
 ### 资源目录结构
@@ -331,8 +433,8 @@ src/assets/
     ├── free-*-cover.jpg     # 免费体验课程
     ├── beginner-*-cover.jpg     # 基础课程
     ├── advanced-*-cover.jpg   # 进阶课程
-    ├── hands-on-*-cover.jpg   # 项目课程
-    └── project-*-cover.png # 企业课程
+    ├── hands-on-*-cover.jpg   # 实战课程
+    └── project-*-cover.png # 项目落地课程
     |__ vip-*-cover.png # 会员课程
     └── employment-logo-cover.png # 就业logo设计课程
 
