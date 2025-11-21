@@ -96,6 +96,7 @@ import { computed, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Course, StageKey } from '../types'
 import StarRating from './StarRating.vue'
+import { getStageLabel } from '@/utils/stageMap'
 import {
   // STAGE_STYLES,  // 暂时注释未使用的导入
   getTemplateFromImagePath,
@@ -178,8 +179,13 @@ const displayLearnerCount = computed(() => {
   return course.value.learnerCount || dynamicCardData.value.learnerCount
 })
 
-// 获取显示的等级（优先使用course中的level，否则使用模板生成的）
+// 获取显示的等级（使用stageMap根据stage字段获取标准标签）
 const displayLevel = computed(() => {
+  // 优先使用stageMap根据stage字段获取标准标签
+  if (course.value.stage) {
+    return getStageLabel(course.value.stage as StageKey)
+  }
+  // 回退：使用course中的level或模板生成的level
   return course.value.level || dynamicCardData.value.level
 })
 

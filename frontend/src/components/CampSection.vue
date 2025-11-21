@@ -161,7 +161,7 @@ const courseStore = useCourseStore()
 const uiStore = useUIStore()
 
 // 响应式状态
-const currentStage = ref<StageKey>('free')
+const currentStage = ref<StageKey>('basic')
 const displayCount = ref(props.initialDisplayCount)
 const showAllCourses = ref(false)
 const loading = ref(false)

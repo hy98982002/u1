@@ -69,6 +69,26 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      // Program A: 会员进阶路线（Intermediate级别课程集合）
+      path: '/program/aigc-intermediate',
+      name: 'ProgramA',
+      component: () => import('../views/program/ProgramAView.vue'),
+      meta: {
+        title: '会员进阶路线 - AIGC技能提升系统化学习路径',
+        description: '专为已掌握基础技能、希望系统提升AIGC实战能力的学员设计'
+      }
+    },
+    {
+      // Program B: 高阶技能路径（Advanced级别课程集合）
+      path: '/program/ai-designer-advanced',
+      name: 'ProgramB',
+      component: () => import('../views/program/ProgramBView.vue'),
+      meta: {
+        title: '高阶技能路径 - 专业级AI设计师实战与项目落地',
+        description: '面向希望达到专业级AI设计师水平、能够独立承接大型商业项目的学员'
+      }
+    },
+    {
       // 404页面路由
       path: '/404',
       name: 'NotFound',
