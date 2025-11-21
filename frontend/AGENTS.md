@@ -1,6 +1,6 @@
 # CLAUDE.md - 前端开发指南
 
-本文件为 Claude Code 在多维 AI 课堂的 `/frontend` 目录中工作时提供前端特定指导。
+本文件为 Claude Code 在多维 AI 课堂的 `/frontend` 目录中工作时提供前端特定指导，并已对齐最新的 DOVIAI 课程重构规范（01/02 文档）。
 
 ## 项目概述
 
@@ -41,6 +41,25 @@ npm install opencc-js         # 中文简繁转换
 npm install vue-gtag          # 分析集成 (条件加载)
 npm install @types/gtag       # 分析的TypeScript定义
 ```
+
+## 课程重构与 AEO/LRMI 对齐要求
+
+- 课程级别统一为 **Beginner（入门，免费） / Intermediate（进阶，会员可看或单买） / Advanced（高阶，付费，会员 9 折但不含权益）**，禁止再使用旧的“免费/入门/精进/实战/项目落地”五级体系。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L6-L41】
+- Program 体系：
+  - **Program A（会员实战训练体系）** 由多个 Intermediate 课程组成，会员可完整学习，对应 LRMI `Curriculum` + `Unit`。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L43-L56】
+  - **Program B（职业技能训练体系）** 由 Advanced 部分组成，为单买型高价值课程，可享会员 9 折，对应 `ProfessionalDevelopment`。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L58-L70】
+- JSON-LD/Schema 实施必须覆盖“五维结构化策略”：
+  - **Level**：`educationalLevel` 使用 `DefinedTerm`；枚举页建议 `/levels` 提供定义。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L12-L53】
+  - **Type**：`@type` + `about` + `educationalUse`（Lesson/Practice/Exercise/Curriculum 等）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L55-L86】
+  - **Access**：`offers`（价格/库存）、`audience`（会员/公开）、`courseMode`（Online/Offline/Hybrid）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L88-L129】
+  - **Outcome**：`learningOutcome` 至少 2–4 条“动词 + 能力”短句，驱动搜索结果技能摘要。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L131-L165】
+  - **Pathway**：课程页用 `isPartOf` 指向系列，Program 页用 `hasCourse/hasPart` 罗列成员，形成学习路线。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L167-L213】
+- Vue 组件与 JSON-LD 责任分层：
+  - `CourseIntro.vue`：承载 Type + Outcome。
+  - `CourseCatalog.vue`：承载 Level + Pathway（章节/系列）。
+  - `CourseReviews.vue`：承载 Access（结合登录/会员态）。
+  - `CourseRelated.vue`：承载 Type + Pathway（跨课程推荐）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L215-L239】
+- 开发优先级：1）先补 Type + Outcome；2）再补 Level + Pathway；3）最后随会员体系落地 Access。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L241-L247】
 
 ## 前端架构
 
