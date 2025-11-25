@@ -1,68 +1,124 @@
-// frontend/src/utils/stageMap.ts
+// stageMap.ts
+// 课程阶段映射工具 - 统一管理旧→新体系的转换和UI展示
 
-import type { CourseCardTemplate } from '@/types'
-
-/**
- * 课程阶段映射表
- * 用途：处理前后端数据格式差异、旧代码迁移过渡
- *
- * 使用场景：
- * 1. 后端API如果返回拼音格式，前端转换为英文
- * 2. 旧数据迁移时的兼容处理
- * 3. URL参数标准化
- */
-
-// 拼音 → 英文映射（已注释：课程cover命名已改为英文）
-// export const PINYIN_TO_ENGLISH: Record<string, CourseCardTemplate> = {
-//   tiyan: 'free',
-//   rumen: 'beginner',
-//   jingjin: 'advanced',
-//   shizhan: 'hands-on',
-//   xiangmushizhan: 'project',
-//   huiyuan: 'vip'
-// } as const
-
-// 英文 → 拼音映射（反向查询，已注释：不再需要拼音映射）
-// export const ENGLISH_TO_PINYIN: Record<CourseCardTemplate, string> = {
-//   free: 'tiyan',
-//   beginner: 'rumen',
-//   advanced: 'jingjin',
-//   'hands-on': 'shizhan',
-//   project: 'xiangmushizhan',
-//   vip: 'huiyuan'
-// } as const
-
-// 英文 → 中文映射（用于SEO）
-export const STAGE_TO_CHINESE: Record<CourseCardTemplate, string> = {
-  free: '免费',
-  beginner: '入门',
-  advanced: '进阶',
-  'hands-on': '实战',
-  project: '项目落地',
-  vip: '会员专享'
-} as const
+import { STAGES, LEGACY_STAGE_MAP, type StageKey } from '@/types'
 
 /**
- * 标准化阶段值（简化版：仅检查英文格式）
- * @param stage - 英文阶段标识
- * @returns 标准英文格式
+ * 将旧的stage字段映射为新的三级体系
+ * @param oldStage 旧的stage标识符（可能是英文或中文）
+ * @returns 新的StageKey (basic / intermediate / advanced)
  */
-export function normalizeStage(stage: string): CourseCardTemplate {
-  // 使用STAGE_TO_CHINESE映射检查是否为有效英文阶段
-  if (stage in STAGE_TO_CHINESE) {
-    return stage as CourseCardTemplate
+export function mapOldStageToNew(oldStage: string): StageKey {
+  // 先转换为小写进行匹配
+  const normalized = oldStage.toLowerCase().trim()
+
+  // 尝试从映射表中查找
+  if (normalized in LEGACY_STAGE_MAP) {
+    return LEGACY_STAGE_MAP[normalized as keyof typeof LEGACY_STAGE_MAP]
   }
 
-  // 默认返回free
-  console.warn(`未知的stage值: ${stage}，默认使用'free'`)
-  return 'free'
+  // 如果找不到映射，尝试直接匹配新体系
+  if (normalized === 'basic' || normalized === 'intermediate' || normalized === 'advanced') {
+    return normalized as StageKey
+  }
+
+  // 兜底：默认返回 basic
+  console.warn(`未知的stage值: "${oldStage}", 默认映射到 "basic"`)
+  return 'basic'
 }
 
 /**
- * 生成SEO友好的阶段标签
- * @param stage - 英文阶段标识
- * @returns 中文显示名称
+ * 获取stage的中文显示标签
+ * @param stage StageKey
+ * @returns 中文标签
  */
-export function getStageLabelForSEO(stage: CourseCardTemplate): string {
-  return STAGE_TO_CHINESE[stage]
+export function getStageLabel(stage: StageKey): string {
+  return STAGES[stage]
+}
+
+/**
+ * 获取stage的英文slug标识符（用于URL）
+ * @param stage StageKey
+ * @returns 英文slug (beginner / intermediate / advanced)
+ */
+export function getStageSlug(stage: StageKey): string {
+  const slugMap: Record<StageKey, string> = {
+    basic: 'beginner',
+    intermediate: 'intermediate',
+    advanced: 'advanced'
+  }
+  return slugMap[stage]
+}
+
+/**
+ * 从slug还原为StageKey
+ * @param slug URL中的slug (beginner / intermediate / advanced)
+ * @returns StageKey
+ */
+export function slugToStageKey(slug: string): StageKey {
+  const reverseMap: Record<string, StageKey> = {
+    beginner: 'basic',
+    intermediate: 'intermediate',
+    advanced: 'advanced'
+  }
+  return reverseMap[slug.toLowerCase()] || 'basic'
+}
+
+/**
+ * 获取stage的样式类名
+ * @param stage StageKey
+ * @returns Bootstrap样式对象
+ */
+export function getStageStyle(stage: StageKey) {
+  const styleMap = {
+    basic: { textClass: 'text-primary', bgClass: 'bg-primary-subtle' },
+    intermediate: { textClass: 'text-info', bgClass: 'bg-info-subtle' },
+    advanced: { textClass: 'text-danger', bgClass: 'bg-danger-subtle' }
+  }
+  return styleMap[stage]
+}
+
+/**
+ * 批量迁移课程数据的stage字段
+ * @param courses 课程数组
+ * @returns 迁移后的课程数组和统计信息
+ */
+export function migrateCourseStages<T extends { stage: string }>(courses: T[]) {
+  const stats = {
+    total: courses.length,
+    migrated: 0,
+    unchanged: 0,
+    mapping: {} as Record<string, number>
+  }
+
+  const migratedCourses = courses.map(course => {
+    const oldStage = course.stage
+    const newStage = mapOldStageToNew(oldStage)
+
+    // 统计
+    if (oldStage !== newStage) {
+      stats.migrated++
+      stats.mapping[`${oldStage} → ${newStage}`] =
+        (stats.mapping[`${oldStage} → ${newStage}`] || 0) + 1
+    } else {
+      stats.unchanged++
+    }
+
+    return {
+      ...course,
+      stage: newStage
+    }
+  })
+
+  return { courses: migratedCourses, stats }
+}
+
+// 导出便捷的默认对象
+export default {
+  mapOldStageToNew,
+  getStageLabel,
+  getStageSlug,
+  slugToStageKey,
+  getStageStyle,
+  migrateCourseStages
 }

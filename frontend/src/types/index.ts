@@ -1,22 +1,43 @@
-// 课程阶段枚举 - 统一管理所有可能的阶段
+// ============================================
+// 课程三级体系 - 新版统一标准
+// ============================================
+
+// 课程阶段枚举 - 三级体系（basic / intermediate / advanced）
 export const STAGES = {
-  free: '免费',
   basic: '入门',
-  advanced: '精进',
-  project: '实战',
-  landing: '项目落地'
+  intermediate: '进阶',
+  advanced: '高阶'
 } as const
 
 export type StageKey = keyof typeof STAGES
 export type StageValue = (typeof STAGES)[StageKey]
 
-// 阶段样式映射
+// 课程级别（与阶段同义，用于不同上下文）
+export type LevelKey = StageKey
+
+// 阶段样式映射 - 三级体系
 export const STAGE_STYLES = {
-  free: { textClass: 'text-success', bgClass: 'bg-success-subtle', label: '免费' },
   basic: { textClass: 'text-primary', bgClass: 'bg-primary-subtle', label: '入门' },
-  advanced: { textClass: 'text-info', bgClass: 'bg-info-subtle', label: '精进' },
-  project: { textClass: 'text-warning', bgClass: 'bg-warning-subtle', label: '实战' },
-  landing: { textClass: 'text-danger', bgClass: 'bg-danger-subtle', label: '项目落地' }
+  intermediate: { textClass: 'text-info', bgClass: 'bg-info-subtle', label: '进阶' },
+  advanced: { textClass: 'text-danger', bgClass: 'bg-danger-subtle', label: '高阶' }
+} as const
+
+// 旧字段到新体系的映射（供前端迁移使用）
+export const LEGACY_STAGE_MAP: Record<string, StageKey> = {
+  // 旧的英文标识符
+  free: 'basic',
+  basic: 'basic',
+  advanced: 'intermediate',
+  project: 'intermediate',
+  landing: 'advanced',
+  high: 'advanced',
+  // 旧的中文标识符
+  '免费': 'basic',
+  '入门': 'basic',
+  '精进': 'intermediate',
+  '实战': 'intermediate',
+  '项目落地': 'advanced',
+  '高级': 'advanced'
 } as const
 
 // 课程卡片模板类型 - 使用英文标识符以支持SEO友好的URL
@@ -277,4 +298,125 @@ export interface BreadcrumbItem {
   title: string
   href?: string
   path?: string
+}
+
+// ============================================
+// JSON-LD 五维 Schema 类型定义
+// ============================================
+
+// 1. Level（教育层级）- DefinedTerm 类型
+export interface EducationalLevelTerm {
+  '@type': 'DefinedTerm'
+  name: string // 如："Beginner" / "Intermediate" / "Advanced"
+  inDefinedTermSet: string // 如："https://www.doviai.com/levels"
+  description?: string
+}
+
+// 2. Type（课程类型）- LRMI教学用途
+export type EducationalUse =
+  | 'Lecture' // 讲授
+  | 'Demonstration' // 演示
+  | 'Exercise' // 练习
+  | 'Introduction' // 导入
+  | 'Lesson' // 课时
+  | 'Practice' // 技能练习
+  | 'Project' // 综合项目
+  | 'CaseStudy' // 商业案例
+  | 'Simulation' // 模拟场景
+  | 'Curriculum' // 课程路径
+  | 'Unit' // 子模块
+  | 'ProfessionalDevelopment' // 职业发展
+
+// 3. Access（访问属性）
+export interface CourseAccess {
+  offers: CourseOffer
+  audience?: EducationalAudience
+  courseMode: 'Online' | 'Offline' | 'Hybrid'
+}
+
+export interface CourseOffer {
+  '@type': 'Offer'
+  price: string | number
+  priceCurrency: 'CNY' | 'USD'
+  availability: string // Schema.org 库存状态 URL
+  validFrom?: string
+  validThrough?: string
+}
+
+export interface EducationalAudience {
+  '@type': 'EducationalAudience'
+  audienceType: string // 如："会员专区" / "公开课程"
+}
+
+// 4. Outcome（学习结果）
+export type LearningOutcome = string[] // 学习成果列表
+
+// 5. Pathway（学习路径）
+export interface CoursePathway {
+  isPartOf?: ProgramReference // 课程所属的体系
+  hasPart?: CourseReference[] // 体系包含的课程列表（用于Program页面）
+}
+
+export interface ProgramReference {
+  '@type': 'EducationalOccupationalProgram'
+  '@id'?: string
+  name: string
+  url?: string
+  description?: string
+}
+
+export interface CourseReference {
+  '@type': 'Course'
+  '@id'?: string
+  name: string
+  url: string
+  description?: string
+}
+
+// 完整的课程 JSON-LD 结构
+export interface CourseJsonLd {
+  '@context': 'https://schema.org'
+  '@type': 'Course'
+  '@id'?: string
+  name: string
+  description?: string
+  provider: {
+    '@type': 'Organization'
+    name: string
+    url: string
+  }
+  // 五维字段
+  educationalLevel?: EducationalLevelTerm // Level
+  about?: string // Type - 主题领域
+  educationalUse?: EducationalUse[] // Type - 教学用途
+  offers?: CourseOffer // Access
+  audience?: EducationalAudience // Access
+  courseMode?: string // Access
+  learningOutcome?: LearningOutcome // Outcome
+  isPartOf?: ProgramReference // Pathway
+  // 其他标准字段
+  inLanguage?: string
+  keywords?: string
+  image?: string
+  hasCourseSection?: any[]
+}
+
+// Program（体系课）JSON-LD 结构
+export interface ProgramJsonLd {
+  '@context': 'https://schema.org'
+  '@type': 'EducationalOccupationalProgram'
+  '@id'?: string
+  name: string
+  description?: string
+  provider: {
+    '@type': 'Organization'
+    name: string
+    url: string
+  }
+  educationalLevel?: EducationalLevelTerm
+  educationalUse?: EducationalUse[]
+  hasCourse?: CourseReference[] // Pathway - 包含的课程列表
+  offers?: CourseOffer
+  timeToComplete?: string
+  occupationalCategory?: string
 }
