@@ -61,6 +61,20 @@ npm install @types/gtag       # 分析的TypeScript定义
   - `CourseRelated.vue`：承载 Type + Pathway（跨课程推荐）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L215-L239】
 - 开发优先级：1）先补 Type + Outcome；2）再补 Level + Pathway；3）最后随会员体系落地 Access。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L241-L247】
 
+### 11/21 重构进度同步（前三步已落地，后续需按 PRD 收尾）
+
+- **已完成**
+  - 类型层已切换为三级体系并内置旧→新映射（`STAGES`/`LEGACY_STAGE_MAP`）。【F:src/types/index.ts†L1-L46】
+  - 阶段与 slug 工具覆盖三级体系（`mapOldStageToNew`、`generateCourseSlug` 等）。【F:src/utils/stageMap.ts†L4-L69】【F:src/utils/slug.ts†L1-L63】
+  - 课程数据在 store 初始化时完成迁移与 slug 重算，默认阶段改为 basic 并输出统计。【F:src/store/courseStore.ts†L7-L117】【F:src/store/courseStore.ts†L202-L239】
+  - Program A/B 路由与页面骨架存在，并在 Program A 中注入 JSON-LD 示例数据。【F:src/router/index.ts†L52-L89】【F:src/views/program/ProgramAView.vue†L1-L168】
+- **待补齐**
+  - `LessonRow.vue` 等仍按“免费/付费”按钮文案展示，需替换为三级难度标签或与 Pathway 对齐。【F:src/components/LessonRow.vue†L1-L70】
+  - `CourseCard.vue` 的样式仍基于旧模板 levelStyle，后续需用 stageMap 的样式和 Pathway 信息驱动展示。【F:src/components/CourseCard.vue†L78-L139】【F:src/components/CourseCard.vue†L200-L211】
+  - `CampSection.vue` 仅做阶段/标签筛选，尚未接入 Program 过滤或 JSON-LD 输出；按 PRD 需要补齐 program 查询参数与 Schema 挂载。【F:src/components/CampSection.vue†L15-L123】【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L54-L130】
+  - 课程/Program 的 JSON-LD 构建函数尚未抽到 `src/utils/jsonld/`，需按照 PRD Step 6 增补复用工具。【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L131-L190】
+
+
 ## 前端架构
 
 ### 目录结构 (`/frontend/src/`)
