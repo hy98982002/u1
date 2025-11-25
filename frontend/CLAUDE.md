@@ -42,6 +42,18 @@ npm install vue-gtag          # 分析集成 (条件加载)
 npm install @types/gtag       # 分析的TypeScript定义
 ```
 
+## 11/21 课程重构状态与协作提示
+
+- **现状速览**
+  - 类型/工具：`src/types/index.ts` 已收敛为 basic/intermediate/advanced，并内置 `LEGACY_STAGE_MAP`；`src/utils/stageMap.ts`、`src/utils/slug.ts` 统一 slug 与阶段映射，供组件、路由复用。【F:src/types/index.ts†L1-L46】【F:src/utils/stageMap.ts†L4-L69】【F:src/utils/slug.ts†L1-L63】
+  - 数据：`courseStore` 初始化即调用 `migrateMockCourses()`，完成旧阶段迁移、slug 重算和控制台统计；默认阶段为 basic，过滤逻辑已兼容会员专区与标签筛选。【F:src/store/courseStore.ts†L7-L117】【F:src/store/courseStore.ts†L202-L239】
+  - 页面：Program A/B 路由与视图骨架已就绪，Program A 内包含手动注入的 Program JSON-LD 示例。【F:src/router/index.ts†L52-L89】【F:src/views/program/ProgramAView.vue†L1-L168】
+- **待办清单（按 PRD 收尾）**
+  - 组件层：将 `LessonRow.vue`、`CourseCard.vue` 的等级/样式改用三级体系与 Pathway 数据驱动，避免旧模板的“免费/实战”文案。【F:src/components/LessonRow.vue†L1-L70】【F:src/components/CourseCard.vue†L78-L139】
+  - Program/Camp：`CampSection.vue` 需要支持 program 查询参数与 JSON-LD 输出，与 Program A/B 路由形成互链。【F:src/components/CampSection.vue†L15-L123】【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L54-L130】
+  - JSON-LD 工具化：在 `src/utils/jsonld/` 下补充 `buildCourseJsonLd.ts`、`buildProgramJsonLd.ts`，避免在视图内手写 JSON，遵循 PRD Step 6。【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L131-L190】
+  - 验收：补齐后执行 `npm run type-check` 与 `npm run build:check`，并检查 `migrateMockCourses` 的 console.table 输出确认映射正确。
+
 ## 前端架构
 
 ### 目录结构 (`/frontend/src/`)
