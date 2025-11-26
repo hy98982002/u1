@@ -1,335 +1,126 @@
+# ✅ 《Doviai 前端课程体系“纯新阶段”切换 PRD》（可直接执行版）
 
-
-你的要求是：
-
-* 你现在还没后端
-* 希望做“前端能完成的那部分重构”
-* 并且希望 Claude Code 能据此自动重构整个体系
-* 所以 PRD 内容必须**能立即在前端落地，不依赖后端字段、接口、真实课程体系**
-* 同时又保留后端将来接入的拓展能力
-
-
+> 本版 PRD 假设**所有课程数据源、路由、slug、组件输入均已切换到新三级枚举**，前端不再接收旧枚举或旧 slug。目标是移除 legacy 迁移层，直接消费新字段，并在入口做强校验，降低长期维护成本。
 
 ---
 
-# ✅ **《Doviai 前端可立即执行的课程体系重构 PRD（可交付版）》**
-
-**（不依赖后端，可用 mock 数据完成 90% 的前端结构升级）**
-
----
-
-# 1. 重构范围（严格前端可执行部分）
-
-## **当前阶段可做（100% 前端可独立完成）**
-
-| 能做的                      | 说明                                               |
-| ------------------------ | ------------------------------------------------ |
-| 1）课程级别五级 → 三级统一化         | Basic（入门） / Intermediate（进阶） / Advanced（高阶）      |
-| 2）所有组件切换展示新级别            | StageTabs / CourseCard / LessonRow / CampSection |
-| 3）slug 规则重构              | `/course/xxx-basic` → `/course/xxx-beginner`     |
-| 4）stageMap 映射表           | old → new 映射（前端本地实现，不依赖后端）                       |
-| 5）courseStore 的本地迁移      | 对 mock 数据做字段转换（不依赖后端 DB）                         |
-| 6）Program A/B 的路由占位与页面骨架 | 用假数据展示架构                                         |
-| 7）课程详情 JSON-LD（五维）       | Level/Type/Access/Outcome/Pathway → 全部前端可做       |
-| 8）与 Claude Code 联动批量重构   | 全部路径、组件、类型统一化                                    |
+## 0. 前提与目标
+- 前提：
+  - 后端/数据源已统一为 `basic | intermediate | advanced`，不会再返回旧枚举（free/advanced/project/landing/high 等）。
+  - 现有 mock 数据与静态 JSON 已重命名为新阶段，并按“课程名-阶段”规则命名图片。
+  - 路由及 slug 已统一为新规则（`/course/xxx-basic` → `/course/xxx-beginner` 等）。
+- 目标：
+  - **去除 legacy 映射逻辑**：删除旧→新转换、迁移统计，转为入口强校验模式。
+  - **保留统一出口**：继续使用 `stageMap` 提供标签、slug、样式等单一来源，避免分散硬编码。
+  - **数据清洁可观测**：输入若包含非法 stage，立即 fail-fast 并抛出显式错误日志，便于回归定位。
+  - **与会员专区对齐**：会员专享课程依旧使用 `intermediate/advanced` 等新枚举，专属属性通过 `audienceType: 'membership'` 标注，不新增阶段枚举。
 
 ---
 
-## **需要延后（依赖后端的部分）**
-
-| 暂不能做                     | 原因             |
-| ------------------------ | -------------- |
-| ① DB 真正数据迁移              | 后端不存在，不能更新真实数据 |
-| ② price/会员价/库存的真实值       | 需后端返回          |
-| ③ Program A/B 真实课程列表     | 后端需给课程归属       |
-| ④ SEO 自动监控、自动化 schema 校验 | 需部署环境          |
-| ⑤ 灰度开关 / API 版本控制        | 后端必须先建立 API v2 |
+## 1. 范围与不做的事
+- **本轮涵盖**：stage 枚举、slug 工具、store 数据入口校验、组件消费端改造、Program 页面、JSON-LD 构建工具、课程图片命名规则。
+- **不做**：
+  - 不再保留 legacy map 与迁移统计表。
+  - 不处理真实后端数据迁移（假设后端已完成清洗）。
+  - 不新增阶段枚举（会员专区用 `audienceType` 标注，而非新增 stage）。
 
 ---
 
-# 2. 重构目标（保持前端可独立完成）
+## 2. 统一的三级体系（唯一合法枚举）
+- `basic`      → Beginner（入门）
+- `intermediate` → Intermediate（进阶）
+- `advanced`    → Advanced（高阶）
 
-### 🎯 **明确目标（前端阶段）**
-
-> 不改变后端、不依赖接口情况下
-> → **完成课程体系、组件、JSON-LD 的前端重构**
-> → 全站课程体系切换为「三级体系」
-> → 保留 Program 路由与 JSON-LD 占位
-> → 所有页面展示保持一致、SEO/AEO 准备好结构化模板
-> → 让后端未来接入无需再重构页面，只替换数据源即可
+**规则**：任何非以上枚举的值视为非法，必须在入口报错中断。
 
 ---
 
-# 3. 新的课程级别体系（前端最终使用）
+## 3. 涉及文件与改动要求
+### 3.1 类型与工具
+- `src/types/index.ts`
+  - `StageKey` 仅保留 3 枚举；提供 `isStageKey(value: string): value is StageKey`。
+  - 保留 JSON-LD 类型占位。
+- `src/utils/stageMap.ts`
+  - 删除 `LEGACY_STAGE_MAP` 与 `mapOldStageToNew`；保留/强化：
+    - `getStageLabel`（用于 UI 文案）
+    - `getStageSlug` / `slugToStageKey`（只接受新枚举）
+    - `getStageStyle`（样式类名）
+    - 新增 `assertStageKey(stage: string): asserts stage is StageKey`，非法时抛错并输出带课程 id/slug 的日志。
+- `src/utils/slug.ts`
+  - 仅支持新枚举 slug 生成与解析；删除与旧阶段相关的别名/关键词。
 
-## **统一采用三级体系（英文为主，中文只用于展示）**
+### 3.2 数据层（store/mock）
+- `src/store/courseStore.ts`
+  - 移除迁移函数与统计；在 `loadMockData`/数据注入时调用 `assertStageKey`，非法值直接抛错。
+  - Mock 数据确保字段 `stage` 仅为新枚举，slug 由新规则生成。
+- 静态/Mock JSON
+  - 全量检查 stage 字段，必须使用新枚举。
+  - 图片命名遵循“课程名在前-阶段在后”的 slug，如 `illustrator-beginner.webp`；会员专享课可增加 `-membership` 片段，但阶段尾缀仍用新枚举。
 
-```
-basic        → Beginner（入门）
-intermediate → Intermediate（进阶）
-advanced     → Advanced（高阶）
-```
+### 3.3 组件消费端
+- `StageTabs.vue` / `CourseCard.vue` / `CampSection.vue` / `LessonRow.vue` 等
+  - 全部改为直接消费新 `StageKey`，禁止再做旧值兼容。
+  - 级别文案/样式统一调用 `stageMap`；任何 props/store 输入先经过 `assertStageKey` 或类型约束。
 
-## **旧 → 新映射表（courseStore.ts 用）**
+### 3.4 Program 页面
+- `ProgramAView.vue` / `ProgramBView.vue`
+  - 使用新枚举的课程列表；入口校验 stage。
+  - JSON-LD `hasCourse`/`isPartOf` 仅输出新 slug。
 
-```
-免费/free          → basic
-入门/basic         → basic
-精进/advanced      → intermediate
-实战/project       → intermediate
-项目落地/landing   → advanced
-高级/high          → advanced
-```
-
----
-
-# 4. 涉及文件（需 Claude Code 批量修改）
-
-## **4.1 类型（TS）层**
-
-* `src/types/index.ts`
-
-  * STAGES 改为 3 级
-  * StageKey/LevelKey 类型重写
-  * 添加 JSON-LD 所需类型占位：DefinedTerm、learningOutcome 等
-  * 用 `as const` 保证显式提示
-
----
-
-## **4.2 数据（store/utils）层**
-
-### **文件：`src/store/courseStore.ts`**
-
-* 在初始化（loadMockData）时执行旧→新映射
-* 提供 `migrateLevels()` 函数（前端层迁移）
-* 输出统计日志（console.table）
-
-### **文件：`src/utils/stageMap.ts`**
-
-* 维护唯一正确的映射（用于 UI 输出）
-* 导出 `mapOldStageToNew(stage: string): StageKey`
-
-### **文件：`src/utils/slug.ts`**
-
-* 重写 slug 生成规则
-* 更新映射词（basic/intermediate/advanced）
-* 去掉过时关键词：project/landing
-
-> 备注：alias `@/utils/xxx` 必须保留，不允许改为相对路径。
+### 3.5 JSON-LD 工具
+- `src/utils/jsonld/buildCourseJsonLd.ts`
+- `src/utils/jsonld/buildProgramJsonLd.ts`
+  - 仅接受新枚举；在构建前调用 `assertStageKey`，非法直接抛错。
 
 ---
 
-## **4.3 组件（Vue SFC）层**
-
-### （1）`StageTabs.vue`
-
-* 直接改为 3 个 button
-* Tab 状态根据 StageKey 切换
-* 保留会员专区按钮（状态独立，不算 stage）
-
-### （2）`CourseCard.vue`
-
-* 替换所有旧 stage 判断
-* 展示的级别统一用 `stageMap.ts`
-* 课程 slug 统一使用新体系
-
-### （3）`CampSection.vue`
-
-* 筛选逻辑从五级改为三级
-* 支持 Program 路由参数（例如 `?program=aigc`）
-
-### （4）`LessonRow.vue`
-
-* 替换 level 显示逻辑
-* 保留 A11y 键盘逻辑不变
+## 4. 实施步骤
+1) **基线校验能力**：
+   - 在 `stageMap.ts` 增加 `assertStageKey` 与 `isStageKey`，统一错误文案（含课程 id/slug）。
+   - `slug.ts`、`types/index.ts` 对非法值返回显式错误，而非静默回退。
+2) **移除迁移逻辑**：
+   - 删除 `LEGACY_STAGE_MAP`、`mapOldStageToNew`、迁移统计输出。
+   - `courseStore` 初始化只做校验 + slug 生成，不再转换。
+3) **数据清洗与命名确认**：
+   - 扫描 Mock/静态数据确保 stage/slug/图片名均为新规则；会员专享课通过 `audienceType` 标记。
+4) **组件收敛**：
+   - 所有组件使用 `StageKey` 类型/断言，禁止旧值 fallback；样式/文案统一走 `stageMap`。
+5) **Program & JSON-LD 收尾**：
+   - Program 页与 JSON-LD 工具仅输出新枚举，QA 用脚本确认无 legacy slug。
+6) **验证**：
+   - TypeScript 全量通过；脚本扫描确认无 `project`/`landing` 等旧枚举；关键路径运行时无非法值错误。
 
 ---
 
-## **4.4 Program 页面骨架（新增）**
-
-目录：
-
-```
-src/views/program/
-  ProgramAView.vue
-  ProgramBView.vue
-```
-
-结构：
-
-* Program A = 会员进阶路线（Intermediate 系课程集合）
-* Program B = 高阶技能路径（Advanced 系课程集合）
-* 全部使用假数据
-* 需要生成 `Program JSON-LD`
+## 5. 验收标准
+1. 代码中不存在旧阶段枚举（free/advanced/project/landing/high 等），扫描结果为 0。
+2. `stageMap.ts` 内无 legacy 映射逻辑，存在 `assertStageKey` 与 `isStageKey` 并被调用。
+3. `courseStore` 不再执行迁移/统计，入口仅做校验 + 新 slug 生成。
+4. 所有组件/JSON-LD/Program 页面只消费新枚举，非法值会抛出显式错误（带课程标识）。
+5. 图片/slug 命名符合“课程名-阶段”规则，会员专享课通过 `audienceType` 标注而非新阶段。
+6. `npm run type-check` 通过；运行时无旧枚举导致的回退。
 
 ---
 
-# 5. SEO/AEO（JSON-LD）重构方案（前端可独立完成）
-
-## **课程详情页 JSON-LD 包含五维字段：**
-
-### 1）Level
-
-使用 DefinedTerm（前端可生成 Enum 页）：
-
-```json
-"educationalLevel": {
-  "@type": "DefinedTerm",
-  "name": "Intermediate",
-  "inDefinedTermSet": "https://www.doviai.com/levels"
-}
-```
-
-### 2）Type（Use LRMI）
-
-仅在教育部分使用：
-
-```
-Lesson / Lecture / Exercise / Curriculum / Project
-```
-
-### 3）Access
-
-包括：
-
-* price
-* currency
-* availability
-* membership（会员价用 audience）
-
-### 4）Outcome
-
-```
-"learningOutcome": [
-  "掌握 Photoshop 生成式工具使用",
-  "能够独立完成海报级视觉创作"
-]
-```
-
-### 5）Pathway（Program 关系）
-
-课程 → Program：
-
-```
-"isPartOf": { "@id": "/program/aigc-intermediate" }
-```
-
-Program → 课程：
-
-```
-"hasCourse": [{ "@id": "/course/xxx" }]
-```
+## 6. 风险与缓解
+- **遗漏遗留值导致运行时抛错**：使用全局扫描与入口断言，提前暴露；必要时在 QA 环境跑全量页面。 
+- **第三方/缓存数据仍携带旧值**：在数据接入层增加快速失败，并在日志中提示来源与字段。 
+- **图片/slug 重命名成本**：一次性完成重命名与引用修复，提交前用脚本校验引用路径。 
 
 ---
 
-# 6. 实现步骤（适合 Claude Code 自动执行）
-
-## **Step 1｜类型与映射基线**
-
-* 重写 STAGES、StageKey、LevelKey
-* 创建五维 Schema 类型占位
-* 完成 stageMap.ts / slug.ts 初版
-
-## **Step 2｜Store 本地迁移**
-
-* 在 courseStore 中执行旧值映射
-* 输出迁移统计
-
-## **Step 3｜组件大范围替换**
-
-用 Claude 进行批量替换：
-
-```
-stage === 'project'
-stage === 'landing'
-```
-
-改为：
-
-```
-stage === 'intermediate'
-stage === 'advanced'
-```
-
-并统一展示：
-
-```
-stageMap.toLabel(stage)
-```
-
-## **Step 4｜Program 页面骨架**
-
-* 建 ProgramAView.vue / ProgramBView.vue
-* 使用假数据（useMockProgramData）
-
-## **Step 5｜JSON-LD 构建工具**
-
-新增：
-
-```
-src/utils/jsonld/buildCourseJsonLd.ts
-src/utils/jsonld/buildProgramJsonLd.ts
-```
+## 7. 会员专区命名与阶段策略
+- 阶段仍使用 `intermediate` / `advanced` 等新枚举，避免新增阶段类型。 
+- 图片与 slug 采用“课程名-阶段”规则，可选在课程名中加入 `membership` 片段（示例：`illustrator-membership-intermediate.webp`），但尾缀必须是合法阶段。 
+- `audienceType: 'membership'` 或布尔字段标识专享属性，过滤与展示逻辑基于该属性而非新增阶段。 
 
 ---
 
-# 7. 验收标准（前端阶段）
+## 8. 给 Claude Code/自动化的执行提示
+- 仅保留三级枚举：basic/intermediate/advanced。 
+- 遇到旧枚举一律视为错误并移除，不允许 fallback。 
+- 组件、store、JSON-LD 工具均通过 `StageKey` 类型与 `assertStageKey` 保证输入合法。 
+- alias `@/...` 必须保留；禁止改为相对路径。 
+- mock/静态数据与图片命名必须同步更新，确保引用路径正确。 
 
-1. 所有组件均只使用 3 个 stage（无遗留）
-2. slug 规则全部更新
-3. store 数据迁移正常运行（Mock）
-4. Program 页可以访问，并显示假数据
-5. JSON-LD 输出 5 个维度，并能通过 Schema.org 检测
-6. Vue/TS 编译无错误
-7. 页面布局与筛选行为无回归问题
-
----
-
-# 8. 给 Claude Code 的「执行规则文档」（可复制进 .cursor / CLAUDE.md）
-
-```
-### 重构规则（必须遵循）
-
-1. 路径 alias:
-   - "@/xxx" 不允许替换成相对路径。
-   - 如果文件移动，请自动修复 alias。
-
-2. 三级课程体系:
-   - StageKey 仅为: basic / intermediate / advanced
-   - UI 文字使用 stageMap.ts 映射，不得硬编码。
-
-3. 旧字段迁移:
-   - store 内只做前端层映射，不构造真实 DB 迁移逻辑。
-   - 遇到未知 stage → 默认 basic。
-
-4. JSON-LD:
-   - 仅教育字段使用 LRMI（educationalUse, educationalLevel, learningResourceType）。
-   - 非教育字段（offers, price, breadcrumbs, organization）不得使用 LRMI。
-
-5. Program 页面:
-   - 使用假数据 mock，不访问真实接口。
-   - 必须输出 isPartOf/hasCourse 关系。
-
-6. 文件修改策略:
-   - components/types/utils/store 一律自动修改。
-   - 不得修改 router/index.ts 的已有路由（可新增 program 路由）。
-   - 所有新增文件必须带 Typescript 类型定义。
-
-7. 禁止行为:
-   - 禁止删除现有业务逻辑。
-   - 禁止改动 alias 为相对路径。
-   - 禁止生成后端 API 代码。
-```
-
----
-
-# 📌 最后一句话（你真正需要的）
-
-**这份 PRD + 技术规则是当下完全可执行的前端重构方案，
-不依赖后端，但为未来后端接入留足了结构空间。**
-
-你现在可以直接把本文件复制给 Claude Code，让它开始批量重构。
-
----
-
-
+> 采用纯新阶段方案能减少长期维护的双轨复杂度，所有入口强校验可快速暴露残留问题，便于后续与后端契约保持一致。
