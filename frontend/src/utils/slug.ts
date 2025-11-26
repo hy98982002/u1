@@ -5,13 +5,6 @@
 import type { StageKey } from '@/types'
 import { getStageSlug, slugToStageKey } from './stageMap'
 
-// 课程级别英文映射（用于URL slug）
-const LEVEL_SLUG_MAP: Record<StageKey, string> = {
-  basic: 'beginner',
-  intermediate: 'intermediate',
-  advanced: 'advanced'
-}
-
 /**
  * 清理文本：去掉中文括号、特殊符号、空格
  * @param title 原始标题
@@ -56,8 +49,9 @@ function toSlug(str: string): string {
 /**
  * 生成课程 slug（主函数）
  * @param title 课程标题
- * @param level 课程级别 (basic / intermediate / advanced)
+ * @param stage 课程阶段 (basic / intermediate / advanced)
  * @returns SEO友好的slug，如 "ai-photoshop-design-beginner"
+ * @throws {Error} 非法的 stage 值
  *
  * @example
  * generateCourseSlug("AI Photoshop 设计课（入门）", "basic")
@@ -66,23 +60,28 @@ function toSlug(str: string): string {
  * generateCourseSlug("Python Web开发实战", "intermediate")
  * // 返回: "python-web-intermediate"
  */
-export function generateCourseSlug(title: string, level: StageKey): string {
+export function generateCourseSlug(title: string, stage: StageKey): string {
   const normalized = normalizeTitle(title)
 
   // 提取关键词并转为slug格式
   const mainPart = toSlug(chineseToSlugKeyword(normalized))
 
-  // 获取级别的slug标识符
-  const levelSlug = LEVEL_SLUG_MAP[level] || 'beginner'
+  // 获取级别的slug标识符（使用 stageMap 的统一函数）
+  const stageSlug = getStageSlug(stage)
 
-  // 最终结构：topic-topic-topic-level
-  return mainPart ? `${mainPart}-${levelSlug}` : `course-${levelSlug}`
+  // 最终结构：topic-topic-topic-stage
+  if (!mainPart) {
+    throw new Error(`课程标题 "${title}" 无法提取有效关键词`)
+  }
+
+  return `${mainPart}-${stageSlug}`
 }
 
 /**
  * 从slug解析课程信息
  * @param slug URL中的slug
  * @returns 包含stage和courseName的对象
+ * @throws {Error} 非法的 slug 格式
  *
  * @example
  * parseSlug("ai-photoshop-design-beginner")
@@ -94,37 +93,29 @@ export function parseSlug(slug: string): {
 } {
   const parts = slug.split('-')
 
-  // 检查最后一部分是否是有效的level slug
+  if (parts.length < 2) {
+    throw new Error(`非法的 slug 格式: "${slug}". 至少需要包含课程名和阶段标识`)
+  }
+
+  // 检查最后一部分是否是有效的stage slug
   const lastPart = parts[parts.length - 1]
-  const reverseMap: Record<string, StageKey> = {
-    beginner: 'basic',
-    intermediate: 'intermediate',
-    advanced: 'advanced'
+
+  try {
+    // 使用 stageMap 的统一函数进行转换
+    const stage = slugToStageKey(lastPart)
+    const courseName = parts.slice(0, -1).join('-')
+
+    if (!courseName) {
+      throw new Error(`slug "${slug}" 缺少课程名称部分`)
+    }
+
+    return { stage, courseName }
+  } catch (error) {
+    // 如果最后一部分不是有效的 stage，则整个 slug 无效
+    throw new Error(
+      `slug "${slug}" 格式错误: 最后一部分 "${lastPart}" 不是有效的阶段标识 (beginner/intermediate/advanced)`
+    )
   }
-
-  let stage: StageKey
-  let courseName: string
-
-  if (lastPart in reverseMap) {
-    // 最后一部分是级别
-    stage = reverseMap[lastPart]
-    courseName = parts.slice(0, -1).join('-')
-  } else {
-    // 兜底：默认basic，整个slug作为课程名
-    stage = 'basic'
-    courseName = slug
-  }
-
-  return { stage, courseName }
-}
-
-/**
- * 用于 Program JSON-LD、路径显示等
- * @param level StageKey
- * @returns 英文slug (beginner / intermediate / advanced)
- */
-export function getLevelSlug(level: StageKey): string {
-  return LEVEL_SLUG_MAP[level] || 'beginner'
 }
 
 /**
@@ -144,9 +135,13 @@ export function isValidSlug(slug: string): boolean {
     return false
   }
 
-  // 验证是否包含有效的级别标识
-  const { stage } = parseSlug(slug)
-  return stage === 'basic' || stage === 'intermediate' || stage === 'advanced'
+  try {
+    // 尝试解析，如果不抛错则有效
+    parseSlug(slug)
+    return true
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -169,8 +164,9 @@ export function getCourseUrl(slug: string, baseUrl: string = ''): string {
  * 生成Program页面的URL
  * @param programType 'A' 或 'B'
  * @param programName program名称（如 'aigc', 'ai-designer'）
- * @param level 级别（可选，对于Program A通常是intermediate，Program B是advanced）
+ * @param stage 阶段（可选，对于Program A通常是intermediate，Program B是advanced）
  * @returns Program页面URL
+ * @throws {Error} 非法的 stage 值
  *
  * @example
  * getProgramUrl('A', 'aigc', 'intermediate') // "/program/aigc-intermediate"
@@ -179,8 +175,8 @@ export function getCourseUrl(slug: string, baseUrl: string = ''): string {
 export function getProgramUrl(
   programType: 'A' | 'B',
   programName: string,
-  level?: StageKey
+  stage?: StageKey
 ): string {
-  const levelSlug = level ? `-${LEVEL_SLUG_MAP[level]}` : ''
-  return `/program/${programName}${levelSlug}`
+  const stageSlug = stage ? `-${getStageSlug(stage)}` : ''
+  return `/program/${programName}${stageSlug}`
 }

@@ -1,124 +1,93 @@
 // stageMap.ts
-// 课程阶段映射工具 - 统一管理旧→新体系的转换和UI展示
+// 课程阶段映射工具 - 新三级体系（basic / intermediate / advanced）
 
-import { STAGES, LEGACY_STAGE_MAP, type StageKey } from '@/types'
+import { STAGES, assertStageKey, type StageKey } from '@/types'
+
+// ============================================
+// StageMeta - 单一数据源（所有 stage 相关元数据）
+// ============================================
+
+export const StageMeta = {
+  basic: {
+    label: '入门',
+    slug: 'beginner',
+    textClass: 'text-primary',
+    bgClass: 'bg-primary-subtle'
+  },
+  intermediate: {
+    label: '进阶',
+    slug: 'intermediate',
+    textClass: 'text-info',
+    bgClass: 'bg-info-subtle'
+  },
+  advanced: {
+    label: '高阶',
+    slug: 'advanced',
+    textClass: 'text-danger',
+    bgClass: 'bg-danger-subtle'
+  }
+} as const
 
 /**
- * 将旧的stage字段映射为新的三级体系
- * @param oldStage 旧的stage标识符（可能是英文或中文）
- * @returns 新的StageKey (basic / intermediate / advanced)
- */
-export function mapOldStageToNew(oldStage: string): StageKey {
-  // 先转换为小写进行匹配
-  const normalized = oldStage.toLowerCase().trim()
-
-  // 尝试从映射表中查找
-  if (normalized in LEGACY_STAGE_MAP) {
-    return LEGACY_STAGE_MAP[normalized as keyof typeof LEGACY_STAGE_MAP]
-  }
-
-  // 如果找不到映射，尝试直接匹配新体系
-  if (normalized === 'basic' || normalized === 'intermediate' || normalized === 'advanced') {
-    return normalized as StageKey
-  }
-
-  // 兜底：默认返回 basic
-  console.warn(`未知的stage值: "${oldStage}", 默认映射到 "basic"`)
-  return 'basic'
-}
-
-/**
- * 获取stage的中文显示标签
+ * 获取 stage 的中文显示标签
  * @param stage StageKey
  * @returns 中文标签
+ * @throws {Error} 非法的 stage 值
  */
 export function getStageLabel(stage: StageKey): string {
-  return STAGES[stage]
+  assertStageKey(stage) // 运行时校验
+  return StageMeta[stage].label
 }
 
 /**
- * 获取stage的英文slug标识符（用于URL）
+ * 获取 stage 的英文 slug 标识符（用于 URL）
  * @param stage StageKey
- * @returns 英文slug (beginner / intermediate / advanced)
+ * @returns 英文 slug (beginner / intermediate / advanced)
+ * @throws {Error} 非法的 stage 值
  */
 export function getStageSlug(stage: StageKey): string {
-  const slugMap: Record<StageKey, string> = {
-    basic: 'beginner',
-    intermediate: 'intermediate',
-    advanced: 'advanced'
-  }
-  return slugMap[stage]
+  assertStageKey(stage) // 运行时校验
+  return StageMeta[stage].slug
 }
 
 /**
- * 从slug还原为StageKey
- * @param slug URL中的slug (beginner / intermediate / advanced)
+ * 从 slug 还原为 StageKey
+ * @param slug URL 中的 slug (beginner / intermediate / advanced)
  * @returns StageKey
+ * @throws {Error} 非法的 slug 值
  */
 export function slugToStageKey(slug: string): StageKey {
-  const reverseMap: Record<string, StageKey> = {
-    beginner: 'basic',
-    intermediate: 'intermediate',
-    advanced: 'advanced'
+  const normalized = slug.toLowerCase().trim()
+
+  // 使用反向映射查找
+  for (const [key, meta] of Object.entries(StageMeta)) {
+    if (meta.slug === normalized) {
+      return key as StageKey
+    }
   }
-  return reverseMap[slug.toLowerCase()] || 'basic'
+
+  // 非法值直接抛错，不再提供 fallback
+  throw new Error(`非法的 slug 值: "${slug}". 有效值: beginner, intermediate, advanced`)
 }
 
 /**
- * 获取stage的样式类名
+ * 获取 stage 的样式类名
  * @param stage StageKey
- * @returns Bootstrap样式对象
+ * @returns Bootstrap 样式对象
+ * @throws {Error} 非法的 stage 值
  */
 export function getStageStyle(stage: StageKey) {
-  const styleMap = {
-    basic: { textClass: 'text-primary', bgClass: 'bg-primary-subtle' },
-    intermediate: { textClass: 'text-info', bgClass: 'bg-info-subtle' },
-    advanced: { textClass: 'text-danger', bgClass: 'bg-danger-subtle' }
+  assertStageKey(stage) // 运行时校验
+  return {
+    textClass: StageMeta[stage].textClass,
+    bgClass: StageMeta[stage].bgClass
   }
-  return styleMap[stage]
-}
-
-/**
- * 批量迁移课程数据的stage字段
- * @param courses 课程数组
- * @returns 迁移后的课程数组和统计信息
- */
-export function migrateCourseStages<T extends { stage: string }>(courses: T[]) {
-  const stats = {
-    total: courses.length,
-    migrated: 0,
-    unchanged: 0,
-    mapping: {} as Record<string, number>
-  }
-
-  const migratedCourses = courses.map(course => {
-    const oldStage = course.stage
-    const newStage = mapOldStageToNew(oldStage)
-
-    // 统计
-    if (oldStage !== newStage) {
-      stats.migrated++
-      stats.mapping[`${oldStage} → ${newStage}`] =
-        (stats.mapping[`${oldStage} → ${newStage}`] || 0) + 1
-    } else {
-      stats.unchanged++
-    }
-
-    return {
-      ...course,
-      stage: newStage
-    }
-  })
-
-  return { courses: migratedCourses, stats }
 }
 
 // 导出便捷的默认对象
 export default {
-  mapOldStageToNew,
   getStageLabel,
   getStageSlug,
   slugToStageKey,
-  getStageStyle,
-  migrateCourseStages
+  getStageStyle
 }
