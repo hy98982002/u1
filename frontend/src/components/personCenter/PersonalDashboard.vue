@@ -104,7 +104,7 @@ import { ref } from 'vue'
 import CourseCard from '../../components/CourseCard.vue'
 import type { Course } from '../../types'
 
-// 推荐课程数据
+// 推荐课程数据（新三级体系：basic / intermediate / advanced）
 const recommendedCourses = ref<Course[]>([
   {
     id: 1,
@@ -116,7 +116,7 @@ const recommendedCourses = ref<Course[]>([
     originalPrice: undefined,
     badge: '新功能',
     cover: '/img/u01.jpg',
-    stage: 'free',
+    stage: 'basic', // 免费入门课程
     tags: ['UV展开', '3D建模'],
     isFree: true,
     rating: 4.8,
@@ -133,7 +133,7 @@ const recommendedCourses = ref<Course[]>([
     originalPrice: 298,
     badge: '限时限购',
     cover: '/img/u02.jpg',
-    stage: 'project',
+    stage: 'advanced', // 高阶项目实战
     tags: ['3D建模', '贴图制作'],
     rating: 4.6,
     reviewCount: 89,
@@ -148,7 +148,7 @@ const recommendedCourses = ref<Course[]>([
     price: 175,
     originalPrice: 258,
     cover: '/img/u03.jpg',
-    stage: 'advanced',
+    stage: 'intermediate', // 进阶实战课程
     tags: ['特效', 'Houdini', 'UE'],
     rating: 4.7,
     reviewCount: 65,
@@ -164,7 +164,7 @@ const recommendedCourses = ref<Course[]>([
     originalPrice: 278,
     badge: 'Blender+Unity',
     cover: '/img/u04.jpg',
-    stage: 'basic',
+    stage: 'basic', // 入门基础课程
     tags: ['角色建模', 'Blender', 'Unity'],
     rating: 4.9,
     reviewCount: 103,
