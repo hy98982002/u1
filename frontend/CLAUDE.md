@@ -42,12 +42,11 @@ npm install vue-gtag          # 分析集成 (条件加载)
 npm install @types/gtag       # 分析的TypeScript定义
 ```
 
-## 11/21 课程重构状态与协作提示
+## 1126 课程重构状态与协作提示
 
-- **现状速览**
-  - 类型/工具：`src/types/index.ts` 已收敛为 basic/intermediate/advanced，并内置 `LEGACY_STAGE_MAP`；`src/utils/stageMap.ts`、`src/utils/slug.ts` 统一 slug 与阶段映射，供组件、路由复用。【F:src/types/index.ts†L1-L46】【F:src/utils/stageMap.ts†L4-L69】【F:src/utils/slug.ts†L1-L63】
-  - 数据：`courseStore` 初始化即调用 `migrateMockCourses()`，完成旧阶段迁移、slug 重算和控制台统计；默认阶段为 basic，过滤逻辑已兼容会员专区与标签筛选。【F:src/store/courseStore.ts†L7-L117】【F:src/store/courseStore.ts†L202-L239】
-  - 页面：Program A/B 路由与视图骨架已就绪，Program A 内包含手动注入的 Program JSON-LD 示例。【F:src/router/index.ts†L52-L89】【F:src/views/program/ProgramAView.vue†L1-L168】
+- 体系已彻底收敛为 basic/intermediate/advanced，`StageMeta`/`StageKeySchema` 提供唯一数据源与运行时校验，禁止新增旧阶段或引入旧→新映射逻辑。【F:src/types/index.ts†L4-L20】【F:src/utils/stageMap.ts†L4-L63】
+- 阶段数据进入 store、路由或组件前应调用 `assertStageKey`，保持 fail-fast；新增工具/接口需沿用该策略，避免 silent fallback。【F:src/types/index.ts†L4-L20】
+- Program A/B 路由骨架已存在，后续接入课程数据或 JSON-LD 时应按 PRD 将构建函数抽到 `src/utils/jsonld/` 复用，覆盖 Level/Type/Access/Outcome/Pathway 五维字段。【F:src/router/index.ts†L52-L89】【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L131-L190】
 
 ## 前端架构
 
