@@ -2,15 +2,13 @@ import { defineStore } from 'pinia'
 import type { Course, StageKey } from '../types'
 import { generateCourseSlug } from '@/utils/slug'
 
-// 导入图片资源
-import freeunrealCover from '@/assets/images/courses/free-unreal-cover-480.webp'
-import freePhotoshopCover from '@/assets/images/courses/free-photoshop-cover-480.webp'
-import beginnerPythonCover from '@/assets/images/courses/beginner-python-cover-480.webp'
-import beginnerunrealCover from '@/assets/images/courses/beginner-unreal-cover-480.webp'
-import beginnerPhotoshopCover from '@/assets/images/courses/beginner-photoshop-cover-480.webp'
-import advancedPythonCover from '@/assets/images/courses/advanced-python-cover-480.webp'
-import advancedunrealCover from '@/assets/images/courses/advanced-unreal-cover-480.webp'
-import advancedPhotoshopCover from '@/assets/images/courses/advanced-photoshop-cover-480.webp'
+// 导入图片资源（新三级体系命名：basic / intermediate / advanced）
+import photoshopBasicCover from '@/assets/images/courses/photoshop-basic-cover-480.webp'
+import pythonBasicCover from '@/assets/images/courses/python-basic-cover-480.webp'
+import unrealBasicCover from '@/assets/images/courses/unreal-basic-cover-480.webp'
+import photoshopIntermediateCover from '@/assets/images/courses/photoshop-intermediate-cover-480.webp'
+import pythonIntermediateCover from '@/assets/images/courses/python-intermediate-cover-480.webp'
+import unrealIntermediateCover from '@/assets/images/courses/unreal-intermediate-cover-480.webp'
 
 // Mock课程数据（新三级体系：basic / intermediate / advanced）
 const mockCourses: Course[] = [
@@ -21,7 +19,7 @@ const mockCourses: Course[] = [
     description: '零基础入门Photoshop编程',
     price: 0,
     stage: 'basic',
-    cover: freePhotoshopCover,
+    cover: photoshopBasicCover,
     tags: ['PhotoshopAI', 'AIGC', 'AI+logo'],
     rating: 4.5,
     enrolled: 1200,
@@ -36,7 +34,7 @@ const mockCourses: Course[] = [
     description: '零基础入门Illustrator设计',
     price: 0,
     stage: 'basic',
-    cover: freeunrealCover,
+    cover: unrealBasicCover,
     tags: ['Illustrator', 'AIGC', 'AI+logo'],
     rating: 4.3,
     enrolled: 800,
@@ -51,7 +49,7 @@ const mockCourses: Course[] = [
     description: 'PS图像处理基础入门',
     price: 0,
     stage: 'basic',
-    cover: freePhotoshopCover,
+    cover: photoshopBasicCover,
     tags: ['Photoshop', '图像处理', '入门', 'AI+logo'],
     rating: 4.7,
     enrolled: 1500,
@@ -66,7 +64,7 @@ const mockCourses: Course[] = [
     description: 'Python编程基础知识',
     price: 199,
     stage: 'basic',
-    cover: beginnerPythonCover,
+    cover: pythonBasicCover,
     tags: ['Python', '基础', '入门'],
     rating: 4.6,
     enrolled: 2000,
@@ -81,7 +79,7 @@ const mockCourses: Course[] = [
     description: 'illustrator核心概念',
     price: 299,
     stage: 'basic',
-    cover: beginnerPythonCover,
+    cover: pythonBasicCover,
     tags: ['illustrator', 'logo设计', 'AIGC', 'AIGC+logo'],
     rating: 4.8,
     enrolled: 1800,
@@ -96,7 +94,7 @@ const mockCourses: Course[] = [
     description: '虚幻引擎基础开发',
     price: 299,
     stage: 'basic',
-    cover: beginnerunrealCover,
+    cover: unrealBasicCover,
     tags: ['UE', '基础', '入门'],
     rating: 4.4,
     enrolled: 1200,
@@ -111,7 +109,7 @@ const mockCourses: Course[] = [
     description: 'PS图像处理基础技巧',
     price: 199,
     stage: 'basic',
-    cover: beginnerPhotoshopCover,
+    cover: photoshopBasicCover,
     tags: ['Photoshop', 'AIGC', '入门', 'AI+logo'],
     rating: 4.5,
     enrolled: 1600,
@@ -126,7 +124,7 @@ const mockCourses: Course[] = [
     description: 'Python高级编程技巧',
     price: 599,
     stage: 'intermediate',
-    cover: advancedPythonCover,
+    cover: pythonIntermediateCover,
     tags: ['Python', '高级', '进阶'],
     rating: 4.9,
     enrolled: 800,
@@ -141,7 +139,7 @@ const mockCourses: Course[] = [
     description: 'Python数据处理与分析',
     price: 699,
     stage: 'intermediate',
-    cover: advancedPythonCover,
+    cover: pythonIntermediateCover,
     tags: ['illustrator', 'logo设计', 'AIGC'],
     rating: 4.7,
     enrolled: 600,
@@ -156,7 +154,7 @@ const mockCourses: Course[] = [
     description: '虚幻引擎高级开发技巧',
     price: 699,
     stage: 'intermediate',
-    cover: advancedunrealCover,
+    cover: unrealIntermediateCover,
     tags: ['UE', '游戏开发', 'AIGC'],
     rating: 4.6,
     enrolled: 500,
@@ -171,7 +169,7 @@ const mockCourses: Course[] = [
     description: 'PS高级图像处理技巧',
     price: 499,
     stage: 'intermediate',
-    cover: advancedPhotoshopCover,
+    cover: photoshopIntermediateCover,
     tags: ['Photoshop', 'AIGC', '场景设计'],
     rating: 4.8,
     enrolled: 700,
@@ -186,7 +184,7 @@ const mockCourses: Course[] = [
     description: 'Python Web应用开发',
     price: 799,
     stage: 'intermediate',
-    cover: advancedPythonCover,
+    cover: pythonIntermediateCover,
     tags: ['Python', 'Web', 'Django'],
     rating: 4.5,
     enrolled: 400,
