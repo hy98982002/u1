@@ -607,8 +607,8 @@ const handleWatchNow = () => {
   }
 }
 
-/* 按钮样式 */
-.course-pop .btn-tech-blue {
+/* 按钮样式 - 互换默认显示样式，但保持hover效果 */
+.course-pop .btn-watch-now {
   background: #1e7f98;
   color: #ffffff;
   border: none;
@@ -623,14 +623,14 @@ const handleWatchNow = () => {
   width: 100%;
 }
 
-.course-pop .btn-tech-blue:hover {
+.course-pop .btn-watch-now:hover {
   background: #166d84;
   /* transform: translateY(-2px); */
   box-shadow: 0 6px 20px rgba(30, 127, 152, 0.3);
   color: #ffffff;
 }
 
-.course-pop .btn-watch-now {
+.course-pop .btn-tech-blue {
   border: 1px solid #1e7f98;
   color: #333;
   background: transparent;
@@ -643,7 +643,7 @@ const handleWatchNow = () => {
   width: 100%;
 }
 
-.course-pop .btn-watch-now:hover {
+.course-pop .btn-tech-blue:hover {
   background: #1e7f98 !important;
   color: #fff !important;
   transform: translateY(-2px);
