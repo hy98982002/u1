@@ -1,0 +1,178 @@
+name: Pure Stage CI
+
+# 触发条件：PR 涉及前端代码或图片资源
+on:
+  pull_request:
+    paths:
+      - 'frontend/src/**'
+      - 'frontend/assets/**'
+      - 'frontend/package.json'
+      - 'frontend/tsconfig.json'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'frontend/src/**'
+      - 'frontend/assets/**'
+
+# 环境变量
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  # ============================================
+  # Job 1: 代码质量检查
+  # ============================================
+  code-quality:
+    name: 代码质量检查
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      # 1. 检出代码
+      - name: 📥 Checkout代码
+        uses: actions/checkout@v4
+
+      # 2. 设置 Node.js 环境
+      - name: ⚙️ 设置 Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: './frontend/package-lock.json'
+
+      # 3. 安装依赖
+      - name: 📦 安装依赖
+        run: npm ci
+
+      # 4. TypeScript 类型检查
+      - name: 🔍 TypeScript 类型检查
+        run: npm run type-check
+
+      # 5. 遗留代码扫描
+      - name: 🚫 遗留代码扫描
+        run: npm run scan:legacy
+
+  # ============================================
+  # Job 2: 构建测试
+  # ============================================
+  build:
+    name: 构建测试
+    runs-on: ubuntu-latest
+    needs: code-quality
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      # 1. 检出代码
+      - name: 📥 Checkout 代码
+        uses: actions/checkout@v4
+
+      # 2. 设置 Node.js 环境
+      - name: ⚙️ 设置 Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: './frontend/package-lock.json'
+
+      # 3. 安装依赖
+      - name: 📦 安装依赖
+        run: npm ci
+
+      # 4. 生产构建
+      - name: 🔨 构建生产版本
+        run: npm run build
+
+      # 5. 上传构建产物（供后续测试使用）
+      - name: 📤 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: frontend/dist
+          retention-days: 1
+
+  # ============================================
+  # Job 3: Playwright E2E 测试（可选）
+  # ============================================
+  e2e:
+    name: E2E 测试
+    runs-on: ubuntu-latest
+    needs: build
+    if: false # 暂时禁用，等待 Playwright 配置完成后启用
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      # 1. 检出代码
+      - name: 📥 Checkout 代码
+        uses: actions/checkout@v4
+
+      # 2. 设置 Node.js 环境
+      - name: ⚙️ 设置 Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: './frontend/package-lock.json'
+
+      # 3. 安装依赖
+      - name: 📦 安装依赖
+        run: npm ci
+
+      # 4. 安装 Playwright 浏览器
+      - name: 🎭 安装 Playwright
+        run: npx playwright install --with-deps
+
+      # 5. 下载构建产物
+      - name: 📥 下载构建产物
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: frontend/dist
+
+      # 6. 运行 Playwright 测试
+      - name: 🧪 运行 E2E 测试
+        run: npx playwright test
+
+      # 7. 上传测试报告
+      - name: 📊 上传测试报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report
+          retention-days: 7
+
+  # ============================================
+  # Job 4: 检查结果汇总
+  # ============================================
+  check-summary:
+    name: ✅ 检查结果汇总
+    runs-on: ubuntu-latest
+    needs: [code-quality, build]
+    if: always()
+
+    steps:
+      - name: 📋 检查结果
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Pure Stage CI 检查结果汇总"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "✅ 代码质量检查: ${{ needs.code-quality.result }}"
+          echo "✅ 构建测试: ${{ needs.build.result }}"
+          echo ""
+
+          if [[ "${{ needs.code-quality.result }}" == "success" ]] && [[ "${{ needs.build.result }}" == "success" ]]; then
+            echo "🎉 所有检查通过！代码符合纯新阶段标准。"
+            exit 0
+          else
+            echo "❌ 检查失败！请修复上述问题后重新提交。"
+            exit 1
+          fi

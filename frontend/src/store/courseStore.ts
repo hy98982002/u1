@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { Course, StageKey } from '../types'
+import { assertStageKey } from '../types'
 import { generateCourseSlug } from '@/utils/slug'
 
 // 导入图片资源（新三级体系命名：basic / intermediate / advanced）
@@ -203,7 +204,11 @@ export const useCourseStore = defineStore('course', {
     searchKeyword: ''
   }),
   getters: {
-    getCoursesByStage: state => (stage: string) => state.courses.filter(c => c.stage === stage),
+    // 运行时校验：确保 stage 参数合法，fail-fast 策略
+    getCoursesByStage: (state) => (stage: StageKey) => {
+      assertStageKey(stage)
+      return state.courses.filter((c) => c.stage === stage)
+    },
     getCourseBySlug: state => (slug: string) => state.courses.find(c => c.slug === slug),
     filteredCourses: state => {
       let result = state.courses

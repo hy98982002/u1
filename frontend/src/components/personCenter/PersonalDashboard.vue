@@ -47,8 +47,8 @@
         <div class="video-card bg-white rounded shadow-sm overflow-hidden">
           <div class="position-relative">
             <img
-              src="../../assets/images/courses/free-python-cover-480.png"
-              alt="Video thumbnail"
+              :src="pythonBasicCover"
+              alt="Python基础课程"
               class="w-100"
               style="height: 120px; object-fit: cover"
             />
@@ -103,6 +103,7 @@
 import { ref } from 'vue'
 import CourseCard from '../../components/CourseCard.vue'
 import type { Course } from '../../types'
+import pythonBasicCover from '../../assets/images/courses/python-basic-cover-480.png'
 
 // 推荐课程数据（新三级体系：basic / intermediate / advanced）
 const recommendedCourses = ref<Course[]>([
