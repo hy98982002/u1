@@ -1,8 +1,8 @@
 <!-- CourseRelated.vue - 相关课程组件 -->
 <script setup lang="ts">
 // 导入相关课程图片
-import relatedCourse1 from '@/assets/images/courses/hands-on-photoshop-cover-1280.png'
-import relatedCourse2 from '@/assets/images/courses/beginner-unreal-cover-1920.png'
+import relatedCourse1 from '@/assets/images/courses/photoshop-basic-cover-1280.png'
+import relatedCourse2 from '@/assets/images/courses/unreal-basic-cover-1920.png'
 </script>
 
 <template>
