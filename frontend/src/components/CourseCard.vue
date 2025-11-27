@@ -76,15 +76,17 @@
             <li v-if="course.instructor">讲师：{{ course.instructor }}</li>
           </ul>
 
+          <button class="btn btn-watch-now w-100 mb-2" @click.stop="handleWatchNow">
+            立即观看
+          </button>
+
           <button
-            class="btn btn-tech-blue w-100 mb-2"
+            class="btn btn-tech-blue w-100"
             @click.stop="handleAddToCart"
             data-track="add_to_cart"
           >
             添加入购物车
           </button>
-
-          <button class="btn btn-watch-now w-100" @click.stop="handleWatchNow">立即观看</button>
         </div>
       </div>
     </a>
