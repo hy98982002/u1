@@ -16,3 +16,5 @@ app.use(router)
 app.use(pinia)
 
 app.mount('#app')
+
+// CI verification trigger - 触发CI验证P0+P1任务完成度
