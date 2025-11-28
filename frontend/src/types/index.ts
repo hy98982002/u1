@@ -122,8 +122,8 @@ export function getTemplateFromImagePath(imagePath: string): CourseCardTemplate 
   if (filename.startsWith('project-')) return 'project'
   if (filename.startsWith('vip-')) return 'vip'
 
-  // 默认返回免费模板
-  return 'free'
+  // 默认返回基础模板
+  return 'basic'
 }
 
 // 生成随机价格和学员数的工具函数

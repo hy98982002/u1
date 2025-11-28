@@ -10,7 +10,7 @@
     "build:codex": "node build-codex.js",
     "type-check": "vue-tsc --noEmit",
     "preview": "vite preview",
-    "scan:legacy": "node tools/scan-legacy-stages.js",
+    "scan:legacy": "node tools/scan-legacy-stages.cjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {
