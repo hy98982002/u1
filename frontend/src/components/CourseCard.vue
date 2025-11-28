@@ -76,15 +76,17 @@
             <li v-if="course.instructor">讲师：{{ course.instructor }}</li>
           </ul>
 
+          <button class="btn btn-watch-now w-100 mb-2" @click.stop="handleWatchNow">
+            立即观看
+          </button>
+
           <button
-            class="btn btn-tech-blue w-100 mb-2"
+            class="btn btn-tech-blue w-100"
             @click.stop="handleAddToCart"
             data-track="add_to_cart"
           >
             添加入购物车
           </button>
-
-          <button class="btn btn-watch-now w-100" @click.stop="handleWatchNow">立即观看</button>
         </div>
       </div>
     </a>
@@ -97,12 +99,6 @@ import { useRouter } from 'vue-router'
 import type { Course, StageKey } from '../types'
 import StarRating from './StarRating.vue'
 import { getStageLabel } from '@/utils/stageMap'
-import {
-  // STAGE_STYLES,  // 暂时注释未使用的导入
-  getTemplateFromImagePath,
-  generateCourseData
-  // type CourseCardTemplate  // 暂时注释未使用的类型
-} from '../types'
 
 // Props定义
 interface Props {
@@ -161,22 +157,14 @@ const coverFallback = computed(() => {
 //   return STAGE_STYLES[actualStage.value] || STAGE_STYLES.free
 // })
 
-// 根据图片路径自动获取模板类型和生成数据
-const cardTemplate = computed(() => getTemplateFromImagePath(course.value.cover))
-
-const dynamicCardData = computed(() => {
-  return generateCourseData(cardTemplate.value)
-})
-
-// 获取显示的价格（优先使用course中的价格，否则使用模板生成的）
+// 获取显示的价格（直接使用course中的价格）
 const displayPrice = computed(() => {
-  if (course.value.price !== undefined) return course.value.price
-  return dynamicCardData.value.price
+  return course.value.price ?? 0
 })
 
-// 获取显示的学员数（优先使用course中的数据，否则使用模板生成的）
+// 获取显示的学员数（直接使用course中的数据）
 const displayLearnerCount = computed(() => {
-  return course.value.learnerCount || dynamicCardData.value.learnerCount
+  return course.value.enrolled || 0
 })
 
 // 获取显示的等级（使用stageMap根据stage字段获取标准标签）
@@ -185,25 +173,30 @@ const displayLevel = computed(() => {
   if (course.value.stage) {
     return getStageLabel(course.value.stage as StageKey)
   }
-  // 回退：使用course中的level或模板生成的level
-  return course.value.level || dynamicCardData.value.level
+  // 回退：使用course中的level
+  return course.value.level || '入门'
 })
 
-// 判断是否免费（优先使用course中的isFree，否则使用模板判断）
+// 判断是否免费（根据价格判断）
 const isFreeDisplay = computed(() => {
   if (course.value.isFree !== undefined) return course.value.isFree
-  return dynamicCardData.value.isFree
+  return course.value.price === 0
 })
 
 // 暂时注释未使用的计算属性
 // const isVipDisplay = computed(() => {
-//   return course.value.isVip || dynamicCardData.value.isVip
+//   return course.value.isVip
 // })
 
-// 获取等级样式类
+// 获取等级样式类（根据stage映射颜色）
 const levelStyleClass = computed(() => {
-  const style = dynamicCardData.value.levelStyle
-  return `text-${style}`
+  const stageColors: Record<StageKey, string> = {
+    basic: 'success',
+    intermediate: 'primary',
+    advanced: 'danger'
+  }
+  const color = stageColors[course.value.stage as StageKey] || 'secondary'
+  return `text-${color}`
 })
 
 // 星级评分现在使用自定义StarRating组件，不再需要getStarClass函数
@@ -614,8 +607,8 @@ const handleWatchNow = () => {
   }
 }
 
-/* 按钮样式 */
-.course-pop .btn-tech-blue {
+/* 按钮样式 - 互换默认显示样式，但保持hover效果 */
+.course-pop .btn-watch-now {
   background: #1e7f98;
   color: #ffffff;
   border: none;
@@ -630,14 +623,14 @@ const handleWatchNow = () => {
   width: 100%;
 }
 
-.course-pop .btn-tech-blue:hover {
+.course-pop .btn-watch-now:hover {
   background: #166d84;
   /* transform: translateY(-2px); */
   box-shadow: 0 6px 20px rgba(30, 127, 152, 0.3);
   color: #ffffff;
 }
 
-.course-pop .btn-watch-now {
+.course-pop .btn-tech-blue {
   border: 1px solid #1e7f98;
   color: #333;
   background: transparent;
@@ -650,7 +643,7 @@ const handleWatchNow = () => {
   width: 100%;
 }
 
-.course-pop .btn-watch-now:hover {
+.course-pop .btn-tech-blue:hover {
   background: #1e7f98 !important;
   color: #fff !important;
   transform: translateY(-2px);

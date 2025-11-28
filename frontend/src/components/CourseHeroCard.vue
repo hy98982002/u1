@@ -65,7 +65,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import BreadcrumbNav from './BreadcrumbNav.vue'
 import type { BreadcrumbItem } from '@/types'
 // 导入默认图片 (使用现有的课程封面作为占位符)
-import defaultCoverImage from '@/assets/images/courses/free-photoshop-cover-480.png'
+import defaultCoverImage from '@/assets/images/courses/photoshop-basic-cover-480.png'
 
 // 扩展的CourseInfo类型定义
 interface CourseInfo {

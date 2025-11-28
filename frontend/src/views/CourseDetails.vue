@@ -1,6 +1,9 @@
 <!-- CourseDetails.vue - 课程详情主页面组件 -->
 <template>
   <div class="course-details-page">
+    <!-- JSON-LD 结构化数据 (SEO/AEO 优化) -->
+    <component :is="'script'" v-if="jsonLdScript" type="application/ld+json" v-html="jsonLdScript" />
+
     <!-- 根据登录状态切换导航栏 -->
     <AuthNavbar v-if="authStore.isAuthenticated" />
     <Navbar v-else />
@@ -64,6 +67,7 @@ import { useAuthStore } from '../store/authStore'
 import { useCourseStore } from '../store/courseStore'
 import { STAGES } from '../types'
 import type { BreadcrumbItem, CourseInfo } from '../types'
+import { buildCourseJsonLd } from '../utils/jsonld'
 
 // 使用 store 和路由
 const authStore = useAuthStore()
@@ -94,6 +98,21 @@ const courseInfo = ref<CourseInfo>({
   price: 0
 })
 
+// 当前课程数据（用于 JSON-LD）
+const currentCourse = ref<any>(null)
+
+// JSON-LD 结构化数据
+const jsonLdScript = computed(() => {
+  if (!currentCourse.value) return ''
+  try {
+    const jsonLd = buildCourseJsonLd(currentCourse.value)
+    return JSON.stringify(jsonLd, null, 2)
+  } catch (error) {
+    console.error('JSON-LD 构建失败:', error)
+    return ''
+  }
+})
+
 // 页面挂载后的初始化
 onMounted(() => {
   console.log('课程详情页面已加载，slug:', slug)
@@ -102,6 +121,9 @@ onMounted(() => {
   const course = courseStore.getCourseBySlug(slug)
 
   if (course) {
+    // 保存当前课程数据（用于 JSON-LD）
+    currentCourse.value = course
+
     // 设置课程信息（包含新增的字段）
     courseInfo.value = {
       title: course.title,

@@ -42,38 +42,25 @@ npm install vue-gtag          # 分析集成 (条件加载)
 npm install @types/gtag       # 分析的TypeScript定义
 ```
 
-## 课程重构与 AEO/LRMI 对齐要求
+## 课程重构与 AEO/LRMI 对齐要求（1126）
 
-- 课程级别统一为 **Beginner（入门，免费） / Intermediate（进阶，会员可看或单买） / Advanced（高阶，付费，会员 9 折但不含权益）**，禁止再使用旧的“免费/入门/精进/实战/项目落地”五级体系。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L6-L41】
+- 课程级别统一为 **Beginner（入门）/ Intermediate（进阶）/ Advanced（高阶）**，旧的“免费/入门/精进/实战/项目落地”五级体系已废弃，禁止再引入 legacy 值或旧→新映射逻辑。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L6-L41】
+- `StageKey` 仅允许 basic/intermediate/advanced，所有入口在使用阶段字段前必须通过 `assertStageKey` 做 fail-fast 校验；`StageMeta` 是唯一的阶段元数据来源（label/slug/样式）。【F:src/types/index.ts†L4-L20】【F:src/utils/stageMap.ts†L4-L63】
 - Program 体系：
-  - **Program A（会员实战训练体系）** 由多个 Intermediate 课程组成，会员可完整学习，对应 LRMI `Curriculum` + `Unit`。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L43-L56】
+  - **Program A（会员实战训练体系）** 由多个 Intermediate 课程组成，对应 LRMI `Curriculum` + `Unit`。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L43-L56】
   - **Program B（职业技能训练体系）** 由 Advanced 部分组成，为单买型高价值课程，可享会员 9 折，对应 `ProfessionalDevelopment`。【F:docs/前端课程重构资料/01 doviai课程设置新版.md†L58-L70】
-- JSON-LD/Schema 实施必须覆盖“五维结构化策略”：
-  - **Level**：`educationalLevel` 使用 `DefinedTerm`；枚举页建议 `/levels` 提供定义。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L12-L53】
-  - **Type**：`@type` + `about` + `educationalUse`（Lesson/Practice/Exercise/Curriculum 等）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L55-L86】
-  - **Access**：`offers`（价格/库存）、`audience`（会员/公开）、`courseMode`（Online/Offline/Hybrid）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L88-L129】
-  - **Outcome**：`learningOutcome` 至少 2–4 条“动词 + 能力”短句，驱动搜索结果技能摘要。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L131-L165】
-  - **Pathway**：课程页用 `isPartOf` 指向系列，Program 页用 `hasCourse/hasPart` 罗列成员，形成学习路线。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L167-L213】
-- Vue 组件与 JSON-LD 责任分层：
-  - `CourseIntro.vue`：承载 Type + Outcome。
-  - `CourseCatalog.vue`：承载 Level + Pathway（章节/系列）。
-  - `CourseReviews.vue`：承载 Access（结合登录/会员态）。
-  - `CourseRelated.vue`：承载 Type + Pathway（跨课程推荐）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L215-L239】
-- 开发优先级：1）先补 Type + Outcome；2）再补 Level + Pathway；3）最后随会员体系落地 Access。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L241-L247】
+- JSON-LD/Schema 必须覆盖“五维结构化策略”：Level/Type/Access/Outcome/Pathway，并分别由页面模块承载：
+  - `CourseIntro.vue`：Type + Outcome。
+  - `CourseCatalog.vue`：Level + Pathway（章节/系列）。
+  - `CourseReviews.vue`：Access（结合登录/会员态）。
+  - `CourseRelated.vue`：Type + Pathway（跨课程推荐）。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L12-L239】
+- 开发优先级：1）Type + Outcome；2）Level + Pathway；3）Access 与会员策略同步。【F:docs/前端课程重构资料/02 doviai课程五维设置说明.md†L241-L247】
 
-### 11/21 重构进度同步（前三步已落地，后续需按 PRD 收尾）
+### 1126 收尾状态（需按 PRD 检查）
 
-- **已完成**
-  - 类型层已切换为三级体系并内置旧→新映射（`STAGES`/`LEGACY_STAGE_MAP`）。【F:src/types/index.ts†L1-L46】
-  - 阶段与 slug 工具覆盖三级体系（`mapOldStageToNew`、`generateCourseSlug` 等）。【F:src/utils/stageMap.ts†L4-L69】【F:src/utils/slug.ts†L1-L63】
-  - 课程数据在 store 初始化时完成迁移与 slug 重算，默认阶段改为 basic 并输出统计。【F:src/store/courseStore.ts†L7-L117】【F:src/store/courseStore.ts†L202-L239】
-  - Program A/B 路由与页面骨架存在，并在 Program A 中注入 JSON-LD 示例数据。【F:src/router/index.ts†L52-L89】【F:src/views/program/ProgramAView.vue†L1-L168】
-- **待补齐**
-  - `LessonRow.vue` 等仍按“免费/付费”按钮文案展示，需替换为三级难度标签或与 Pathway 对齐。【F:src/components/LessonRow.vue†L1-L70】
-  - `CourseCard.vue` 的样式仍基于旧模板 levelStyle，后续需用 stageMap 的样式和 Pathway 信息驱动展示。【F:src/components/CourseCard.vue†L78-L139】【F:src/components/CourseCard.vue†L200-L211】
-  - `CampSection.vue` 仅做阶段/标签筛选，尚未接入 Program 过滤或 JSON-LD 输出；按 PRD 需要补齐 program 查询参数与 Schema 挂载。【F:src/components/CampSection.vue†L15-L123】【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L54-L130】
-  - 课程/Program 的 JSON-LD 构建函数尚未抽到 `src/utils/jsonld/`，需按照 PRD Step 6 增补复用工具。【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L131-L190】
-
+- 代码已只保留新三级体系，`stageMap.ts` 内不含旧→新转换；任何新增接口/常量不得复活旧枚举。【F:src/utils/stageMap.ts†L4-L63】
+- 阶段校验应在数据注入和路由参数解析时调用 `assertStageKey`，保持非法输入直接抛错；新增工具或 store 需沿用该策略。【F:src/types/index.ts†L4-L20】
+- JSON-LD 构建函数尚未抽到 `src/utils/jsonld/`，Program/课程页面后续接入时需按照 PRD Step 6 复用工具并挂载到对应视图。【F:docs/前端课程重构资料/03 课程体系重构PRD.md†L131-L190】
 
 ## 前端架构
 

@@ -1,4 +1,4 @@
-# UAI全球化AI智能设计教育平台产品需求文档（v5-2：技术实现与用户体验）
+# DOVIAI全球化AI智能设计教育平台产品需求文档（v5-2：技术实现与用户体验）
 
 # 技术架构与实现
 
@@ -161,7 +161,7 @@ class FireflyService:
 
 ```yaml
 # 部署配置
-主域名: uaiedu.com
+主域名: doviai.com
 前端部署: Vercel (全球CDN + Edge Runtime)
 后端部署: Railway (Django + MySQL)
 

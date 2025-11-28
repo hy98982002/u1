@@ -196,29 +196,22 @@ const selectedTags = computed(() => courseStore.selectedTags)
 //     }
 //   }
 
+//   // 新三级体系：basic / intermediate / advanced
 //   const stageData = {
-//     free: {
-//       title: '免费体验专区',
-//       description: '精选免费课程，零门槛开始你的技术学习之旅'
-//     },
 //     basic: {
-//       title: '入门学习专区',
-//       description: '系统化基础课程，为初学者量身定制的学习路径'
+//       title: '入门基础专区',
+//       description: '系统化基础课程，为初学者量身定制的学习路径（Beginner - 免费入门）'
+//     },
+//     intermediate: {
+//       title: '进阶实战专区',
+//       description: '技能训练课程，提升你的专业技能和实战能力（Intermediate - 进阶实战）'
 //     },
 //     advanced: {
-//       title: '进阶提升专区',
-//       description: '深度技术课程，提升你的专业技能和竞争力'
-//     },
-//     project: {
-//       title: '项目实战专区',
-//       description: '真实项目实战，将理论知识转化为实际开发能力'
-//     },
-//     landing: {
-//       title: '项目落地专区',
-//       description: '企业级项目实战，将技术应用于真实业务场景'
+//       title: '高阶训练专区',
+//       description: '企业级项目实战，将技术应用于真实商业场景（Advanced - 高阶训练）'
 //     }
 //   } as const
-//   return stageData[currentStage.value] || stageData.free
+//   return stageData[currentStage.value] || stageData.basic
 // })
 
 // const totalLearners = computed(() => {

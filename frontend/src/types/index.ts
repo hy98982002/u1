@@ -1,15 +1,30 @@
+import { z } from 'zod'
+
 // ============================================
-// 课程三级体系 - 新版统一标准
+// 课程三级体系 - 新版统一标准（仅保留 basic/intermediate/advanced）
 // ============================================
 
-// 课程阶段枚举 - 三级体系（basic / intermediate / advanced）
+// Zod Schema 定义 - 运行时类型校验
+export const StageKeySchema = z.enum(['basic', 'intermediate', 'advanced'])
+export type StageKey = z.infer<typeof StageKeySchema>
+
+// 类型守卫函数 - 安全检查
+export const isStageKey = (value: string): value is StageKey => {
+  return StageKeySchema.safeParse(value).success
+}
+
+// 断言函数 - 运行时强制校验
+export const assertStageKey = (value: string): asserts value is StageKey => {
+  StageKeySchema.parse(value)
+}
+
+// 课程阶段枚举 - 三级体系
 export const STAGES = {
   basic: '入门',
   intermediate: '进阶',
   advanced: '高阶'
 } as const
 
-export type StageKey = keyof typeof STAGES
 export type StageValue = (typeof STAGES)[StageKey]
 
 // 课程级别（与阶段同义，用于不同上下文）
@@ -21,133 +36,6 @@ export const STAGE_STYLES = {
   intermediate: { textClass: 'text-info', bgClass: 'bg-info-subtle', label: '进阶' },
   advanced: { textClass: 'text-danger', bgClass: 'bg-danger-subtle', label: '高阶' }
 } as const
-
-// 旧字段到新体系的映射（供前端迁移使用）
-export const LEGACY_STAGE_MAP: Record<string, StageKey> = {
-  // 旧的英文标识符
-  free: 'basic',
-  basic: 'basic',
-  advanced: 'intermediate',
-  project: 'intermediate',
-  landing: 'advanced',
-  high: 'advanced',
-  // 旧的中文标识符
-  '免费': 'basic',
-  '入门': 'basic',
-  '精进': 'intermediate',
-  '实战': 'intermediate',
-  '项目落地': 'advanced',
-  '高级': 'advanced'
-} as const
-
-// 课程卡片模板类型 - 使用英文标识符以支持SEO友好的URL
-export type CourseCardTemplate =
-  | 'free'
-  | 'beginner'
-  | 'advanced'
-  | 'hands-on'
-  | 'project'
-  | 'vip'
-
-// 课程卡片模板配置
-export interface CourseCardConfig {
-  level: string // 等级标签 (免费、入门、精进、实战等)
-  priceRange: [number, number] // 价格范围 [最小值, 最大值]
-  learnerRange: [number, number] // 学员数范围
-  isFree: boolean // 是否免费
-  isVip: boolean // 是否会员专享
-  levelStyle: 'success' | 'primary' | 'info' | 'warning' | 'danger' // 等级标签样式
-}
-
-// 课程卡片模板映射
-export const COURSE_CARD_TEMPLATES: Record<CourseCardTemplate, CourseCardConfig> = {
-  free: {
-    level: '免费',
-    priceRange: [0, 0],
-    learnerRange: [180, 280],
-    isFree: true,
-    isVip: false,
-    levelStyle: 'success'
-  },
-  beginner: {
-    level: '入门',
-    priceRange: [99, 299],
-    learnerRange: [120, 220],
-    isFree: false,
-    isVip: false,
-    levelStyle: 'primary'
-  },
-  advanced: {
-    level: '精进',
-    priceRange: [199, 399],
-    learnerRange: [100, 200],
-    isFree: false,
-    isVip: false,
-    levelStyle: 'info'
-  },
-  'hands-on': {
-    level: '实战',
-    priceRange: [99, 199],
-    learnerRange: [200, 400],
-    isFree: false,
-    isVip: false,
-    levelStyle: 'warning'
-  },
-  project: {
-    level: '项目实战',
-    priceRange: [299, 599],
-    learnerRange: [80, 150],
-    isFree: false,
-    isVip: false,
-    levelStyle: 'danger'
-  },
-  vip: {
-    level: '会员专享',
-    priceRange: [0, 0],
-    learnerRange: [50, 120],
-    isFree: true,
-    isVip: true,
-    levelStyle: 'warning'
-  }
-}
-
-// 从图片路径提取模板类型的函数
-export function getTemplateFromImagePath(imagePath: string): CourseCardTemplate {
-  const filename = imagePath.split('/').pop() || ''
-
-  if (filename.startsWith('free-')) return 'free'
-  if (filename.startsWith('beginner-')) return 'beginner'
-  if (filename.startsWith('advanced-')) return 'advanced'
-  if (filename.startsWith('hands-on-')) return 'hands-on'
-  if (filename.startsWith('project-')) return 'project'
-  if (filename.startsWith('vip-')) return 'vip'
-
-  // 默认返回免费模板
-  return 'free'
-}
-
-// 生成随机价格和学员数的工具函数
-export function generateCourseData(template: CourseCardTemplate) {
-  const config = COURSE_CARD_TEMPLATES[template]
-
-  const price = config.isFree
-    ? 0
-    : Math.floor(Math.random() * (config.priceRange[1] - config.priceRange[0] + 1)) +
-      config.priceRange[0]
-
-  const learnerCount =
-    Math.floor(Math.random() * (config.learnerRange[1] - config.learnerRange[0] + 1)) +
-    config.learnerRange[0]
-
-  return {
-    level: config.level,
-    price,
-    learnerCount,
-    isFree: config.isFree,
-    isVip: config.isVip,
-    levelStyle: config.levelStyle
-  }
-}
 
 // 课程接口
 export interface Course {

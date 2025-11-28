@@ -31,6 +31,11 @@
 - Django Admin 后台管理
 - Redis 缓存和会话存储 (MVP 可选)
 
+## 1126 课程体系提醒
+
+- 课程阶段仅保留 basic/intermediate/advanced，新旧映射已删除；新增代码或文档不得复活旧五级或提供 fallback。
+- `StageKey`/`assertStageKey` 与 `StageMeta` 为唯一阶段来源，需在数据入口保持校验，避免 silent fallback。【F:frontend/src/types/index.ts†L4-L20】【F:frontend/src/utils/stageMap.ts†L4-L63】
+
 ## 开发命令
 
 ### 前端 (从 `/frontend` 目录执行)

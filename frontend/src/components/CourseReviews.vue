@@ -79,8 +79,8 @@ import { ref } from 'vue'
 import type { Review } from '../types'
 
 // 导入用户头像图片 (使用课程封面作为临时占位符)
-import tou01Image from '@/assets/images/courses/beginner-python-cover-480.png'
-import tou03Image from '@/assets/images/courses/advanced-python-cover-480.png'
+import tou01Image from '@/assets/images/courses/python-basic-cover-480.png'
+import tou03Image from '@/assets/images/courses/python-intermediate-cover-480.png'
 
 const newReviewContent = ref('')
 const newReviewRating = ref(0)
