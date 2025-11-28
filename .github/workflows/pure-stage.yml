@@ -97,13 +97,12 @@ jobs:
           retention-days: 1
 
   # ============================================
-  # Job 3: Playwright E2E 测试（可选）
+  # Job 3: Playwright E2E 测试
   # ============================================
   e2e:
     name: E2E 测试
     runs-on: ubuntu-latest
     needs: build
-    if: false # 暂时禁用，等待 Playwright 配置完成后启用
     defaults:
       run:
         working-directory: ./frontend
@@ -155,7 +154,7 @@ jobs:
   check-summary:
     name: ✅ 检查结果汇总
     runs-on: ubuntu-latest
-    needs: [code-quality, build]
+    needs: [code-quality, build, e2e]
     if: always()
 
     steps:
@@ -167,9 +166,12 @@ jobs:
           echo ""
           echo "✅ 代码质量检查: ${{ needs.code-quality.result }}"
           echo "✅ 构建测试: ${{ needs.build.result }}"
+          echo "✅ E2E 测试: ${{ needs.e2e.result }}"
           echo ""
 
-          if [[ "${{ needs.code-quality.result }}" == "success" ]] && [[ "${{ needs.build.result }}" == "success" ]]; then
+          if [[ "${{ needs.code-quality.result }}" == "success" ]] && \
+             [[ "${{ needs.build.result }}" == "success" ]] && \
+             [[ "${{ needs.e2e.result }}" == "success" ]]; then
             echo "🎉 所有检查通过！代码符合纯新阶段标准。"
             exit 0
           else

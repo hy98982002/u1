@@ -115,6 +115,7 @@ import { useRouter } from 'vue-router'
 import CourseCard from '@/components/CourseCard.vue'
 import { useCourseStore } from '@/store/courseStore'
 import { useUIStore } from '@/store/uiStore'
+import { buildProgramJsonLd } from '@/utils/jsonld'
 import type { Course } from '@/types'
 
 // Stores
@@ -122,9 +123,9 @@ const courseStore = useCourseStore()
 const uiStore = useUIStore()
 const router = useRouter()
 
-// 获取高阶级别的课程（使用courseStore中的真实数据）
+// 获取高阶级别的课程（使用 courseStore getter，内置 assertStageKey 校验）
 const programCourses = computed(() => {
-  return courseStore.courses.filter(course => course.stage === 'advanced')
+  return courseStore.getCoursesByStage('advanced')
 })
 
 // 计算总时长
@@ -137,79 +138,16 @@ const totalDuration = computed(() => {
   return total
 })
 
-// 生成Program JSON-LD结构化数据（完整五维支持）
+// 使用统一工具构建 Program JSON-LD 结构化数据
 const programJsonLd = computed(() => {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'EducationalOccupationalProgram',
-    'name': '高阶技能路径',
-    'description': '面向希望达到专业级AI设计师水平、能够独立承接大型商业项目的学员',
-    'url': 'https://www.doviai.com/program/ai-designer-advanced',
-
-    // 1. Level（级别）- 使用DefinedTerm标准化
-    'educationalLevel': {
-      '@type': 'DefinedTerm',
-      'name': 'Level 3: Advanced',
-      'description': '高阶',
-      'inDefinedTermSet': 'https://www.doviai.com/levels'
-    },
-
-    // 2. Type（类型）- 使用LRMI教育语义
-    'about': 'AI设计师专业技能与项目实战',
-    'educationalUse': ['Curriculum', 'Project', 'Practice'],
-
-    // 3. Access（可访问性）- 高阶会员专属
-    'offers': {
-      '@type': 'Offer',
-      'category': 'Premium Membership',
-      'priceCurrency': 'CNY',
-      'availability': 'https://schema.org/InStock'
-    },
-    'audience': {
-      '@type': 'EducationalAudience',
-      'audienceType': '高阶会员',
-      'educationalRole': 'professional'
-    },
-    'courseMode': 'Online',
-
-    // 4. Outcome（学习成果）- 明确学习目标
-    'learningOutcome': [
-      '掌握多款专业AI设计工具的综合应用',
-      '具备承接大型商业项目的能力和经验',
-      '建立完整的项目管理和交付流程',
-      '获得真实商业项目作品集'
-    ],
-
-    // 5. Pathway（路径关系）- 课程体系
-    'hasCourse': programCourses.value.map(course => ({
-      '@type': 'Course',
-      '@id': `https://www.doviai.com/course/${course.slug}`,
-      'name': course.title,
-      'description': course.description,
-      'provider': {
-        '@type': 'Organization',
-        'name': '多维AI课堂'
-      }
-    })),
-
-    // 提供者信息
-    'provider': {
-      '@type': 'Organization',
-      'name': '多维AI课堂',
-      'url': 'https://www.doviai.com'
-    },
-
-    // 统计信息
-    'numberOfCourses': programCourses.value.length,
-    'timeToComplete': `P${totalDuration.value}H`,
-
-    // 职业发展路径
-    'occupationalCredentialAwarded': {
-      '@type': 'EducationalOccupationalCredential',
-      'credentialCategory': 'Professional Certificate',
-      'name': 'AI设计师专业技能证书'
-    }
-  }
+  const jsonLd = buildProgramJsonLd({
+    stage: 'advanced',
+    name: '高阶技能路径',
+    description: '面向希望达到专业级AI设计师水平、能够独立承接大型商业项目的学员',
+    courses: programCourses.value,
+    timeToComplete: `P${totalDuration.value}H`,
+    occupationalCategory: 'AI设计师专业技能'
+  })
   return JSON.stringify(jsonLd, null, 2)
 })
 
