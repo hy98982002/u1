@@ -135,7 +135,13 @@ jobs:
           name: dist
           path: frontend/dist
 
-      # 6. 运行 Playwright 测试
+      # 6. 启动预览服务器
+      - name: 🚀 启动预览服务器
+        run: |
+          npm run preview &
+          npx wait-on http://localhost:4173 -t 60000
+
+      # 7. 运行 Playwright 测试
       - name: 🧪 运行 E2E 测试
         run: npx playwright test
 
